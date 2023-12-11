@@ -1,0 +1,52 @@
+version: '3'
+services:
+
+  mongodb:
+    image: mongo
+    ports:
+      - 27017:27017
+    container_name: mongo-container
+    networks:
+      - pdwebproject-network
+    volumes:
+    - mongoData:/data/db
+    
+    env_file:
+      - ./server/.env
+
+    
+  backend:
+    build: 
+      context: './server'
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    container_name: express-container
+    networks:
+      - pdwebproject-network
+    volumes:
+      - ./server:/app
+
+    depends_on:
+      - mongodb
+
+  frontend:
+    build: 
+      context: './client'
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    container_name: react-container
+    environment:
+      - WATCHPACK_POLLING=true
+    networks:
+      - pdwebproject-network
+    volumes:
+      - ./client:/app
+    depends_on:
+     - backend
+networks:
+  pdwebproject-network:
+volumes:
+  mongoData:     
+
