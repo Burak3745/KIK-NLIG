@@ -21,6 +21,20 @@ const movieSchema = Schema({
             }
         }
     ],
+
+    player: [
+        {
+            name: {
+                type: String,
+            },
+            image: {
+                type: String,
+            },
+            actorsid:{
+                type: String,
+            }
+        }
+    ],
     name: {
         type: String,
         required: true

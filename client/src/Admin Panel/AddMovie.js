@@ -5,15 +5,24 @@ import { Navigate, useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux'
 import { createMovieAction } from '../action/movieAction';
 import ReactFileBase64 from 'react-file-base64'
+import ActorsCombo from './ActorsCombo';
+import { getActorsAction } from '../action/actorsAction';
 const AddMovie = () => {
+    const dispatch = useDispatch();
+    const actors = useSelector((state) => state.actors);
 
+    useEffect(() => {
+        if (!actors[0]) {
+            dispatch(getActorsAction());
+        }
+    }, [dispatch]);
 
     const navigate = useNavigate();
     const [movieData, setMovieData] = useState({
         name: '', time: '', link: '', country: '', year: '', score: '',
-        description: '', director: '', company: '', actors: '', season: '', type: 'Film', catagory: '', image: ''
+        description: '', director: '', company: '', actors: '', season: '', type: 'Film', catagory: '', image: '', player: []
     })
-    const dispatch = useDispatch();
+
     const [disabled, setDisabled] = useState(true);
     useEffect(() => {
         if (movieData.type == "Film") {
@@ -65,6 +74,25 @@ const AddMovie = () => {
         }
 
     }
+    const addPlayer = (newPlayer) => {
+        // Mevcut durumu kopyala
+        const currentData = { ...movieData };
+
+        // Yeni player'ı ekleyerek state'i güncelle
+        currentData.player.push(newPlayer);
+        setMovieData(currentData);
+    };
+
+    // Örnek olarak bir player ekleyelim
+    const handleButtonClick = (e) => {
+        const actor1 = actors.filter((item) => e === item._id);
+        if (movieData.player.filter((item) => e === item.actorsid).length == 0) {
+            const actor = actor1[0]
+            const newPlayer = { name: actor.name, image: actor.image, actorsid: actor._id };
+
+            addPlayer(newPlayer);
+        }
+    };
 
     const [user, setUser] = useState()
     const userState = useSelector((state) => state.user)
@@ -220,7 +248,11 @@ const AddMovie = () => {
 
                         </div>
                         <button disabled={disabled} onClick={movieCreate} className='button-66 ' role="button-66">Ekle</button>
+                        <ActorsCombo handleMovieSelect={handleButtonClick} />
                     </div>
+                    <h1>{movieData.player.map((item) => (
+                        <div>{item.name} <br /> {item.image} <br /> {item.actorsid}</div>
+                    ))}</h1>
 
                 </div>
 

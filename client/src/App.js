@@ -33,6 +33,7 @@ import UpdateProfile from "./Admin Panel/UpdateProfile";
 import UpdateUsers from "./Admin Panel/UpdateUsers";
 import MovieDashboard from "./Admin Panel/MovieDashboard";
 import SeriesDashboard from "./Admin Panel/SeriesDashboard";
+import AddActors from "./Admin Panel/AddActors";
 const App = () => {
   const [user, setUser] = useState(null);
 
@@ -52,6 +53,7 @@ const App = () => {
             <Route path="/playseries/:id" element={<FetchSeries user={user}/>}> </Route>
             <Route path="/episodes/:id" element={<EpisodeSelect user={user}/>}> </Route>
             <Route path="/addmovie" element={<AddMovie user={user} setUser={setUser} />} exact />
+            <Route path="/addactors" element={<AddActors user={user} setUser={setUser} />} exact />
             <Route path="/addepisode/:id" element={<AddEpisode user={user} setUser={setUser} />} exact />
             <Route path="/movielist" element={<MovieList user={user} setUser={setUser} />} exact />
             <Route path="/serieslist" element={<SeriesList user={user} setUser={setUser} />} exact />

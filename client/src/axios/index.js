@@ -105,5 +105,23 @@ const HTTP = axios.create({
   export const deleteAllSeries = async (id) =>
   await HTTP.delete(`/series/alldeleteseries/${id}`);
 
+  /******************************************************** */
+
+  export const createActors = async (formData) =>
+  await HTTP.post("/actors", formData);
+  
+  export const getActors = async () =>
+  await HTTP.get("/actors");
+
+  export const getIdActors = async (id) =>  
+  await  HTTP.get(`/actors/${id}`)
+
+  export const deleteActors = async (id) =>
+  await HTTP.delete(`/actors/${id}`);
+
+  export const updateActors = async (id, updatedActors) =>
+  await HTTP.put(`/actors/${id}`, updatedActors);
+
+
 
 

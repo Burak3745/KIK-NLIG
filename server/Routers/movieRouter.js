@@ -273,6 +273,7 @@ router.put('/like/:id', async (req, res) => {
             movie.dislikes.splice(removeIndex, 1);
 
         }
+        console.log(req.body.userid)
 
         movie.likes.unshift({ user: JSON.stringify(req.body) })
 

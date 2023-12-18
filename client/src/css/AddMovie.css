@@ -10,7 +10,8 @@
 }
 
 .float-child .blue {
-    height: 550px;
+    min-height: 550px;
+    height: 100%;
     width: 800px;
     background-color: rgb(6, 0, 29);
 
