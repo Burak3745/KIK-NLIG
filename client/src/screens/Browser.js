@@ -41,10 +41,6 @@ const Browser = ({ user }) => {
     }
   };
 
-  const buttonclick = (item) => {
-    navigate(`${item.link}`)
-
-  }
 
   if (!localStorage.getItem("user")) {
     return <Navigate to="/login" />;
