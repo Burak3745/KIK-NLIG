@@ -75,15 +75,12 @@ const AddMovie = () => {
 
     }
     const addPlayer = (newPlayer) => {
-        // Mevcut durumu kopyala
         const currentData = { ...movieData };
 
-        // Yeni player'ı ekleyerek state'i güncelle
         currentData.player.push(newPlayer);
         setMovieData(currentData);
     };
 
-    // Örnek olarak bir player ekleyelim
     const handleButtonClick = (e) => {
         const actor1 = actors.filter((item) => e === item._id);
         if (movieData.player.filter((item) => e === item.actorsid).length == 0) {

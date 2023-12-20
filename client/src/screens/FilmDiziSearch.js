@@ -57,7 +57,7 @@ const FilmDiziSearch = () => {
   };
   return (
     <div>
-      <div class="select-dropdown  mx-3">
+      <div class="select-dropdown  mx-3 my-3">
         <select onChange={(e) => setCatagory(e.target.value)}>
           <option value=''>All</option>
           <option value="Action & Advanture">Action & Advanture</option>
@@ -77,7 +77,6 @@ const FilmDiziSearch = () => {
           <option value="Western">Western</option>
         </select>
       </div>
-      <Row>
         <h2>Film</h2>
         <Carousel
           responsive={responsive}
@@ -101,16 +100,7 @@ const FilmDiziSearch = () => {
             })
 
             .map((movie) => (
-              <Col
-                sm={12}
-                md={6}
-                lg={4}
-                xl={3}
-                key={movie._id}
-                style={{ width: "160px", height: "250px" }}
-              >
                 <MovieCard movie={movie} />
-              </Col>
             ))}
         </Carousel>
         <h2>Dizi</h2>
@@ -136,19 +126,9 @@ const FilmDiziSearch = () => {
             })
 
             .map((movie) => (
-              <Col
-                sm={12}
-                md={6}
-                lg={4}
-                xl={3}
-                key={movie._id}
-                style={{ width: "160px", height: "350px" }}
-              >
                 <MovieCard movie={movie} />
-              </Col>
             ))}
         </Carousel>
-      </Row>
 
 
     </div>

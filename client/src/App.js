@@ -21,7 +21,7 @@ import { Container } from "react-bootstrap";
 import PostEntry from "./screens/PostEntry";
 import Profile from "./screens/Profile";
 import Search from "./screens/FilmDiziSearch";
-
+import ActorsSearch from "./screens/ActorsSearch";
 import Header from './components/Header'
 import { FaRegCopyright } from 'react-icons/fa';
 import './App.css';
@@ -63,6 +63,7 @@ const App = () => {
             <Route path="/updateprofile" element={<UpdateProfile user={user} setUser={setUser} />} exact />
             <Route path="/filmler" element={<Films user={user} setUser={setUser} />} exact />
             <Route path="/search/:search" element={<Search user={user} setUser={setUser} />} exact />
+            <Route path="/actors/:id" element={<ActorsSearch user={user} setUser={setUser} />} exact />
             <Route path="/diziler" element={<Series user={user} setUser={setUser} />} exact />
             <Route path="/updatemovie/:id" element={<UpdateMovie user={user} setUser={setUser} />} />
             <Route path="/updateuser/:id" element={<UpdateUsers user={user} setUser={setUser} />} />
