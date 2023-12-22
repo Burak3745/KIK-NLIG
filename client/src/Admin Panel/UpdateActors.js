@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import SideBar from './SideBar'
 import '../css/AddMovie.css'
-import { Navigate, useNavigate } from 'react-router';
+import { Navigate, useNavigate, useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux'
 import ReactFileBase64 from 'react-file-base64'
-import { createActorsAction } from '../action/actorsAction';
+import { updateActorsAction } from '../action/actorsAction';
+import { getIdActors, updateActorMovie } from '../axios';
 const AddActors = () => {
 
-
+    const {id} = useParams()
     const navigate = useNavigate();
     const [actorsData, setActorsData] = useState({
         name: '', image: ''
@@ -26,9 +27,21 @@ const AddActors = () => {
         }
     }, [actorsData]);
 
-    const actorsCreate = () => {
-        dispatch(createActorsAction(actorsData))
-        navigate("/actorlist")
+    useEffect(() => {
+        const getActors = async () => {
+            const { data } = await getIdActors(id)
+            setActorsData(data)
+        }
+
+        getActors()
+    }, [id])
+
+
+    const actorsUpdate = async (e) => {
+        e.preventDefault()
+        dispatch(updateActorsAction(id, actorsData))
+        await updateActorMovie(id, actorsData);
+        navigate(`/actorlist`)
     }
 
     const [user, setUser] = useState()
@@ -59,10 +72,10 @@ const AddActors = () => {
                         <div className='flex-container mx-2'>
                             <div class="form__group field py-2 px-2">
                                 <input type="input" class="form__field" placeholder="Name"
-                                    name="name" id='name' required onChange={(e) => setActorsData({ ...actorsData, name: e.target.value })} />
+                                    name="name" id='name' value={actorsData.name} required onChange={(e) => setActorsData({ ...actorsData, name: e.target.value })} />
                                 <label for="Film Adı" class="form__label">Adı</label>
                             </div>
-                        
+
                             <div class="form__group field py-5 px-2">
                                 <ReactFileBase64
                                     type='file'
@@ -75,7 +88,7 @@ const AddActors = () => {
                             </div>
 
                         </div>
-                        <button disabled={disabled} onClick={actorsCreate} className='button-66 ' role="button-66">Ekle</button>
+                        <button disabled={disabled} onClick={actorsUpdate} className='button-66 ' role="button-66">Güncelle</button>
                     </div>
 
                 </div>

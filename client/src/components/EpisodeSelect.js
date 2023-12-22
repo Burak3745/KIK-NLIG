@@ -184,7 +184,7 @@ const EpisodeSelect = () => {
             {click === 'Oyuncular' ? (<div class="float-child" style={{ background: "#06001d", borderRadius: "20px", width: "840px" }}>
                 
                 <Row>
-                    {movieData.player.map((item) => (
+                    {movieData.player && movieData.player.map((item) => (
                         <Col
                             sm={12}
                             md={6}

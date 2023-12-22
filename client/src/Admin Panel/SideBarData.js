@@ -4,6 +4,7 @@ import {RiVideoAddFill} from "react-icons/ri"
 import {RiUserSettingsFill} from "react-icons/ri"
 import {FaUsersGear} from "react-icons/fa6"
 import { TiUserAdd } from "react-icons/ti";
+import { PiUserListBold } from "react-icons/pi";
 export const SideBarData = [
     {
        title:"Film Listesi",
@@ -16,22 +17,27 @@ export const SideBarData = [
         link: "/serieslist"
      },
      {
+      title:"Aktör Listesi",
+      icon: <PiUserListBold/>,
+      link: "/actorlist"
+     },
+     {
         title: "Film/Dizi Ekle",
         icon: <RiVideoAddFill/>,
         link: "/addmovie"
      },
      {
-      title: "Oyuncu Ekle",
+      title: "Aktör Ekle",
       icon: <TiUserAdd />,
       link: "/addactors"
      },
      {
-        title:"Update Profile",
+        title:"Profilleri Güncelle",
         icon: <RiUserSettingsFill/>,
         link: "/updateprofile"
      },
      {
-        title:"User List",
+        title:"Kullanıcı Listesi",
         icon: <FaUsersGear/>,
         link: "/userlist"
      }

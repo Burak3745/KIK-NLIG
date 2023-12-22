@@ -373,7 +373,7 @@ router.put('/dislike/:id', async (req, res) => {
             const removeIndex = movie.likes.map(like => like.user.toString()).indexOf(JSON.stringify(req.body))
 
             movie.likes.splice(removeIndex, 1);
-            
+
 
         }
 
@@ -435,5 +435,60 @@ router.put('/undislike/:id', async (req, res) => {
         res.status(500).send('Server Error')
     }
 })
+
+router.put("/updateallactor/:id", async (req, res) => {
+    try {
+        const { id } = req.params
+
+        const players = await Movie.find({ 'player.actorsid': id });
+
+        for (const film of players) {
+            const actorIndex = film.player.findIndex(actor => actor.actorsid === id);
+
+            if (actorIndex !== -1) {
+                film.player[actorIndex].name = req.body.name;
+                film.player[actorIndex].image = req.body.image;
+
+                await film.save();
+            }
+        }
+
+
+
+        res.status(200).json({ message: "Actors updated successfully" })
+    } catch (error) {
+        console.log(error.message)
+        res.json({ message: "An error occurred during the update process" })
+    }
+})
+
+router.delete("/deleteallactor/:id", async (req, res) => {
+    try {
+        const { id } = req.params
+
+        const players = await Movie.find({ 'player.actorsid': id });
+
+        for (const film of players) {
+            const actorIndex = film.player.findIndex(actor => actor.actorsid === id);
+
+            if (actorIndex !== -1) {
+                film.player.splice(actorIndex, 1);
+
+                await film.save();
+            }
+        }
+        res.status(200).json({ message: "Actors delete successfully" })
+    } catch (error) {
+        console.log(error.message)
+        res.json({ message: "An error occurred during the delete process" })
+    }
+})
+
+
+/*actors.forEach( async (actor) => {
+      actor.name = name
+      actor.image = image
+      await actor.save()
+    })*/
 
 export default router;

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const HTTP = axios.create({
-  baseURL: "https://kiknlig.onrender.com",
+  baseURL: "http://localhost:5000/",
 });
 
   export const GenresGet = async () =>
@@ -84,6 +84,12 @@ const HTTP = axios.create({
 
   export const undislikeMovie = async (id, userid) =>
   await HTTP.put(`/movie/undislike/${id}`, userid);
+  
+  export const updateActorMovie = async (id, updateActorMovie) =>
+  await HTTP.put(`/movie/updateallactor/${id}`, updateActorMovie);
+
+  export const deleteActorMovie = async (id) =>
+  await HTTP.delete(`/movie/deleteallactor/${id}`);
 
   /*************************************************** */
 

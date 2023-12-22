@@ -34,6 +34,8 @@ import UpdateUsers from "./Admin Panel/UpdateUsers";
 import MovieDashboard from "./Admin Panel/MovieDashboard";
 import SeriesDashboard from "./Admin Panel/SeriesDashboard";
 import AddActors from "./Admin Panel/AddActors";
+import ActorList from "./Admin Panel/ActorList";
+import UpdateActors from "./Admin Panel/UpdateActors";
 const App = () => {
   const [user, setUser] = useState(null);
 
@@ -57,6 +59,7 @@ const App = () => {
             <Route path="/addepisode/:id" element={<AddEpisode user={user} setUser={setUser} />} exact />
             <Route path="/movielist" element={<MovieList user={user} setUser={setUser} />} exact />
             <Route path="/serieslist" element={<SeriesList user={user} setUser={setUser} />} exact />
+            <Route path="/actorlist" element={<ActorList user={user} setUser={setUser} />} exact />
             <Route path="/moviedashboard/:id" element={<MovieDashboard user={user} setUser={setUser} />} />
             <Route path="/seriesdashboard/:id1/:id2" element={<SeriesDashboard user={user} setUser={setUser} />} />
             <Route path="/userlist" element={<UserList user={user} setUser={setUser} />} exact />
@@ -66,6 +69,7 @@ const App = () => {
             <Route path="/actors/:id" element={<ActorsSearch user={user} setUser={setUser} />} exact />
             <Route path="/diziler" element={<Series user={user} setUser={setUser} />} exact />
             <Route path="/updatemovie/:id" element={<UpdateMovie user={user} setUser={setUser} />} />
+            <Route path="/updateactors/:id" element={<UpdateActors user={user} setUser={setUser} />} />
             <Route path="/updateuser/:id" element={<UpdateUsers user={user} setUser={setUser} />} />
             <Route path="/updateseries/:movieid/:seriesid" element={<UpdateEpisode user={user} setUser={setUser} />} />
             <Route path="/posts" element={<Posts user={user} setUser={setUser} />} />
