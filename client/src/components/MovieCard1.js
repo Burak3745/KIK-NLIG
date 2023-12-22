@@ -1,5 +1,5 @@
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Rating from './Rating';
 import '../css/MovieCardBrowser.css'
 import { FaPlayCircle } from 'react-icons/fa'
@@ -13,6 +13,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { dislikeMovieAction, getMovieAction, likeMovieAction, undislikeMovieAction, unlikeMovieAction } from '../action/movieAction'
 export default function MovieCard({ movie, hidden }) {
     const dispatch = useDispatch()
+    
+    const navigate = useNavigate();
     const [user, setUser] = useState()
     const userState = useSelector((state) => state.user)
     useEffect(() => {
@@ -27,7 +29,13 @@ export default function MovieCard({ movie, hidden }) {
 
     const userData1 = JSON.stringify(userData)
 
+    const navigatee = (movie) => {
+        navigate(`/play/${movie && movie._id}`);
+    }
 
+    const navigateeEpisode = (movie) => {
+        navigate(`/episodes/${movie && movie._id}`);
+    }
 
     return (
         <div className="movie-card" hidden={hidden} style={{ width: "170px", height: "300px" }} >
@@ -39,9 +47,9 @@ export default function MovieCard({ movie, hidden }) {
 
                             <div>
                                 <h1 >{movie && movie.name}</h1>
-                                <Link to={`/play/${movie && movie._id}`}>
+                                <div onClick={() => navigatee(movie)}>
                                     <FaPlayCircle size={"85px"} color='#2dffb9' style={{ position: "absolute", left: "32px", top: "70px" }} />
-                                </Link>
+                                </div>
                                 <h1 style={{position: "absolute", left: "55px", top: "157px",color:"rgba(245, 197, 24)"}}>IMDB</h1>
                                 <Rating style={{position: "absolute", left: "20px", top: "170px",color:"rgba(245, 197, 24)"}} score={movie && movie.score} />
                                 <h1 style={{position: "absolute", left: "115px", top: "177px",color:"rgba(245, 197, 24)"}}>{movie && movie.score}</h1>
@@ -49,9 +57,9 @@ export default function MovieCard({ movie, hidden }) {
                         ) : (
                             <div>
                                 <h1>{movie && movie.name}</h1>
-                                <Link to={`/episodes/${movie && movie._id}`}>
+                                <div onClick={() => navigateeEpisode(movie)}>
                                     <FaPlayCircle size={"85px"} color='#2dffb9' style={{ position: "absolute", left: "32px", top: "70px" }} />
-                                </Link>
+                                </div>
                                 <h1 style={{position: "absolute", left: "55px", top: "157px",color:"rgba(245, 197, 24)"}}>IMDB</h1>
                                 <Rating style={{position: "absolute", left: "20px", top: "170px",color:"rgba(245, 197, 24)"}} score={movie && movie.score} />
                                 <h1 style={{position: "absolute", left: "105px", top: "177px",color:"rgba(245, 197, 24)"}}>{movie && movie.score}</h1>

@@ -63,6 +63,16 @@ export default function FetchMovie() {
           <div className='mx-1'>{movieData.views}</div>
         </div>
       </Card>
+      <Card className='my-4' style={{ background: "#06001d" }}>
+        <Card.Footer className='mx-4 my-2' style={{display: 'flex', justifyContent: "center", color:"white"}}>
+          <h3>HAKKINDA</h3>
+
+        </Card.Footer>
+        <div className='mx-3 my-2' style={{ display: 'flex', justifyContent: "center", color: "rgba(255, 255, 255, 0.5)" }}>
+           {movieData.description}
+
+        </div>
+      </Card>
       <div className='my-4 mx-4' style={{background:"#06001d", minHeight:"640px"}}>
         <div class="float-child">
           <div class="green"><SeriesCard movie={movieData} /></div>

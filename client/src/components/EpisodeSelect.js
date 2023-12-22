@@ -178,8 +178,8 @@ const EpisodeSelect = () => {
             ) : (<div></div>)
             }
             {click === 'Hakkında' ? (
-                <div class="float-child" style={{ background: "#06001d", borderRadius: "20px", width: "840px" }}>
-
+                <div class="float-child" style={{ background: "#06001d", borderRadius: "20px", width: "840px", color:"rgba(255, 255, 255, 0.5)" }}>
+                   {movieData.description}
                 </div>) : (<div></div>)}
             {click === 'Oyuncular' ? (<div class="float-child" style={{ background: "#06001d", borderRadius: "20px", width: "840px" }}>
                 
