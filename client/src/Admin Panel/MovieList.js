@@ -44,6 +44,10 @@ const MovieList = () => {
     const navigate = useNavigate();
 
     const playMovie = (id) => {
+        navigate(`/play/${id}`);
+    }
+
+    const dashboardMovie = (id) => {
         navigate(`/moviedashboard/${id}`);
     }
     const updateMovie = (id) => {
@@ -123,12 +127,12 @@ const MovieList = () => {
                                                     <Card.Img variant="top" src={d.image} />
                                                 </div>
                                             </motion.div>
-                                            <td ><br/>{d.name}</td>
+                                            <td ><br/><div style={{ position: "relative", cursor: "pointer" }} onClick={() => playMovie(d._id)}>{d.name}</div></td>
                                             <td><br/>{d.catagory}</td>
                                             <td ><br/>{d.country}</td>
                                             <td><br/>{d.year}</td>
                                             <td><br/>{d.time}</td>
-                                            <td><div style={{ position: "absolute", color: "#2dffb9", cursor: "pointer" }} onClick={() => playMovie(d._id)}><MdDashboard /> Dashboard</div><br />
+                                            <td><div style={{ position: "absolute", color: "#2dffb9", cursor: "pointer" }} onClick={() => dashboardMovie(d._id)}><MdDashboard /> Dashboard</div><br />
                                                 <div style={{ position: "absolute", color: "#2dffb9", cursor: "pointer" }} onClick={() => updateMovie(d._id)}><MdBrowserUpdated /> Edit</div><br />
                                                 <div style={{ position: "absolute", color: "#2dffb9", cursor: "pointer" }} onClick={() => deleteMovie(d._id)}><RiDeleteBin5Fill /> Delete</div>
                                             </td>

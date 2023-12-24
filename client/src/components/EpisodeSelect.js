@@ -44,6 +44,14 @@ const EpisodeSelect = () => {
         getMemo()
     }, [id])
 
+    function scrollToTop() {
+        window.scrollTo(0, 0);
+    }
+
+    useEffect(() => {
+        scrollToTop();
+    }, []);
+
     const [currentPage, setCurrentPage] = useState(1)
 
     function changeCPage(id) {
@@ -63,7 +71,7 @@ const EpisodeSelect = () => {
         navigate(`/seriesdashboard/${id}/${id3}`);
 
     }
-    
+
     const navigatee = (id) => {
         navigate(`/actors/${id}`);
     }
@@ -74,142 +82,149 @@ const EpisodeSelect = () => {
         setUser(userData)
     }, [userState])
     const userType = user && user.userType
-    return (
-        <div>
-            <div class="float-child">
 
-                <div class="green"><SeriesCard movie={movieData} /></div>
-            </div>
-            <div style={{ display: "flex", justifyContent: "space-between", color: "white", background: "#06001d", borderRadius: "20px" }}>
-                <h3 className='mx-2 my-2' style={{ cursor: "pointer", position: "relative" }} onClick={() => setClick('Hakkında')} >Hakkında</h3>
-                <h3 className='mx-2 my-2' style={{ cursor: "pointer", position: "relative" }} onClick={() => setClick('Bölümler')}>Bölümler</h3>
-                <h3 className='mx-2 my-2' style={{ cursor: "pointer", position: "relative" }} onClick={() => setClick('Oyuncular')} >Oyuncular</h3>
-            </div>
-            {click === 'Bölümler' ? (<div class="float-child" style={{ background: "#06001d", borderRadius: "20px", width: "840px" }}>
-                <Table >
-                    <thead className='text-light'>
-                        <th>Sezonlar</th>
-                        <th>Bölümler</th>
-                        <th>Bölüm Adı</th>
-                    </thead>
-                    <tbody className='text-muted'>
-                        <tr>
-                            <td>
-                                <div className='text-white'>
-                                    {Array.from(Array(Math.floor(Number(movieData.season)))).map((_, i) => (
-                                        <div>
-                                            <h4 style={{ position: "absolute", cursor: "pointer" }} onClick={() => changeCPage(i + 1)}>{i + 1}</h4> <br /> <br />
-                                        </div>
-                                    ))}
-                                </div>
-                            </td>
-                            <td>
-                                {episodes.filter((item) => {
-                                    if (item.foreignkey == id) {
-                                        return item
-                                    }
-                                    else {
-                                        return
-                                    }
-                                })
-                                    .filter((item2) => {
-                                        if (currentPage == item2.season) {
-                                            return item2
+    if (movieData.type == "Film") {
+        return (navigate(`/filmler`))
+    }
+    else {
+        return (
+            <div>
+                <div class="float-child">
+
+                    <div class="green"><SeriesCard movie={movieData} /></div>
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between", color: "white", background: "#06001d", borderRadius: "20px" }}>
+                    <h3 className='mx-2 my-2' style={{ cursor: "pointer", position: "relative" }} onClick={() => setClick('Hakkında')} >Hakkında</h3>
+                    <h3 className='mx-2 my-2' style={{ cursor: "pointer", position: "relative" }} onClick={() => setClick('Bölümler')}>Bölümler</h3>
+                    <h3 className='mx-2 my-2' style={{ cursor: "pointer", position: "relative" }} onClick={() => setClick('Oyuncular')} >Oyuncular</h3>
+                </div>
+                {click === 'Bölümler' ? (<div class="float-child" style={{ background: "#06001d", borderRadius: "20px", width: "840px" }}>
+                    <Table >
+                        <thead className='text-light'>
+                            <th>Sezonlar</th>
+                            <th>Bölümler</th>
+                            <th>Bölüm Adı</th>
+                        </thead>
+                        <tbody className='text-muted'>
+                            <tr>
+                                <td>
+                                    <div className='text-white'>
+                                        {Array.from(Array(Math.floor(Number(movieData.season)))).map((_, i) => (
+                                            <div>
+                                                <h4 style={{ position: "absolute", cursor: "pointer" }} onClick={() => changeCPage(i + 1)}>{i + 1}</h4> <br /> <br />
+                                            </div>
+                                        ))}
+                                    </div>
+                                </td>
+                                <td>
+                                    {episodes.filter((item) => {
+                                        if (item.foreignkey == id) {
+                                            return item
+                                        }
+                                        else {
+                                            return
                                         }
                                     })
-                                    .map((episode) => (
-                                        <div>
-                                            <h6 className='text-white' onClick={() => playEpisode(episode._id)} style={{ position: "absolute", cursor: "pointer" }}>{episode.season}.Sezon {episode.episode}.Bölüm</h6>
-                                            <br /> <br />
+                                        .filter((item2) => {
+                                            if (currentPage == item2.season) {
+                                                return item2
+                                            }
+                                        })
+                                        .map((episode) => (
+                                            <div>
+                                                <h6 className='text-white' onClick={() => playEpisode(episode._id)} style={{ position: "absolute", cursor: "pointer" }}>{episode.season}.Sezon {episode.episode}.Bölüm</h6>
+                                                <br /> <br />
+                                            </div>
+
+
+                                        ))}
+
+                                </td>
+                                <td>
+                                    {episodes.filter((item) => {
+                                        if (item.foreignkey == id) {
+                                            return item
+                                        }
+                                        else {
+                                            return
+                                        }
+                                    })
+                                        .filter((item2) => {
+                                            if (currentPage == item2.season) {
+                                                return item2
+                                            }
+                                        }).map((episode) => (
+                                            <div>
+                                                <h6 className=' text-white' style={{ position: "absolute", cursor: "pointer" }}>{episode.name}</h6>  <br /> <br />
+                                            </div>))
+                                    }
+                                </td>
+                                <td>
+                                    {episodes.filter((item) => {
+                                        if (item.foreignkey == id) {
+                                            return item
+                                        }
+                                        else {
+                                            return
+                                        }
+                                    })
+                                        .filter((item2) => {
+                                            if (currentPage == item2.season) {
+                                                return item2
+                                            }
+                                        }).map((episode) => (
+                                            <div >
+                                                {userType == "ADMIN" ? (<div style={{ display: "flex", justifyContent: "space-between" }}>
+                                                    <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => DashboardSeries(episode._id)}><MdDashboard /></div>
+                                                    <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => UpdateSeries(episode._id)} ><MdBrowserUpdated /></div>
+                                                    <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => deleteSeries(episode._id)}><RiDeleteBin5Fill /></div>
+                                                </div>) :
+                                                    (<div></div>)}
+                                                <br />
+                                            </div>))
+                                    }
+                                </td>
+                            </tr>
+                        </tbody>
+                    </Table>
+                </div>
+                ) : (<div></div>)
+                }
+                {click === 'Hakkında' ? (
+                    <div class="float-child" style={{ background: "#06001d", borderRadius: "20px", width: "840px", color: "rgba(255, 255, 255, 0.5)" }}>
+                        {movieData.description}
+                    </div>) : (<div></div>)}
+                {click === 'Oyuncular' ? (<div class="float-child" style={{ background: "#06001d", borderRadius: "20px", width: "840px" }}>
+
+                    <Row>
+                        {movieData.player && movieData.player.map((item) => (
+                            <Col
+                                sm={12}
+                                md={6}
+                                lg={4}
+                                xl={3}
+                                key={movieData._id}
+                                style={{ width: "128px", height: "180px" }}
+                                className='my-2'
+                            >
+                                <div class='card-glass'>
+                                    <div class='content-glass' onClick={() => navigatee(item.actorsid)}>
+                                        <div class='imgBx-glass'>
+                                            <img src={item.image} />
                                         </div>
-
-
-                                    ))}
-
-                            </td>
-                            <td>
-                                {episodes.filter((item) => {
-                                    if (item.foreignkey == id) {
-                                        return item
-                                    }
-                                    else {
-                                        return
-                                    }
-                                })
-                                    .filter((item2) => {
-                                        if (currentPage == item2.season) {
-                                            return item2
-                                        }
-                                    }).map((episode) => (
-                                        <div>
-                                            <h6 className=' text-white' style={{ position: "absolute", cursor: "pointer" }}>{episode.name}</h6>  <br /> <br />
-                                        </div>))
-                                }
-                            </td>
-                            <td>
-                                {episodes.filter((item) => {
-                                    if (item.foreignkey == id) {
-                                        return item
-                                    }
-                                    else {
-                                        return
-                                    }
-                                })
-                                    .filter((item2) => {
-                                        if (currentPage == item2.season) {
-                                            return item2
-                                        }
-                                    }).map((episode) => (
-                                        <div >
-                                            {userType == "ADMIN" ? (<div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => DashboardSeries(episode._id)}><MdDashboard /></div>
-                                                <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => UpdateSeries(episode._id)} ><MdBrowserUpdated /></div>
-                                                <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => deleteSeries(episode._id)}><RiDeleteBin5Fill /></div>
-                                            </div>) :
-                                                (<div></div>)}
-                                            <br />
-                                        </div>))
-                                }
-                            </td>
-                        </tr>
-                    </tbody>
-                </Table>
-            </div>
-            ) : (<div></div>)
-            }
-            {click === 'Hakkında' ? (
-                <div class="float-child" style={{ background: "#06001d", borderRadius: "20px", width: "840px", color:"rgba(255, 255, 255, 0.5)" }}>
-                   {movieData.description}
-                </div>) : (<div></div>)}
-            {click === 'Oyuncular' ? (<div class="float-child" style={{ background: "#06001d", borderRadius: "20px", width: "840px" }}>
-                
-                <Row>
-                    {movieData.player && movieData.player.map((item) => (
-                        <Col
-                            sm={12}
-                            md={6}
-                            lg={4}
-                            xl={3}
-                            key={movieData._id}
-                            style={{ width: "128px", height: "180px" }}
-                            className='my-2'
-                        >
-                            <div class='card-glass'>
-                                <div class='content-glass' onClick={() => navigatee(item.actorsid)}>
-                                    <div class='imgBx-glass'>
-                                        <img src={item.image} />
-                                    </div>
-                                    <div class='contentBx-glass'>
-                                        <h3><span>{item.name}</span></h3>
+                                        <div class='contentBx-glass'>
+                                            <h3><span>{item.name}</span></h3>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </Col>
-                    ))}
-                </Row>
-            </div>) : (<div></div>)}
-        </div>
-    )
+                            </Col>
+                        ))}
+                    </Row>
+                </div>) : (<div></div>)}
+            </div>
+        )
+    }
 }
+
 
 export default EpisodeSelect

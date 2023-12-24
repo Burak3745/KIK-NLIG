@@ -15,7 +15,7 @@ import UserList from "./Admin Panel/UserList";
 import UpdateMovie from "./Admin Panel/UpdateMovieScreen"
 import Posts from "./screens/Posts"
 import { Toaster } from "react-hot-toast";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 
 import PostEntry from "./screens/PostEntry";
@@ -39,21 +39,40 @@ import UpdateActors from "./Admin Panel/UpdateActors";
 const App = () => {
   const [user, setUser] = useState(null);
 
+  const [scrollTop, setScrollTop] = useState(0)
+
+  const onScroll = () => {
+    let progress = document.documentElement.scrollTop;
+    let totalHeight = document.body.scrollHeight - window.innerHeight;
+    let progressHeight = (progress / totalHeight) * 100;
+    setScrollTop(progressHeight)
+  }
+
+  useEffect(() => {
+    window.addEventListener("scroll", onScroll)
+
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
+
+
   return (
     <Router>
+      <div id="progressBar" style={{ height: `${scrollTop}%` }} ></div>
+      <div id="scrollPath" ></div>
       <Header user={user} setUser={setUser} />
+
       <main className="py-1">
         <Container>
           <Routes>
-          
+
             <Route path="/" element={<DetectAuth user={user} setUser={setUser} />} exact />
             <Route path="/login" element={<Login setUser={setUser} />}></Route>
             <Route path="/signup" element={<Signup />}></Route>
             <Route path="/browse" element={<Browser user={user} />}></Route>
             <Route path="/details/:id" element={<Protected><Details /></Protected>} user={user}></Route>
-            <Route path="/play/:id" element={<FetchMovie user={user}/>}> </Route>
-            <Route path="/playseries/:id" element={<FetchSeries user={user}/>}> </Route>
-            <Route path="/episodes/:id" element={<EpisodeSelect user={user}/>}> </Route>
+            <Route path="/play/:id" element={<FetchMovie user={user} />}> </Route>
+            <Route path="/playseries/:id" element={<FetchSeries user={user} />}> </Route>
+            <Route path="/episodes/:id" element={<EpisodeSelect user={user} />}> </Route>
             <Route path="/addmovie" element={<AddMovie user={user} setUser={setUser} />} exact />
             <Route path="/addactors" element={<AddActors user={user} setUser={setUser} />} exact />
             <Route path="/addepisode/:id" element={<AddEpisode user={user} setUser={setUser} />} exact />
@@ -79,8 +98,8 @@ const App = () => {
           </Routes>
         </Container>
       </main>
-      
-      
+
+
       <Toaster position="top-center" toastOptions={{ duration: 2750 }} />
     </Router>
   );

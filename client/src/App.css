@@ -165,6 +165,7 @@
 }
 body {
   background: #000;
+  scroll-behavior: smooth;
 }
 body::before {
   content: "";
@@ -344,3 +345,27 @@ form .form-help :where(label, a) {
 .dropdownItem:hover {
   color: #002037 !important;
 } 
+
+
+::-webkit-scrollbar
+{
+  width: 0;
+}
+
+#scrollPath {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 10px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+#progressBar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 10px;
+  height: 100%;
+  background: linear-gradient(to top, #11998e, #38ef7d);;
+}

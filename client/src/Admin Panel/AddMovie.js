@@ -30,15 +30,14 @@ const AddMovie = () => {
         if (movieData.type == "Film") {
             if (
                 movieData.name.length >= 2 &&
-                movieData.time.length >= 2 &&
-                movieData.link.length >= 2 &&
-                movieData.country.length >= 2 &&
-                movieData.year.length >= 2 &&
-                movieData.score.length >= 2 &&
-                movieData.description.length >= 2 &&
-                movieData.director.length >= 2 &&
                 movieData.company.length >= 2 &&
-                movieData.actors.length >= 2 &&
+                movieData.director.length >= 2 &&
+                movieData.country.length >= 2 &&
+                movieData.description.length >= 2 &&
+                movieData.score.length >= 2 &&
+                movieData.link.length >= 2 &&
+                movieData.time.length >= 2 &&
+                movieData.year.length >= 2 &&
                 movieData.catagory.length >= 2
             ) {
                 setDisabled(false);
@@ -50,11 +49,11 @@ const AddMovie = () => {
         else {
             if (
                 movieData.name.length >= 2 &&
-                movieData.country.length >= 2 &&
-                movieData.score.length >= 2 &&
-                movieData.director.length >= 2 &&
                 movieData.company.length >= 2 &&
-                movieData.actors.length >= 2 &&
+                movieData.director.length >= 2 &&
+                movieData.country.length >= 2 &&
+                movieData.description.length >= 2 &&
+                movieData.score.length >= 2 &&
                 movieData.season.length >= 1 &&
                 movieData.catagory.length >= 2
             ) {

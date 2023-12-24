@@ -49,6 +49,15 @@ const ActorsSearch = () => {
 
         return width;
     };
+
+    function scrollToTop() {
+        window.scrollTo(0, 0);
+      }
+    
+      useEffect(() => {
+        scrollToTop();
+      }, []);
+      
     const kutuCount = Math.round(useWindowWide() / 300);
 
     const responsive = {
@@ -81,32 +90,51 @@ const ActorsSearch = () => {
                     </div>
                 </div>
             </div>
-            <h2>Filmleri</h2>
-            <Carousel
-                responsive={responsive}
-            >
-                {movie.filter((item) => {
-                    if (item.type === "Film") { return item }
-                    else {
-                        return
-                    }
-                })
-                    .filter(item => {
-                        if (catagory === '') return item
-                        else
-                            return catagory && item.catagory.toLowerCase().includes(catagory.toLowerCase())
-                    })
-                    .filter((item) => {
-                        if (item.player.filter((item) => item.actorsid === id).length !== 0) {
-                            return item
-                        }
-                    })
-                    .map((movie) => (
-                        <MovieCard movie={movie} />
-                    ))}
-            </Carousel>
-            <h2>Dizileri</h2>
+            <h2 className='text-white'>Filmleri</h2>
+            {movie.filter((item) => {
+                if (item.type === "Film") { return item }
+            }).filter((item) => {
+                if (item.player.filter((item) => item.actorsid === id).length !== 0) {
+                    return item
+                }
+            }).length === 0 ? (<h3>Filmi Bulunamadı</h3>) : (
+                <div>
+                    
+                    <Carousel
+                        responsive={responsive}
+                    >
+                        {movie.filter((item) => {
+                            if (item.type === "Film") { return item }
+                            else {
+                                return
+                            }
+                        })
+                            .filter(item => {
+                                if (catagory === '') return item
+                                else
+                                    return catagory && item.catagory.toLowerCase().includes(catagory.toLowerCase())
+                            })
+                            .filter((item) => {
+                                if (item.player.filter((item) => item.actorsid === id).length !== 0) {
+                                    return item
+                                }
+                            })
+                            .map((movie) => (
+                                <MovieCard movie={movie} />
+                            ))}
+                    </Carousel>
+                </div>
+            )}
 
+            <h2 className='text-white'>Dizileri</h2>
+            {movie.filter((item) => {
+                if (item.type === "Dizi") { return item }
+            }).filter((item) => {
+                if (item.player.filter((item) => item.actorsid === id).length !== 0) {
+                    return item
+                }
+            }).length === 0 ? (<h3>Dizisi Bulunamadı</h3>) : (
+                <div>
             <Carousel
                 responsive={responsive}
             >
@@ -130,7 +158,10 @@ const ActorsSearch = () => {
                         <MovieCard movie={movie} />
                     ))}
             </Carousel>
-
+            </div>
+)           
+            }
+            
 
         </div>
     )

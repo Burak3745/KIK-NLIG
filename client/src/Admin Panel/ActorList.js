@@ -62,7 +62,10 @@ const ActorList = () => {
             }
         }
     }
-
+   
+    const actorSeriesMovie = (id) => {
+        navigate(`/actors/${id}`);
+    }
 
 
 
@@ -115,7 +118,7 @@ const ActorList = () => {
                                                 </div>
                                             </motion.div>
                                             </td>
-                                            <td ><br/>{d.name}</td>
+                                            <td ><br/><div style={{ position: "relative", cursor: "pointer" }} onClick={() => actorSeriesMovie(d._id)}>{d.name}</div></td>
                                             <td>
                                                 <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => updateActor(d._id)}><MdBrowserUpdated /> Edit</div>
                                                 <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => deleteActor(d._id)}><RiDeleteBin5Fill /> Delete</div>

@@ -125,11 +125,11 @@ const SeriesList = () => {
                                                     <Card.Img variant="top" src={d.image} />
                                                 </div>
                                             </motion.div>
-                                            <td ><br/>{d.name}</td>
+                                            <td ><br/><div style={{ position: "relative", cursor: "pointer" }} onClick={() => playSeries(d._id)}>{d.name}</div></td>
                                             <td><br/>{d.catagory}</td>
                                             <td ><br/>{d.season}</td>
                                             <td><br/><div style={{ position: "absolute", color: "#2dffb9", cursor: "pointer" }} onClick={() => addEpisode(d._id)}><IoIosAddCircle size={30} /></div></td>
-                                            <td><div style={{ position: "absolute", color: "#2dffb9", cursor: "pointer" }} onClick={() => playSeries(d._id)}><BsFillCollectionPlayFill /> Play</div><br />
+                                            <td > 
                                                 <div style={{ position: "absolute", color: "#2dffb9", cursor: "pointer" }} onClick={() => updateSeries(d._id)}><MdBrowserUpdated /> Edit</div><br/>
                                                 <div style={{ position: "absolute", color: "#2dffb9", cursor: "pointer" }} onClick={() => deleteSeries(d._id)}><RiDeleteBin5Fill /> Delete</div><br/>
                                                 

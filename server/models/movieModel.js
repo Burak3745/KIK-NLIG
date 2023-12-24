@@ -69,7 +69,6 @@ const movieSchema = Schema({
     },
     actors: {
         type: String,
-        required: true
     },
     season: {
         type: String,
