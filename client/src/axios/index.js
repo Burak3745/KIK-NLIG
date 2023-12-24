@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const HTTP = axios.create({
-  baseURL: "https://kiknlig.onrender.com",
+  baseURL: "http://localhost:5000/",
 });
 
   export const GenresGet = async () =>
