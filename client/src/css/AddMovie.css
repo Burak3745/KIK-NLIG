@@ -111,8 +111,8 @@
     min-height: 56px;
     min-width: 120px;
     padding: 16px 20px;
-    position: absolute;
-    left: 920px;
+    position: relative;
+    left: 40%;
     text-align: center;
     user-select: none;
     -webkit-user-select: none;
@@ -132,6 +132,7 @@
         padding: 16px 44px;
         min-width: 150px;
     }
+    
 }
 
 

@@ -95,7 +95,7 @@ const UpdateEpisode = () => {
                                 <label for="Sezon Sayısı" class="form__label">Bölüm Sayısı</label>
                             </div>
                         </div>
-                        <button onClick={seriesUpdate} className='button-66' role="button-66" style={{position:"absolute", left:"450px"}}>Bölüm Güncelle</button>
+                        <button onClick={seriesUpdate} className='button-66' role="button-66" >Bölüm Güncelle</button>
                     </div>
                 </div>
 
