@@ -1,4 +1,4 @@
-import Logo from '../image/King.jpg';
+import Logo from '../image/King.png';
 import Navbar from './Navbar';
 import Profile from "./Profile"
 import { FaRegCopyright } from 'react-icons/fa';

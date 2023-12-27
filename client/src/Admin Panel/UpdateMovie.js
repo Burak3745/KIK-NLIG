@@ -18,7 +18,7 @@ const UpdateMovie = ({ id }) => {
         name: '', time: '', link: '', country: '', year: '', score: '',
         description: '', director: '', company: '', actors: '', season: '', type: '', catagory: '', image: '', player: []
     })
-    
+
     const actors = useSelector((state) => state.actors);
 
     useEffect(() => {
@@ -27,7 +27,7 @@ const UpdateMovie = ({ id }) => {
         }
     }, [dispatch]);
 
-   
+
 
     useEffect(() => {
         const getMemo = async () => {
@@ -175,6 +175,11 @@ const UpdateMovie = ({ id }) => {
                                                     name="name" id='name' value={movieData.year} required onChange={(e) => setMovieData({ ...movieData, year: e.target.value })} />
                                                 <label for="Yapım Yılı" class="form__label">Yapım Yılı</label>
                                             </div>
+                                            <div class="form__group field py-2 px-2">
+                                                <input type="input" class="form__field" placeholder="IMDB Puanı"
+                                                    name="name" id='name' value={movieData.image} required onChange={(e) => setMovieData({ ...movieData, image: e.target.value })} />
+                                                <label for="IMDB Puanı" class="form__label">Resim</label>
+                                            </div>
                                         </div>
                                     </div>
                                 ) : (<div><div className='flex-container mx-2'>
@@ -182,6 +187,11 @@ const UpdateMovie = ({ id }) => {
                                         <input type="input" class="form__field" placeholder="Süresi"
                                             name="name" id='name' value={movieData.season} required onChange={(e) => setMovieData({ ...movieData, season: e.target.value })} />
                                         <label for="Sezon Sayısı" class="form__label">Sezon Sayısı</label>
+                                    </div>
+                                    <div class="form__group field py-2 px-2">
+                                        <input type="input" class="form__field" placeholder="IMDB Puanı"
+                                            name="name" id='name' value={movieData.image} required onChange={(e) => setMovieData({ ...movieData, image: e.target.value })} />
+                                        <label for="IMDB Puanı" class="form__label">Resim</label>
                                     </div>
 
                                 </div>

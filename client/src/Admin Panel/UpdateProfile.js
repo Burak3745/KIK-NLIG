@@ -75,7 +75,7 @@ const UpdateProfile = ({ user, setUser }) => {
 
                         </div>
                         <div class="blue">
-                            <Table >
+                            <Table responsive>
                                 <thead className='text-light'>
                                     <th>FULLNAME</th>
                                     <th>E-MAIL</th>

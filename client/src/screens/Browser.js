@@ -59,19 +59,24 @@ const Browser = ({ user }) => {
           >
             {SliderData.map((item) => (
               <div className='py-2'>
-                <img style={{ width: "100%", borderRadius: "20px" }} src={item.image} />
-                <div className='black-hover' style={{ width: "100%", borderRadius: "20px", position: "absolute", top: "7px", height: "720px" }}></div>
-                <div style={{ position: "absolute", left: "120px", top: "300px" }}>
-                  <div style={{ width: "600px", textAlign:"justify" }}>
-                    <h5 style={{ color: "white", fontWeight:"bold" }}>{item.name}</h5>
-                    <h6 style={{ color: "rgba(255, 255, 255, 0.5)"}}><span style={{ padding:"0 10px", borderRight:"1px solid rgba(255, 255, 255, 0.5)"}}>{item.year}</span>
-                    <span style={{ padding:"0 10px", borderRight:"1px solid rgba(255, 255, 255, 0.5)"}}>{item.time}</span> <span style={{ padding:"0 10px"}}>{item.country}</span></h6>
-                    <h7 style={{ color: "white" }}>{item.title}</h7> </div> <br/>
-                  <Link to={`${item.link}`}>
-                    <button className='button-24' style={{}} >İzle</button>
-                  </Link>
+              <img style={{ width: "100%", borderRadius: "20px" }} src={item.image} />
+              <div className='black-hover' style={{ width: "100%", borderRadius: "20px", position: "absolute", top: "7px", height: "720px" }}></div>
+              <div style={{ position: "absolute", left: "120px", top: "40%" }}>
+                <div style={{ width: "90%", textAlign: "justify" }}>
+                  <h5 style={{ color: "white", fontWeight: "bold" }}>{item.name}</h5>
+                  <h6 style={{ color: "rgba(255, 255, 255, 0.5)" }}>
+                    <span style={{ padding: "0 10px", borderRight: "1px solid rgba(255, 255, 255, 0.5)" }}>{item.year}</span>
+                    <span style={{ padding: "0 10px", borderRight: "1px solid rgba(255, 255, 255, 0.5)" }}>{item.time}</span>
+                    <span style={{ padding: "0 10px" }}>{item.country}</span>
+                  </h6>
+                  <p style={{ color: "white" }}>{item.title}</p>
                 </div>
+                <br />
+                <Link to={`${item.link}`}>
+                  <button className='button-24' style={{}}>İzle</button>
+                </Link>
               </div>
+            </div>
             ))}
           </Carousel>
           {

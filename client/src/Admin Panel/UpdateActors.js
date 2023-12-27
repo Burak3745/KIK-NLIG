@@ -8,7 +8,7 @@ import { updateActorsAction } from '../action/actorsAction';
 import { getIdActors, updateActorMovie } from '../axios';
 const AddActors = () => {
 
-    const {id} = useParams()
+    const { id } = useParams()
     const navigate = useNavigate();
     const [actorsData, setActorsData] = useState({
         name: '', image: ''
@@ -76,6 +76,15 @@ const AddActors = () => {
                                 <label for="Film Adı" class="form__label">Adı</label>
                             </div>
 
+                            <div class="form__group field py-2 px-2">
+                                <input type="input" class="form__field" placeholder="Name"
+                                    name="name" id='name' value={actorsData.image} required onChange={(e) => setActorsData({ ...actorsData, image: e.target.value })} />
+                                <label for="Film Adı" class="form__label">Resmi</label>
+                            </div>
+
+                        </div>
+
+                        <div className='flex-container mx-2'>
                             <div class="form__group field py-5 px-2">
                                 <ReactFileBase64
                                     type='file'
@@ -86,8 +95,9 @@ const AddActors = () => {
 
                                 />
                             </div>
-
                         </div>
+
+
                         <button disabled={disabled} onClick={actorsUpdate} className='button-66 ' role="button-66">Güncelle</button>
                     </div>
 
