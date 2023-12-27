@@ -75,11 +75,10 @@ const UpdateProfile = ({ user, setUser }) => {
 
                         </div>
                         <div class="blue">
-                            <Table responsive>
+                            <Table>
                                 <thead className='text-light'>
                                     <th>FULLNAME</th>
                                     <th>E-MAIL</th>
-                                    <th>PHONENUMBER</th>
                                     <th>ACTIONS</th>
                                 </thead>
                                 <tbody className='text-muted'>
@@ -88,7 +87,6 @@ const UpdateProfile = ({ user, setUser }) => {
                                             <tr key={i} style={{ height: "60px" }}>
                                                 <td >{d.fullname}</td>
                                                 <td>{d.email}</td>
-                                                <td>{d.phoneNumber}</td>
                                                 <td><div style={{ position: "absolute", color: "#2dffb9", cursor: "pointer" }} onClick={() => updateUser(d._id)}>
 
                                                     <MdBrowserUpdated /> Edit

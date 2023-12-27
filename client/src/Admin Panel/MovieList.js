@@ -113,10 +113,6 @@ const MovieList = () => {
                                 <thead className='text-light'>
                                     <th>IMAGE</th>
                                     <th>NAME</th>
-                                    <th>CATAGORY</th>
-                                    <th className='px-2'>COUNTRY</th>
-                                    <th>YEAR</th>
-                                    <th>TIME</th>
                                     <th>ACTIONS</th>
                                 </thead>
                                 <tbody className='text-muted'>
@@ -128,10 +124,7 @@ const MovieList = () => {
                                                 </div>
                                             </motion.div>
                                             <td ><br/><div style={{ position: "relative", cursor: "pointer" }} onClick={() => playMovie(d._id)}>{d.name}</div></td>
-                                            <td><br/>{d.catagory}</td>
-                                            <td ><br/>{d.country}</td>
-                                            <td><br/>{d.year}</td>
-                                            <td><br/>{d.time}</td>
+                                           
                                             <td><div style={{ position: "absolute", color: "#2dffb9", cursor: "pointer" }} onClick={() => dashboardMovie(d._id)}><MdDashboard /> Dashboard</div><br />
                                                 <div style={{ position: "absolute", color: "#2dffb9", cursor: "pointer" }} onClick={() => updateMovie(d._id)}><MdBrowserUpdated /> Edit</div><br />
                                                 <div style={{ position: "absolute", color: "#2dffb9", cursor: "pointer" }} onClick={() => deleteMovie(d._id)}><RiDeleteBin5Fill /> Delete</div>

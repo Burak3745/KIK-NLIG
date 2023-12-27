@@ -191,36 +191,41 @@ const EpisodeSelect = () => {
                 ) : (<div></div>)
                 }
                 {click === 'Hakkında' ? (
-                    <div class="float-child" style={{ background: "#06001d", borderRadius: "20px", width: "840px", color: "rgba(255, 255, 255, 0.5)" }}>
-                        {movieData.description}
+                    <div class="float-child" style={{ background: "#06001d", borderRadius: "20px", color: "rgba(255, 255, 255, 0.5)" }}>
+                        <div class="blue">
+                            {movieData.description}
+                        </div>
                     </div>) : (<div></div>)}
-                {click === 'Oyuncular' ? (<div class="float-child" style={{ background: "#06001d", borderRadius: "20px", width: "840px" }}>
+                {click === 'Oyuncular' ? (
+                    <div class="float-child" style={{ background: "#06001d", borderRadius: "20px" }}>
+                        <div class="blue">
+                            <Row>
+                                {movieData.player && movieData.player.map((item) => (
+                                    <Col
+                                        sm={12}
+                                        md={10}
+                                        lg={8}
+                                        xl={6}
+                                        key={movieData._id}
+                                        style={{ width: "128px", height: "180px" }}
+                                        className='my-2'
+                                    >
 
-                    <Row>
-                        {movieData.player && movieData.player.map((item) => (
-                            <Col
-                                sm={12}
-                                md={6}
-                                lg={4}
-                                xl={3}
-                                key={movieData._id}
-                                style={{ width: "128px", height: "180px" }}
-                                className='my-2'
-                            >
-                                <div class='card-glass'>
-                                    <div class='content-glass' onClick={() => navigatee(item.actorsid)}>
-                                        <div class='imgBx-glass'>
-                                            <img src={item.image} />
+                                        <div class='card-glass'>
+                                            <div class='content-glass' onClick={() => navigatee(item.actorsid)}>
+                                                <div class='imgBx-glass'>
+                                                    <img src={item.image} />
+                                                </div>
+                                                <div class='contentBx-glass'>
+                                                    <h3><span>{item.name}</span></h3>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class='contentBx-glass'>
-                                            <h3><span>{item.name}</span></h3>
-                                        </div>
-                                    </div>
-                                </div>
-                            </Col>
-                        ))}
-                    </Row>
-                </div>) : (<div></div>)}
+                                    </Col>
+                                ))}
+                            </Row>
+                        </div>
+                    </div>) : (<div></div>)}
             </div>
         )
     }

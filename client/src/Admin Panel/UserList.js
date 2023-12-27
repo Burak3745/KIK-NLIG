@@ -82,7 +82,6 @@ const MovieList = ({ user, setUser }) => {
                                     <th>FULLNAME</th>
                                     <th>E-MAIL</th>
                                     <th >USERTYPE</th>
-                                    <th>PHONENUMBER</th>
                                     <th>ACTIONS</th>
                                 </thead>
                                 <tbody className='text-muted'>
@@ -92,7 +91,6 @@ const MovieList = ({ user, setUser }) => {
                                                 <td >{d.fullname}</td>
                                                 <td>{d.email}</td>
                                                 <td>{d.userType}</td>
-                                                <td>{d.phoneNumber}</td>
                                                 <td><div style={{ position: "absolute", color: "#2dffb9", cursor: "pointer" }} onClick={(e) => {
                                                     e.preventDefault()
                                                     dispatch(updateUserAction(d._id, adminData))
