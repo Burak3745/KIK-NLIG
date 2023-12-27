@@ -200,6 +200,13 @@ const AddMovie = () => {
                                                     name="name" id='name' required onChange={(e) => setMovieData({ ...movieData, year: e.target.value })} />
                                                 <label for="Yapım Yılı" class="form__label">Yapım Yılı</label>
                                             </div>
+
+
+                                            <div class="form__group field py-2 px-2">
+                                                <input type="input" class="form__field" placeholder="IMDB Puanı"
+                                                    name="name" id='name' required onChange={(e) => setMovieData({ ...movieData, image: e.target.value })} />
+                                                <label for="IMDB Puanı" class="form__label">Resmi</label>
+                                            </div>
                                         </div>
                                     </div>
                                 ) : (<div><div className='flex-container mx-2'>
@@ -207,6 +214,12 @@ const AddMovie = () => {
                                         <input type="input" class="form__field" placeholder="Süresi"
                                             name="name" id='name' required onChange={(e) => setMovieData({ ...movieData, season: e.target.value })} />
                                         <label for="Sezon Sayısı" class="form__label">Sezon Sayısı</label>
+                                    </div>
+
+                                    <div class="form__group field py-2 px-2">
+                                        <input type="input" class="form__field" placeholder="IMDB Puanı"
+                                            name="name" id='name' required onChange={(e) => setMovieData({ ...movieData, image: e.target.value })} />
+                                        <label for="IMDB Puanı" class="form__label">Resmi</label>
                                     </div>
 
                                 </div>

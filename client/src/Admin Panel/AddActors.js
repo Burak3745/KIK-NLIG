@@ -62,7 +62,17 @@ const AddActors = () => {
                                     name="name" id='name' required onChange={(e) => setActorsData({ ...actorsData, name: e.target.value })} />
                                 <label for="Film Adı" class="form__label">Adı</label>
                             </div>
-                        
+
+                            <div class="form__group field py-2 px-2">
+                                <input type="input" class="form__field" placeholder="Name"
+                                    name="name" id='name' required onChange={(e) => setActorsData({ ...actorsData, image: e.target.value })} />
+                                <label for="Film Adı" class="form__label">Resmi</label>
+                            </div>
+
+
+
+                        </div>
+                        <div className='flex-container mx-2'>
                             <div class="form__group field py-5 px-2">
                                 <ReactFileBase64
                                     type='file'
@@ -72,9 +82,7 @@ const AddActors = () => {
                                     }}
 
                                 />
-                            </div>
-
-                        </div>
+                            </div></div>
                         <button disabled={disabled} onClick={actorsCreate} className='button-66 ' role="button-66">Ekle</button>
                     </div>
 
