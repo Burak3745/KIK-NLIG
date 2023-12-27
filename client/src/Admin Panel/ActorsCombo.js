@@ -63,9 +63,10 @@ const ActorsCombo = ({ handleMovieSelect }) => {
             title="Oyuncular"
             id="dropdown-menu-align-top"
             onSelect={handleMovieSelect}
+            style={{width:"170px"}}
         >
             <div className="float-child">
-                <div className="box">
+                <div className="box" >
                     <form name="search">
                         <input
                             type="text"
