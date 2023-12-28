@@ -131,6 +131,7 @@ const EpisodeSelect = () => {
                                                     return item2
                                                 }
                                             })
+                                            .sort((a, b) => a.episode - b.episode)
                                             .map((episode) => (
                                                 <div>
                                                     <h6 className='text-white' onClick={() => playEpisode(episode._id)} style={{ position: "absolute", cursor: "pointer" }}>{episode.season}.Sezon {episode.episode}.Bölüm</h6>
@@ -154,7 +155,10 @@ const EpisodeSelect = () => {
                                                 if (currentPage == item2.season) {
                                                     return item2
                                                 }
-                                            }).map((episode) => (
+                                                
+                                            })
+                                            .sort((a, b) => a.episode - b.episode)
+                                            .map((episode) => (
                                                 <div>
                                                     <h6 className=' text-white' style={{ position: "absolute", cursor: "pointer" }}>{episode.name}</h6>  <br /> <br />
                                                 </div>))
@@ -173,7 +177,9 @@ const EpisodeSelect = () => {
                                                 if (currentPage == item2.season) {
                                                     return item2
                                                 }
-                                            }).map((episode) => (
+                                            })
+                                            .sort((a, b) => a.episode - b.episode)
+                                            .map((episode) => (
                                                 <div >
                                                     {userType == "ADMIN" ? (<div style={{ display: "flex", justifyContent: "space-between" }}>
                                                         <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => DashboardSeries(episode._id)}><MdDashboard /></div>
