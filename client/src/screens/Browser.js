@@ -58,20 +58,20 @@ const Browser = ({ user }) => {
 
           >
             {SliderData.map((item) => (
-              <div className='py-2' style={{ position: "relative" }}>
-                <img style={{ width: "100%", borderRadius: "20px" }} src={item.image} />
-                <div className='black-hover' style={{ width: "100%", borderRadius: "20px", position: "absolute", top: "7px", height: "720px" }}></div>
-                <div style={{ position: "absolute", left: "10%", top: "40%", width: "80%", textAlign: "justify" }}>
-                  <h5 style={{ color: "white", fontWeight: "bold", fontSize: "18px" }}>{item.name}</h5>
-                  <h6 style={{ color: "rgba(255, 255, 255, 0.5)", fontSize: "14px" }}>
-                    <span style={{ padding: "0 10px", borderRight: "1px solid rgba(255, 255, 255, 0.5)" }}>{item.year}</span>
-                    <span style={{ padding: "0 10px", borderRight: "1px solid rgba(255, 255, 255, 0.5)" }}>{item.time}</span>
-                    <span style={{ padding: "0 10px" }}>{item.country}</span>
+              <div class='Carousel-div' className='py-2'>
+                <img class='Carousel-img' src={item.image} />
+                <div class='Carousel-black'></div>
+                <div class='Carousel-div-text'>
+                  <h5 class='Carousel-h5' >{item.name}</h5>
+                  <h6 class='Carousel-h6'>
+                    <span class='Carousel-span1'>{item.year}</span>
+                    <span class='Carousel-span1'>{item.time}</span>
+                    <span class='Carousel-span2'>{item.country}</span>
                   </h6>
-                  <p style={{ color: "white", fontSize: "16px" }}>{item.title}</p>
-                  <br />
+                  <p class='Carousel-p'>{item.title}</p>
+                  
                   <Link to={`${item.link}`}>
-                    <button className='button-24' style={{ fontSize: "14px" }}>İzle</button>
+                    <button className='button-24 mx-3'>İzle</button>
                   </Link>
                 </div>
               </div>

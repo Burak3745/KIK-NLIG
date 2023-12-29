@@ -38,7 +38,123 @@
   opacity: .5;
 }
 
+@media (max-width: 767px) {
+  
+}
 
 .black-hover{
   background-color: rgba(0, 0, 0, 0.5);
+}
+
+
+.Carousel-div{
+  position: relative;
+}
+
+.Carousel-img{
+  width: 100%;
+  border-radius: 20px;
+}
+
+.Carousel-black{
+  width: 100%;
+  border-radius: 20px;
+  position: absolute;
+  top: 7px;
+  height: 720px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.Carousel-div-text{
+  position: absolute;
+  left: 10%;
+  top: 40%;
+  width: 80%;
+  text-align: justify;
+}
+
+.Carousel-h5{
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.Carousel-h6{
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 14px;
+}
+
+.Carousel-span1{
+   padding: 0 10px;
+   border-right: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.Carousel-span2{
+  padding: 0 10px;
+}
+
+.Carousel-p{
+  color: white;
+  font-size: 16px;
+}
+
+@media (max-width: 767px) {
+  .Carousel-div-text {
+    left: 5%;
+    top: 20%;
+    width: 90%;
+  }
+
+  .Carousel-h5 {
+    font-size: 12px;
+  }
+
+  .Carousel-h6 {
+    font-size: 10px;
+  }
+
+  .Carousel-span1,
+  .Carousel-span2 {
+    padding: 0 5px;
+  }
+
+  .Carousel-p {
+    font-size: 10px;
+  }
+  .button-24 {
+    font-size: 12px;
+    min-height: 32px;
+    padding: 4px 5px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .Carousel-div-text {
+    left: 10%;
+    top: 30%;
+    width: 80%;
+  }
+
+  .Carousel-h5 {
+    font-size: 16px;
+  }
+
+  .Carousel-h6 {
+    font-size: 14px;
+  }
+
+  .Carousel-span1,
+  .Carousel-span2 {
+    padding: 0 8px;
+  }
+
+  .Carousel-p {
+    font-size: 14px;
+  }
+
+  .button-24 {
+    font-size: 14px;
+    min-height: 32px;
+    padding: 8px 10px;
+  }
 }
