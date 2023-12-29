@@ -2,7 +2,7 @@ import React from 'react'
 export const SliderData = [
     {
         name: "Yüzüklerin Efendisi: Yüzük Kardeşliği",
-        title: "İyiyle kötü arasındaki mücadelenin epik bir anlatımı olan filmde, muazzam bir sorumluluğu üstlenmek zorunda kalan ve barışçıl bir Hobbit olan Frodo Baggins'in destansı serüveni işleniyor.",
+        title: "Yüzyıllar önce, Elfler, Cüceler ve İnsanlar, Sauron'u Yüzük'ü yok etmek için bir araya getirdiler. Ancak Sauron, Yüzük'ü geri aldı ve Orta Dünya'yı ele geçirmeye başladı. Filmin başında, Frodo Baggins (Wood), Tek Yüzük'ü miras olarak alır. Frodo, Yüzük'ü Sauron'dan uzaklaştırmaya karar verir. Rivendell'de, Yüzük'ü yok etmek için bir yolculuğa çıkmak üzere bir grup kahraman toplanır",
         image: "https://image.tmdb.org/t/p/w500_and_h282_face/tqj7NKj11keFuLzPsBDMUq2dOUO.jpg",
         link: "/play/6571fc2b1390b95a597eafc6",
         year: "2001",
@@ -29,7 +29,7 @@ export const SliderData = [
     },
     {
         name:"Fight Club",
-        title:"Ailesi ve yakın arkadaşları olmayan yalnız ve genç bir yuppie (Edward Norton) günün birinde çok çok özel bir başka yuppie olan Tyler Durden (Brad Pitt) ile karşılaşır. Durden kendi gibilerden oluşturduğu bir grup genç yuppie ile Fight Club adlı bir klüp kurmuştur. Bu kulübe üye olanlar haftasonları sokaklarda kavga etmedirler. Giderek moda olan bu tür klüpler Tyler Durden'ın da ünlenmesine neden oluyor. Ya da yeni jenerasyonun bir mesihi. Fakat ortaya çıkan Marla (Helena Bonham Carter) adındaki genç bir kız ortalığı bayağı karıştıracaktır.",
+        title:"Yalnız ve genç biri olan yuppie (Edward Norton) günün birinde çok çok özel bir başka yuppie olan Tyler Durden (Brad Pitt) ile karşılaşır. Durden kendi gibilerden oluşturduğu bir grup genç yuppie ile Fight Club adlı bir klüp kurmuştur. Giderek moda olan bu tür klüpler Tyler Durden'ın da ünlenmesine neden oluyor. Fakat ortaya çıkan Marla (Helena Bonham Carter) adındaki genç bir kız ortalığı bayağı karıştıracaktır.",
         image:"https://seyler.ekstat.com/img/max/800/R/RarN8qaN9X8zd9Hw-637822603714638895.jpg",
         link:"/play/65733f72de4db8ef4379a04f",
         year: "1999",

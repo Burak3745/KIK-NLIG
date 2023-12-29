@@ -38,9 +38,6 @@
   opacity: .5;
 }
 
-@media (max-width: 767px) {
-  
-}
 
 .black-hover{
   background-color: rgba(0, 0, 0, 0.5);
@@ -124,7 +121,7 @@
   .button-24 {
     font-size: 12px;
     min-height: 32px;
-    padding: 4px 5px;
+    padding: 8px 10px;
   }
 }
 
