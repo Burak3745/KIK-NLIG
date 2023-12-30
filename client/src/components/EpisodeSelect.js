@@ -93,13 +93,13 @@ const EpisodeSelect = () => {
 
                     <div class="green"><SeriesCard movie={movieData} /></div>
                 </div>
-                <div style={{ display: "flex", justifyContent: "space-between", color: "white", background: "#06001d", borderRadius: "20px" }}>
+                <div  style={{ display: "flex", justifyContent: "space-between", color:"white", background: "#06001d", borderRadius: "25px",padding:"5px" }}>
                     <h3 className='mx-2 my-2' style={{ cursor: "pointer", position: "relative" }} onClick={() => setClick('Hakkında')} >Hakkında</h3>
                     <h3 className='mx-2 my-2' style={{ cursor: "pointer", position: "relative" }} onClick={() => setClick('Bölümler')}>Bölümler</h3>
                     <h3 className='mx-2 my-2' style={{ cursor: "pointer", position: "relative" }} onClick={() => setClick('Oyuncular')} >Oyuncular</h3>
                 </div>
-                {click === 'Bölümler' ? (<div class="float-child" style={{ background: "#06001d", borderRadius: "20px" }}>
-                    <div class="blue">
+                {click === 'Bölümler' ? (<div class="float-child">
+                    <div class="blue" style={{padding:"20px"}}>
                         <Table >
                             <thead className='text-light'>
                                 <th>Sezonlar</th>
@@ -199,14 +199,14 @@ const EpisodeSelect = () => {
                 ) : (<div></div>)
                 }
                 {click === 'Hakkında' ? (
-                    <div class="float-child" style={{ background: "#06001d", borderRadius: "20px", color: "rgba(255, 255, 255, 0.5)" }}>
-                        <div class="blue">
+                    <div class="float-child" style={{  color: "rgba(255, 255, 255, 0.5)" }}>
+                        <div class="blue" style={{padding:"20px"}}>
                             {movieData.description}
                         </div>
                     </div>) : (<div></div>)}
                 {click === 'Oyuncular' ? (
-                    <div class="float-child" style={{ background: "#06001d", borderRadius: "20px" }}>
-                        <div class="blue">
+                    <div class="float-child" >
+                        <div class="blue" style={{padding:"20px"}}>
                             <Row>
                                 {movieData.player && movieData.player.map((item) => (
                                     <Col

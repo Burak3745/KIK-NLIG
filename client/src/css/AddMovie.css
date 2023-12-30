@@ -6,13 +6,12 @@
 .float-child {
     width: 35%;
     float: left;
-    padding: 20px;
 }
 
 .float-child .blue {
     min-height: 550px;
     height: 100%;
-    width: 800px;
+    width: 840px;
     background-color: rgb(6, 0, 29);
 
     border-radius: 25px;
@@ -439,3 +438,8 @@
   
     /* Diğer tablet uyumluluk ayarları buraya eklenir */
   }
+
+    .side-hover:hover{
+        color: red;
+
+    }
