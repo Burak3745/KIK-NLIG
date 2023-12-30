@@ -39,26 +39,10 @@ import UpdateActors from "./Admin Panel/UpdateActors";
 const App = () => {
   const [user, setUser] = useState(null);
 
-  const [scrollTop, setScrollTop] = useState(0)
-
-  const onScroll = () => {
-    let progress = document.documentElement.scrollTop;
-    let totalHeight = document.body.scrollHeight - window.innerHeight;
-    let progressHeight = (progress / totalHeight) * 100;
-    setScrollTop(progressHeight)
-  }
-
-  useEffect(() => {
-    window.addEventListener("scroll", onScroll)
-
-    return () => window.removeEventListener("scroll", onScroll)
-  }, [])
-
+ 
 
   return (
     <Router>
-      <div id="progressBar" style={{ height: `${scrollTop}%` }} ></div>
-      <div id="scrollPath" ></div>
       <Header user={user} setUser={setUser} />
 
       <main className="py-1">

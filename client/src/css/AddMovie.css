@@ -416,14 +416,19 @@
     /* Diğer mobil uyumluluk ayarları buraya eklenir */
   }
 
-  @media (min-width: 768px) and (max-width: 1023px) {
+  @media (min-width: 768px) and (max-width: 1250px) {
+    .float-child {
+        width: 100%;
+        float: none;
+        padding: 8px;
+    }
     .float-child .blue {
-      width: 80%; /* Ekran genişliğinin %80'ini kaplasın */
+      width: 100%; /* Ekran genişliğinin %80'ini kaplasın */
       margin: 0 auto; /* Ortala */
     }
   
     .float-child .blue .flex-container .form__group {
-      width: 80%; /* Genişliği tam ekran genişliğinin %80'i kadar olsun */
+      width: 100%; /* Genişliği tam ekran genişliğinin %80'i kadar olsun */
     }
   
     .float-child .blue .button-66 {

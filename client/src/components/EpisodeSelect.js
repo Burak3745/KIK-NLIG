@@ -112,7 +112,7 @@ const EpisodeSelect = () => {
                                         <div className='text-white'>
                                             {Array.from(Array(Math.floor(Number(movieData.season)))).map((_, i) => (
                                                 <div>
-                                                    <h4 style={{ position: "absolute", cursor: "pointer" }} onClick={() => changeCPage(i + 1)}>{i + 1}</h4> <br /> <br />
+                                                    <h4 style={{ position:"relative", cursor: "pointer" }} onClick={() => changeCPage(i + 1)}>{i + 1}</h4> <br />
                                                 </div>
                                             ))}
                                         </div>
@@ -134,8 +134,8 @@ const EpisodeSelect = () => {
                                             .sort((a, b) => a.episode - b.episode)
                                             .map((episode) => (
                                                 <div>
-                                                    <h6 className='text-white' onClick={() => playEpisode(episode._id)} style={{ position: "absolute", cursor: "pointer" }}>{episode.season}.Sezon {episode.episode}.Bölüm</h6>
-                                                    <br /> <br />
+                                                    <h6 className='text-white' onClick={() => playEpisode(episode._id)} style={{ position:"relative", cursor: "pointer" }}>{episode.season}.Sezon {episode.episode}.Bölüm</h6>
+                                                    <br />
                                                 </div>
 
 
@@ -160,7 +160,7 @@ const EpisodeSelect = () => {
                                             .sort((a, b) => a.episode - b.episode)
                                             .map((episode) => (
                                                 <div>
-                                                    <h6 className=' text-white' style={{ position: "absolute", cursor: "pointer" }}>{episode.name}</h6>  <br /> <br />
+                                                    <h6 className=' text-white' style={{ position:"relative", cursor: "pointer" }}>{episode.name}</h6>  <br /> 
                                                 </div>))
                                         }
                                     </td>

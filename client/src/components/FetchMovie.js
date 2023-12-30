@@ -89,31 +89,33 @@ export default function FetchMovie() {
           <div class="float-child">
             <div class="green"><SeriesCard movie={movieData} /></div>
           </div>
-          <h3 className='py-4' style={{ display: 'flex', justifyContent: "center", color: "white" }}>OYUNCULAR</h3>
-          <Row>
-            {movieData.player.map((item) => (
-              <Col
-                sm={12}
-                md={6}
-                lg={4}
-                xl={3}
-                key={movieData._id}
-                style={{ width: "128px", height: "180px" }}
-                className='my-2'
-              >
-                <div class='card-glass'>
-                  <div class='content-glass' onClick={() => navigatee(item.actorsid)}>
-                    <div class='imgBx-glass'>
-                      <img src={item.image} />
-                    </div>
-                    <div class='contentBx-glass'>
-                      <h3><span>{item.name}</span></h3>
+          <div class="">
+            <h3 className='py-4' style={{ display: 'flex', justifyContent: "center", color: "white" }}>OYUNCULAR</h3>
+            <Row>
+              {movieData.player.map((item) => (
+                <Col
+                  sm={12}
+                  md={6}
+                  lg={4}
+                  xl={3}
+                  key={movieData._id}
+                  style={{ width: "128px", height: "180px" }}
+                  className='my-2'
+                >
+                  <div class='card-glass'>
+                    <div class='content-glass' onClick={() => navigatee(item.actorsid)}>
+                      <div class='imgBx-glass'>
+                        <img src={item.image} />
+                      </div>
+                      <div class='contentBx-glass'>
+                        <h3><span>{item.name}</span></h3>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Col>
-            ))}
-          </Row>
+                </Col>
+              ))}
+            </Row>
+          </div>
         </div>
       </div >
     )

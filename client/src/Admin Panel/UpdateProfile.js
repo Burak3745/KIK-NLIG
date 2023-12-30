@@ -87,12 +87,12 @@ const UpdateProfile = ({ user, setUser }) => {
                                             <tr key={i} style={{ height: "60px" }}>
                                                 <td >{d.fullname}</td>
                                                 <td>{d.email}</td>
-                                                <td><div style={{ position: "absolute", color: "#2dffb9", cursor: "pointer" }} onClick={() => updateUser(d._id)}>
+                                                <td><div style={{ position:"relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => updateUser(d._id)}>
 
                                                     <MdBrowserUpdated /> Edit
 
-                                                </div> <br />
-                                                    <div style={{ position: "absolute", color: "#2dffb9", cursor: "pointer" }} onClick={() => deleteUser(d._id)}>
+                                                </div>
+                                                    <div style={{ position:"relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => deleteUser(d._id)}>
 
                                                         <RiDeleteBin5Fill /> Delete
 
@@ -102,25 +102,25 @@ const UpdateProfile = ({ user, setUser }) => {
                                         ))}
                                 </tbody>
                             </Table>
-                            <nav style={{ position: "absolute", left: "850px", top: "680px" }}>
+                            <div style={{ display:"flex", alignItems:"center", justifyContent:"center" }}>
                                 <ul className='pagination'>
                                     <li className='page-item '>
-                                        <a href='#' className='page-link' onClick={prePage}>Prev</a>
+                                        <a style={{cursor:"pointer"}} className='page-link' onClick={prePage}>Prev</a>
 
                                     </li>
                                     {
                                         numbers.map((n, i) => (
                                             <li className={`page-item ${currentPage === n ? 'active' : ''}`} key={i}>
-                                                <a href='#' className='page-link' onClick={() => changeCPage(n)}>{n}</a>
+                                                <a style={{cursor:"pointer"}} className='page-link' onClick={() => changeCPage(n)}>{n}</a>
                                             </li>
                                         ))
                                     }
                                     <li className='page-item'>
-                                        <a href='#' className='page-link' onClick={nextPage}>Next</a>
+                                        <a style={{cursor:"pointer"}} className='page-link' onClick={nextPage}>Next</a>
 
                                     </li>
                                 </ul>
-                            </nav>
+                            </div>
                         </div>
 
                     </div>

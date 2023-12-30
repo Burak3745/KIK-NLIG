@@ -127,25 +127,25 @@ const ActorList = () => {
                                     ))}
                                 </tbody>
                             </Table>
-                            <nav style={{ position: "absolute", left: "850px", top: "680px" }}>
+                            <div style={{ display:"flex", alignItems:"center", justifyContent:"center" }}>
                                 <ul className='pagination'>
                                     <li className='page-item '>
-                                        <a href='#' className='page-link' onClick={prePage}>Prev</a>
+                                        <a style={{cursor:"pointer"}} className='page-link' onClick={prePage}>Prev</a>
 
                                     </li>
                                     {
                                         numbers.map((n, i) => (
                                             <li className={`page-item ${currentPage === n ? 'active' : ''}`} key={i}>
-                                                <a href='#' className='page-link' onClick={() => changeCPage(n)}>{n}</a>
+                                                <a style={{cursor:"pointer"}} className='page-link' onClick={() => changeCPage(n)}>{n}</a>
                                             </li>
                                         ))
                                     }
                                     <li className='page-item'>
-                                        <a href='#' className='page-link' onClick={nextPage}>Next</a>
+                                        <a style={{cursor:"pointer"}} className='page-link' onClick={nextPage}>Next</a>
 
                                     </li>
                                 </ul>
-                            </nav>
+                            </div>
                         </div>
 
                     </div>
