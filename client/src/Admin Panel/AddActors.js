@@ -64,8 +64,8 @@ const AddActors = () => {
                             </div>
 
                             <div class="form__group field py-2 px-2">
-                                <input type="input" class="form__field" placeholder="Name"
-                                    name="name" id='name' required onChange={(e) => setActorsData({ ...actorsData, image: e.target.value })} />
+                                <input type="input" class="form__field" placeholder="Image"
+                                    name="image" id='image' required onChange={(e) => setActorsData({ ...actorsData, image: e.target.value })} />
                                 <label for="Film Adı" class="form__label">Resmi</label>
                             </div>
 
