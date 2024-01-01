@@ -153,8 +153,8 @@ const EpisodeSelect = () => {
                                                         <div className=' mx-3'>
                                                             <br/>
                                                             {userType == "ADMIN" ? (<div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                                <br /><div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => DashboardSeries(episode._id)}><MdDashboard /></div>
-                                                                <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => UpdateSeries(episode._id)} ><MdBrowserUpdated /></div>
+                                                                <br /><div style={{ position: "relative", color: "#2dffb9", cursor: "pointer", marginRight:"20px" }} onClick={() => DashboardSeries(episode._id)}><MdDashboard /></div>
+                                                                <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer", marginRight:"20px" }} onClick={() => UpdateSeries(episode._id)} ><MdBrowserUpdated /></div>
                                                                 <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => deleteSeries(episode._id)}><RiDeleteBin5Fill /></div>
                                                             </div>) :
                                                                 (<div></div>)}

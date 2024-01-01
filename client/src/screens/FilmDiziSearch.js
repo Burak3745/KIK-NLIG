@@ -77,7 +77,24 @@ const FilmDiziSearch = () => {
           <option value="Western">Western</option>
         </select>
       </div>
-        <h2>Film</h2>
+      <h2>Film</h2>
+      {movie.filter((item) => {
+        if (item.type === "Film") { return item }
+        else {
+          return
+        }
+      })
+        .filter((item) => {
+          if (search == 0) { return item }
+          else {
+            return search.toLowerCase() === '' ? item : item.name.toLowerCase().includes(search.toLowerCase())
+          }
+        })
+        .filter(item => {
+          if (catagory === '') return item
+          else
+            return catagory && item.catagory.toLowerCase().includes(catagory.toLowerCase())
+        }).length === 0 ? (<h3>Film Bulunamadı</h3>) : (
         <Carousel
           responsive={responsive}
         >
@@ -100,35 +117,57 @@ const FilmDiziSearch = () => {
             })
 
             .map((movie) => (
-                <MovieCard movie={movie} />
+              <MovieCard movie={movie} />
             ))}
         </Carousel>
-        <h2>Dizi</h2>
-        <Carousel
-          responsive={responsive}
-        >
-          {movie.filter((item) => {
-            if (item.type === "Dizi") { return item }
+      )}
+
+      <h2>Dizi</h2>
+      {movie.filter((item) => {
+        if (item.type === "Dizi") { return item }
+        else {
+          return
+        }
+      })
+        .filter((item) => {
+          if (search == 0) { return item }
+          else {
+            return search.toLowerCase() === '' ? item : item.name.toLowerCase().includes(search.toLowerCase())
+          }
+        })
+        .filter(item => {
+          if (catagory === '') return item
+          else
+            return catagory && item.catagory.toLowerCase().includes(catagory.toLowerCase())
+        }).length === 0 ? (<h3>Dizi Bulunamadı</h3>):(
+      <Carousel
+        responsive={responsive}
+      >
+        {movie.filter((item) => {
+          if (item.type === "Dizi") { return item }
+          else {
+            return
+          }
+        })
+          .filter((item) => {
+            if (search == 0) { return item }
             else {
-              return
+              return search.toLowerCase() === '' ? item : item.name.toLowerCase().includes(search.toLowerCase())
             }
           })
-            .filter((item) => {
-              if (search == 0) { return item }
-              else {
-                return search.toLowerCase() === '' ? item : item.name.toLowerCase().includes(search.toLowerCase())
-              }
-            })
-            .filter(item => {
-              if (catagory === '') return item
-              else
-                return catagory && item.catagory.toLowerCase().includes(catagory.toLowerCase())
-            })
+          .filter(item => {
+            if (catagory === '') return item
+            else
+              return catagory && item.catagory.toLowerCase().includes(catagory.toLowerCase())
+          })
 
-            .map((movie) => (
-                <MovieCard movie={movie} />
-            ))}
-        </Carousel>
+          .map((movie) => (
+            <MovieCard movie={movie} />
+          ))}
+      </Carousel>
+    
+          )}
+
 
 
     </div>
