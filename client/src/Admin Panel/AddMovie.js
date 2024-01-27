@@ -231,7 +231,7 @@ const AddMovie = () => {
                                 <div class="select-dropdown mx-3">
 
                                     <select value={movieData.catagory} onChange={(e) => setMovieData({ ...movieData, catagory: e.target.value })}>
-                                        <option>Choose Catagory</option>
+                                        <option value="">Choose Catagory</option>
                                         <option value="Action & Advanture">Action & Advanture</option>
                                         <option value="Animation">Animation</option>
                                         <option value="Comedy">Comedy</option>
@@ -245,7 +245,8 @@ const AddMovie = () => {
                                         <option value="Reality">Reality</option>
                                         <option value="Sci-Fi & Fantasy">Sci-Fi & Fantasy</option>
                                         <option value="Soap">Soap</option>
-                                        <option value="Talk','War & Politics">Talk','War & Politics</option>
+                                        <option value="Talk">Talk</option>
+                                        <option value="War & Politics">War & Politics</option> 
                                         <option value="Western">Western</option>
                                     </select>
                                 </div>

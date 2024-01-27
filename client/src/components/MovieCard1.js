@@ -1,16 +1,15 @@
 
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Rating from './Rating';
 import '../css/MovieCardBrowser.css'
 import { FaPlayCircle } from 'react-icons/fa'
 
 import { AiFillDislike } from "react-icons/ai";
 import { AiFillLike } from "react-icons/ai"
-import { Button } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { dislikeMovieAction, getMovieAction, likeMovieAction, undislikeMovieAction, unlikeMovieAction } from '../action/movieAction'
+import { dislikeMovieAction, likeMovieAction, undislikeMovieAction, unlikeMovieAction } from '../action/movieAction'
 export default function MovieCard({ movie, hidden }) {
     const dispatch = useDispatch()
     

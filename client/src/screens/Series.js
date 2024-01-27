@@ -3,21 +3,34 @@ import { useDispatch, useSelector } from 'react-redux'
 import MovieCard from '../components/MovieCard1'
 import { Col, Row } from 'react-bootstrap'
 import { getMovieAction } from '../action/movieAction'
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import '../css/Films.css'
 const Series = () => {
   const movie = useSelector(state => state.movie)
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
     if (!movie[0]) {
       dispatch(getMovieAction());
     }
   }, [dispatch]);
-  const [catagory, setCatagory] =  useState('')
+  
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const catagory = searchParams.get('catagory');
+
+  const handleChangeCatagory = (e) => {
+    const { value } = e.target;
+  
+    const params = new URLSearchParams(window.location.search);
+    params.set("catagory", value);
+  
+    navigate(`/diziler?${params.toString()}`);
+  };
   return (
     <div>
     <div class="select-dropdown  mx-3">
-      <select onChange={(e) => setCatagory(e.target.value)}>
+      <select onChange={handleChangeCatagory}>
         <option value=''>All</option>
         <option value="Action & Advanture">Action & Advanture</option>
         <option value="Animation">Animation</option>
@@ -32,7 +45,8 @@ const Series = () => {
         <option value="Reality">Reality</option>
         <option value="Sci-Fi & Fantasy">Sci-Fi & Fantasy</option>
         <option value="Soap">Soap</option>
-        <option value="Talk','War & Politics">Talk','War & Politics</option>
+        <option value="Talk">Talk</option>
+        <option value="War & Politics">War & Politics</option> 
         <option value="Western">Western</option>
       </select>
       </div>
@@ -43,7 +57,7 @@ const Series = () => {
             }
         })
         .filter(item => {
-          if (catagory=== '') return item
+          if (catagory=== '' || catagory === null) return item
           else
                  return catagory && item.catagory.toLowerCase().includes(catagory.toLowerCase())
                })

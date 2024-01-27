@@ -100,7 +100,7 @@ const Signup = () => {
               Kaydol
             </button>
             <h4>
-              <a href="#2" onClick={() => navigate("/login")}>Back to login</a>
+              <a href="" onClick={() => navigate("/login")}>Back to login</a>
             </h4>
           </form>
           <div

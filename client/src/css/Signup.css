@@ -28,9 +28,41 @@
   text-align: center;
   padding: 20px;
   background: rgba(0, 0, 0, 0.8);
-  border-radius: 0.2rem;
+  border-radius: 8px;
+  overflow: hidden;
+	justify-content: center;
+	align-items: center;
+  padding: 2rem;
+  z-index: 0;
+  --border-size: 3px;
+  --border-angle: 0turn;
+  background-image: conic-gradient(
+      from var(--border-angle),
+      #1c1c1c,
+      #1c1c1c 50%,
+      #1c1c1c
+    ),
+    conic-gradient(from var(--border-angle), transparent 20%, #11998e, #38ef7d);
+  background-size: calc(100% - (var(--border-size) * 2))
+      calc(100% - (var(--border-size) * 2)),
+    cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+
+  animation: bg-spin 3s linear infinite;
 }
 
+@keyframes bg-spin {
+  to {
+    --border-angle: 1turn;
+  }
+}
+
+@property --border-angle {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0turn;
+}
 .signUp-form {
   display: flex;
   align-items: center;
@@ -66,17 +98,24 @@
   height: 40px;
   margin-bottom: 14px;
   border-radius: 0.2rem;
-  border: none;
+  box-shadow: rgba(1, 60, 136, .5) 0 -1px 3px 0 inset, rgba(0, 44, 97, .1) 0 3px 6px 0;
+  box-sizing: border-box;
+  border: 0;
   padding: 5px 15px;
-  background-color: #e50914;
+  background-image: linear-gradient(to right, #11998e, #38ef7d);
   margin-top: 1rem;
   color: white;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.3s ease-in;
-
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  transition: all .2s cubic-bezier(.22, .61, .36, 1);
+  font-family: "Space Grotesk", -apple-system, system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   &:hover {
-    background-color: #9b040b;
+    background-image: linear-gradient(to right, #0d7068, #29ad5c);
+    transform: translateY(-2px);
   }
 }
 

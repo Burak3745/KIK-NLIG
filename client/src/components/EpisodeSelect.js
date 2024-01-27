@@ -2,14 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { deleteSeriesAction, getSeriesAction } from '../action/seriesAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
-import { BsFillCollectionPlayFill } from 'react-icons/bs'
 import { MdBrowserUpdated } from 'react-icons/md'
 import { RiDeleteBin5Fill } from 'react-icons/ri'
 import '../css/AddMovie.css'
-import { Link } from 'react-router-dom';
 import { getIdMovie, updateSeries } from '../axios';
-import { BsStarFill } from 'react-icons/bs';
-import SideBar from '../Admin Panel/SideBar';
 import SeriesCard from '../components/SeriesCard'
 import { Col, Row, Table } from 'react-bootstrap';
 import { MdDashboard } from "react-icons/md";

@@ -9,6 +9,7 @@ export default function FetchSeries() {
 
   const { id } = useParams();
 
+
   const dispatch = useDispatch()
   const [seriesData, setSeriesData] = useState({
     time: '', link: '', year: '', description: '', season: '', episode: '', foreignkey: '', views: '',

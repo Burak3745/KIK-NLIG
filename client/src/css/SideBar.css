@@ -39,3 +39,11 @@
     flex:78%;
     
 }
+
+@media (max-width: 1250px) {
+    .Sidebar{
+        height:100%;
+        width: 100%;
+        
+    }
+}

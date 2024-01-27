@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Card, Table } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import { deleteMovieAction, getMovieAction } from '../action/movieAction';
-import { BsFillCollectionPlayFill } from 'react-icons/bs'
 import { MdBrowserUpdated } from 'react-icons/md'
 import { RiDeleteBin5Fill } from 'react-icons/ri'
 import { IoIosAddCircle } from "react-icons/io";

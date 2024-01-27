@@ -73,7 +73,6 @@ router.get("/get", async (req, res) => {
  */
 router.post("/signup", async (req, res) => {
   try {
-    console.log(req.body);
     const { fullname, email, password, passwordAgain, phoneNumber } = req.body;
 
     const userExists = await Users.findOne({ email });
@@ -141,7 +140,6 @@ router.post("/signup", async (req, res) => {
  */
 
 router.post("/signin", async (req, res) => {
-  console.log(req.body);
   try {
     const { email, password } = req.body;
     const user = await Users.findOne({ email });

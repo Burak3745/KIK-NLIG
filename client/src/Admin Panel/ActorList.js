@@ -38,6 +38,10 @@ const ActorList = () => {
 
     const navigate = useNavigate();
 
+    const actorSeriesMovie = (id) => {
+        navigate(`/actors/${id}`);
+    }
+
     const updateActor = (id) => {
         navigate(`/updateactors/${id}`);
     }
@@ -63,9 +67,7 @@ const ActorList = () => {
         }
     }
    
-    const actorSeriesMovie = (id) => {
-        navigate(`/actors/${id}`);
-    }
+    
 
 
 

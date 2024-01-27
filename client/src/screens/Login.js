@@ -67,8 +67,8 @@ const Login = ({ setUser }) => {
               </div>
             </div>
             <h4>
-              New to KIK'NLIG?{" "}
-              <a href="#1" onClick={signUpHandler}>
+              New to ReelQuorum?{" "}
+              <a href="" onClick={signUpHandler}>
                 Sign up now.
               </a>
             </h4>

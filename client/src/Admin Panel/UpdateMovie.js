@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import SideBar from './SideBar'
 import '../css/AddMovie.css'
-import Form from 'react-bootstrap/Form';
 import { Navigate, useNavigate, useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux'
 import ReactFileBase64 from 'react-file-base64'
@@ -26,7 +25,7 @@ const UpdateMovie = ({ id }) => {
             dispatch(getActorsAction());
         }
     }, [dispatch]);
-
+    
 
 
     useEffect(() => {
@@ -37,6 +36,46 @@ const UpdateMovie = ({ id }) => {
 
         getMemo()
     }, [id])
+    const [disabled, setDisabled] = useState(true);
+
+    useEffect(() => {
+        if (movieData.type == "Film") {
+            if (
+                movieData.name.length >= 2 &&
+                movieData.company.length >= 2 &&
+                movieData.director.length >= 2 &&
+                movieData.country.length >= 2 &&
+                movieData.description.length >= 2 &&
+                movieData.score.length >= 2 &&
+                movieData.link.length >= 2 &&
+                movieData.time.length >= 2 &&
+                movieData.year.length >= 2 &&
+                movieData.catagory.length >= 2
+            ) {
+                setDisabled(false);
+            }
+            else {
+                setDisabled(true);
+            }
+        }
+        else {
+            if (
+                movieData.name.length >= 2 &&
+                movieData.company.length >= 2 &&
+                movieData.director.length >= 2 &&
+                movieData.country.length >= 2 &&
+                movieData.description.length >= 2 &&
+                movieData.score.length >= 2 &&
+                movieData.season.length >= 1 &&
+                movieData.catagory.length >= 2
+            ) {
+                setDisabled(false);
+            }
+            else {
+                setDisabled(true);
+            }
+        }
+    }, [movieData]);
 
     const movieUpdate = (e) => {
         e.preventDefault()
@@ -203,7 +242,7 @@ const UpdateMovie = ({ id }) => {
                                 <div class="select-dropdown mx-3">
 
                                     <select value={movieData.catagory} onChange={(e) => setMovieData({ ...movieData, catagory: e.target.value })}>
-                                        <option>Choose Catagory</option>
+                                        <option value="">Choose Catagory</option>
                                         <option value="Action & Advanture">Action & Advanture</option>
                                         <option value="Animation">Animation</option>
                                         <option value="Comedy">Comedy</option>
@@ -217,7 +256,8 @@ const UpdateMovie = ({ id }) => {
                                         <option value="Reality">Reality</option>
                                         <option value="Sci-Fi & Fantasy">Sci-Fi & Fantasy</option>
                                         <option value="Soap">Soap</option>
-                                        <option value="Talk','War & Politics">Talk','War & Politics</option>
+                                        <option value="Talk">Talk</option>
+                                        <option value="War & Politics">War & Politics</option> 
                                         <option value="Western">Western</option>
                                     </select>
                                 </div>
@@ -245,7 +285,7 @@ const UpdateMovie = ({ id }) => {
                             </div>
 
                         </div>
-                        <button onClick={movieUpdate} className='button-66 ' role="button-66">Güncelle</button>
+                        <button disabled={disabled} onClick={movieUpdate} className='button-66 ' role="button-66">Güncelle</button>
                         <Row className='my-5 mx-2'>
                             {movieData.player.map((item) => (
 

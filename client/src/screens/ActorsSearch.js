@@ -97,7 +97,7 @@ const ActorsSearch = () => {
                 if (item.player.filter((item) => item.actorsid === id).length !== 0) {
                     return item
                 }
-            }).length === 0 ? (<h3>Filmi Bulunamadı</h3>) : (
+            }).length === 0 ? (<h3 style={{color:"rgba(255, 255, 255, 0.5)"}}>Filmi Bulunamadı</h3>) : (
                 <div>
                     
                     <Carousel
@@ -133,7 +133,7 @@ const ActorsSearch = () => {
                 if (item.player.filter((item) => item.actorsid === id).length !== 0) {
                     return item
                 }
-            }).length === 0 ? (<h3>Dizisi Bulunamadı</h3>) : (
+            }).length === 0 ? (<h3 style={{color:"rgba(255, 255, 255, 0.5)"}}>Dizisi Bulunamadı</h3>) : (
                 <div>
             <Carousel
                 responsive={responsive}

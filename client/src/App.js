@@ -17,7 +17,6 @@ import Posts from "./screens/Posts"
 import { Toaster } from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
-
 import PostEntry from "./screens/PostEntry";
 import Profile from "./screens/Profile";
 import Search from "./screens/FilmDiziSearch";
@@ -68,7 +67,7 @@ const App = () => {
             <Route path="/userlist" element={<UserList user={user} setUser={setUser} />} exact />
             <Route path="/updateprofile" element={<UpdateProfile user={user} setUser={setUser} />} exact />
             <Route path="/filmler" element={<Films user={user} setUser={setUser} />} exact />
-            <Route path="/search/:search" element={<Search user={user} setUser={setUser} />} exact />
+            <Route path="/search" element={<Search user={user} setUser={setUser} />} exact />
             <Route path="/actors/:id" element={<ActorsSearch user={user} setUser={setUser} />} exact />
             <Route path="/diziler" element={<Series user={user} setUser={setUser} />} exact />
             <Route path="/updatemovie/:id" element={<UpdateMovie user={user} setUser={setUser} />} />
