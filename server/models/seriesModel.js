@@ -10,6 +10,16 @@ const seriesSchema = mongoose.Schema({
     link: {
         type: String,
     },
+    links: [
+        {
+            hostingname: {
+                type: String,
+            },
+            adress:{
+                type: String,
+            }
+        }
+    ],
     year: {
         type: String,
     },

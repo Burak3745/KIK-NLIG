@@ -16,9 +16,10 @@ export default function FetchMovie() {
 
   const [movieData, setMovieData] = useState({
     user: '', name: '', time: '', link: '', country: '', year: '', score: '',
-    description: '', director: '', company: '', actors: '', catagory: '', image: '', likes: [{ user: '' }], views: '', player: []
+    description: '', director: '', company: '', actors: '', catagory: '', image: '', likes: [{ user: '' }], views: '', player: [], links: []
   })
-
+  const [linksData, setLinksData] = useState('')
+  console.log(linksData)
   useEffect(() => {
     const getMemo = async () => {
       const { data } = await getIdMovie(id)
@@ -61,11 +62,31 @@ export default function FetchMovie() {
   else {
     return (
       <div>
+        <div class="select-dropdown  mx-3">
+          <select onChange={(e) => setLinksData(e.target.value)}>
+            <option value=''>Choose Link</option>
+          {movieData.links.map((item) => (
+            <option value={item.hostingname}>{item && item.hostingname}</option>
+          ))}
+          </select>
+        </div>
         <Card style={{ background: "#06001d" }}>
           <Card.Footer className='mx-4 my-4' style={{ display: 'flex', justifyContent: "center" }}>
-            <iframe src={movieData.link} scrolling="no"
-              frameborder="0" width="640" height="360" allowfullscreen="true"
-              webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+            {linksData == '' ? (<h1 style={{color:"white"}}>Yukarıdan Bir Link Seçiniz</h1>):(
+              movieData.links.filter((item2) => {
+                if(item2.hostingname === linksData && linksData){
+                  return item2
+                }
+              })
+              .map((link) => (
+                <iframe src={link.adress} scrolling="no"
+                frameborder="0" width="640" height="360" allowfullscreen="true"
+                webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+              ))
+            )}
+            
+            
+            
 
           </Card.Footer>
           <div style={{ display: 'flex', justifyContent: "center", color: "#22cf95" }}>

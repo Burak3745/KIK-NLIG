@@ -12,9 +12,9 @@ export default function FetchSeries() {
 
   const dispatch = useDispatch()
   const [seriesData, setSeriesData] = useState({
-    time: '', link: '', year: '', description: '', season: '', episode: '', foreignkey: '', views: '',
+    time: '', link: '', year: '', description: '', season: '', episode: '', foreignkey: '', views: '', links: []
   })
-
+  const [linksData, setLinksData] = useState('')
   useEffect(() => {
     const getMemo = async () => {
       const { data } = await getIdSeries(id)
@@ -40,19 +40,48 @@ export default function FetchSeries() {
   }, [dispatch, id, viewsData]);
 
   return (
-    <Card style={{ background: "#06001d" }}>
-      <Card.Footer style={{ display: 'flex', justifyContent: "center" }}>
-        <iframe src={seriesData.link} scrolling="no"
-          frameborder="0" width="640" height="360" allowfullscreen="true"
-          webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
-
-      </Card.Footer>
-      <div style={{ display: 'flex', justifyContent: "center", color: "#22cf95" }}>
-
-        <FaEye size={25} />
-
-        <div className='mx-1'>{seriesData.views}</div>
+    <div>
+      <div class="select-dropdown  mx-3">
+        <select onChange={(e) => setLinksData(e.target.value)}>
+          <option value=''>Choose Link</option>
+          {seriesData.links.map((item) => (
+            <option value={item.hostingname}>{item && item.hostingname}</option>
+          ))}
+        </select>
       </div>
-    </Card>
+      <Card style={{ background: "#06001d" }}>
+        <Card.Footer style={{ display: 'flex', justifyContent: "center" }}>
+          {linksData == '' ? (<h1 style={{ color: "white" }}>Yukarıdan Bir Link Seçiniz</h1>) : (
+            seriesData.links.filter((item2) => {
+              if (item2.hostingname === linksData && linksData) {
+                return item2
+              }
+            })
+              .map((link) => (
+                <iframe src={link.adress} scrolling="no"
+                  frameborder="0" width="640" height="360" allowfullscreen="true"
+                  webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+              ))
+          )}
+
+        </Card.Footer>
+        <div style={{ display: 'flex', justifyContent: "center", color: "#22cf95" }}>
+
+          <FaEye size={25} />
+
+          <div className='mx-1'>{seriesData.views}</div>
+        </div>
+      </Card>
+      <Card className='my-4' style={{ background: "#06001d" }}>
+        <Card.Footer className='mx-4 my-2' style={{ display: 'flex', justifyContent: "center", color: "white" }}>
+          <h3>BÖLÜM HAKKINDA</h3>
+
+        </Card.Footer>
+        <div className='mx-3 my-2' style={{ display: 'flex', justifyContent: "center", color: "rgba(255, 255, 255, 0.5)" }}>
+          {seriesData.description}
+
+        </div>
+      </Card>
+    </div>
   )
 }

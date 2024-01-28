@@ -22,10 +22,24 @@ const AddMovie = () => {
     const navigate = useNavigate();
     const [movieData, setMovieData] = useState({
         name: '', time: '', link: '', country: '', year: '', score: '',
-        description: '', director: '', company: '', season: '', type: 'Film', catagory: '', image: '', player: []
+        description: '', director: '', company: '', season: '', type: 'Film', catagory: '', image: '', player: [], links: []
     })
-
+    const [linkData, setLinkData] = useState({
+        hostingname: '', adress: ''
+    })
     const [disabled, setDisabled] = useState(true);
+    const [disabled2, setDisabled2] = useState(true);
+    useEffect(() => {
+        if (
+            linkData.hostingname.length >= 2 &&
+            linkData.adress.length >= 2
+        ) {
+            setDisabled2(false)
+        }
+        else {
+            setDisabled2(true)
+        }
+    })
     useEffect(() => {
         if (movieData.type == "Film") {
             if (
@@ -35,7 +49,6 @@ const AddMovie = () => {
                 movieData.country.length >= 2 &&
                 movieData.description.length >= 2 &&
                 movieData.score.length >= 2 &&
-                movieData.link.length >= 2 &&
                 movieData.time.length >= 2 &&
                 movieData.year.length >= 2 &&
                 movieData.catagory.length >= 2
@@ -112,6 +125,38 @@ const AddMovie = () => {
 
     };
 
+    const addLink = (newLink) => {
+        const currentData = { ...movieData };
+
+        currentData.links.push(newLink);
+        setMovieData(currentData);
+        console.log(movieData)
+    }
+    const createLink = () => {
+        if (movieData.links.filter((item) => item.hostingname === linkData.hostingname).length == 0) {
+            const newLink = { hostingname: linkData.hostingname, adress: linkData.adress }
+            addLink(newLink)
+        }
+    }
+
+    const deleteLink = (linkName) => {
+        const currentData = { ...movieData };
+
+        const linkIndex = currentData.links.findIndex(
+            (link) => link.hostingname === linkName
+        );
+
+        // Eğer oyuncu bulunduysa, listeden çıkar
+        if (linkIndex !== -1) {
+            currentData.links.splice(linkIndex, 1);
+            setMovieData(currentData);
+        }
+    };
+    const handleLinkDeleteButtonClick = (link) => {
+        const linkNameToDelete = link.hostingname;
+        deleteLink(linkNameToDelete);
+
+    };
     const [user, setUser] = useState()
     const userState = useSelector((state) => state.user)
     useEffect(() => {
@@ -184,16 +229,25 @@ const AddMovie = () => {
                                         <div className='flex-container mx-2'>
                                             <div class="form__group field py-2 px-2">
                                                 <input type="input" class="form__field" placeholder="Linki"
-                                                    name="name" id='name' required onChange={(e) => setMovieData({ ...movieData, link: e.target.value })} />
-                                                <label for="Linki" class="form__label">Linki</label>
+                                                    name="name" id='name' required onChange={(e) => setLinkData({ ...linkData, hostingname: e.target.value })} />
+                                                <label for="Hosting" class="form__label">Hosting İsmi</label>
                                             </div>
+                                            <div class="form__group field py-2 px-2">
+                                                <input type="input" class="form__field" placeholder="Linki"
+                                                    name="name" id='name' required onChange={(e) => setLinkData({ ...linkData, adress: e.target.value })} />
+                                                <label for="Adress" class="form__label">Link Adresi</label>
+                                            </div>
+                                            <div class="form__group field py-4 px-5 ">
+                                                <button disabled={disabled2} onClick={createLink} className=' ' role="button-66">Link Ekle</button>
+                                            </div>
+
+                                        </div>
+                                        <div className='flex-container mx-2'>
                                             <div class="form__group field py-2 px-2">
                                                 <input type="input" class="form__field" placeholder="Süresi"
                                                     name="name" id='name' required onChange={(e) => setMovieData({ ...movieData, time: e.target.value })} />
                                                 <label for="Süresi" class="form__label">Süresi</label>
                                             </div>
-                                        </div>
-                                        <div className='flex-container mx-2'>
 
                                             <div class="form__group field py-2 px-2">
                                                 <input type="input" class="form__field" placeholder="Yapım Yılı"
@@ -201,12 +255,14 @@ const AddMovie = () => {
                                                 <label for="Yapım Yılı" class="form__label">Yapım Yılı</label>
                                             </div>
 
-
+                                        </div>
+                                        <div className='flex-container mx-2'>
                                             <div class="form__group field py-2 px-2">
                                                 <input type="input" class="form__field" placeholder="IMDB Puanı"
                                                     name="name" id='name' required onChange={(e) => setMovieData({ ...movieData, image: e.target.value })} />
                                                 <label for="IMDB Puanı" class="form__label">Resmi</label>
                                             </div>
+
                                         </div>
                                     </div>
                                 ) : (<div><div className='flex-container mx-2'>
@@ -246,7 +302,7 @@ const AddMovie = () => {
                                         <option value="Sci-Fi & Fantasy">Sci-Fi & Fantasy</option>
                                         <option value="Soap">Soap</option>
                                         <option value="Talk">Talk</option>
-                                        <option value="War & Politics">War & Politics</option> 
+                                        <option value="War & Politics">War & Politics</option>
                                         <option value="Western">Western</option>
                                     </select>
                                 </div>
@@ -263,20 +319,39 @@ const AddMovie = () => {
                                 <div className='py-2'>
                                     <ActorsCombo handleMovieSelect={handleAddButtonClick} />
                                 </div>
-                                <ReactFileBase64
-                                    type='file'
-                                    multiple={false}
-                                    onDone={({ base64 }) => {
-                                        setMovieData({ ...movieData, image: base64 })
-                                    }}
 
-                                />
 
                             </div>
 
                         </div>
                         <button disabled={disabled} onClick={movieCreate} className='button-66 ' role="button-66">Ekle</button>
-                        <Row className='my-5 mx-2'>
+                        {movieData.type === 'Film' ? (
+                            <div>
+                                <h3 style={{ color: "white" }} className='mx-4'>Linkler</h3>
+                                <Row className='mx-2'>
+                                    {movieData.links.map((item) => (
+                                        <Col
+                                            sm={12}
+                                            md={6}
+                                            lg={4}
+                                            xl={3}
+                                            key={item._id}
+                                            style={{ width: "150px", height: "120px" }}
+                                        >
+                                            <div style={{
+                                                background: "white", borderRadius: "5px", textAlign: "center",
+                                                position: "relative", cursor: "pointer"
+                                            }} onClick={() => handleLinkDeleteButtonClick(item)}>
+                                                <h5 className='my-5' style={{ fontSize: "16px" }}>{item.hostingname} <IoClose color='#e44002' /></h5>
+                                            </div>
+                                        </Col>
+                                    ))}
+                                </Row>
+                            </div>
+                        ) : (<div></div>)}
+
+                        <h3 style={{ color: "white" }} className='mx-4'>Oyuncular</h3>
+                        <Row className='mx-2'>
                             {movieData.player.map((item) => (
 
                                 <Col

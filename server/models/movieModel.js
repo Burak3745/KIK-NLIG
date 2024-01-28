@@ -45,6 +45,17 @@ const movieSchema = Schema({
     link: {
         type: String,
     },
+    links: [
+        {
+            hostingname: {
+                type: String,
+            },
+            adress:{
+                type: String,
+            }
+        }
+    ],
+
     country: {
         type: String,
         required: true
@@ -66,9 +77,6 @@ const movieSchema = Schema({
     company: {
         type: String,
         required: true
-    },
-    actors: {
-        type: String,
     },
     season: {
         type: String,
