@@ -21,7 +21,7 @@ const ForgotPassword = ({ email, setEmail, otp, setOTP }) => {
             setOTP(OTP);
 
             axios
-                .post("http://localhost:5000/send_recovery_email", {
+                .post("https://kiknlig.onrender.com/send_recovery_email", {
                     OTP: OTP,
                     recipient_email: email,
                 })
