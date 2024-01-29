@@ -282,18 +282,18 @@ router.put('/:id', async (req, res) => {
  */
 router.get('/:id', async (req, res) => {
   try {
-      const { id } = req.params
+    const { id } = req.params
 
-      if (!mongoose.Types.ObjectId.isValid(id))
-          res.status(404).json({ message: 'User id is not valid' })
+    if (!mongoose.Types.ObjectId.isValid(id))
+      res.status(404).json({ message: 'User id is not valid' })
 
-      const user = await Users.findById(id)
-      if (!user) return
+    const user = await Users.findById(id)
+    if (!user) return
 
-      res.status(200).json(user)
+    res.status(200).json(user)
   } catch (error) {
-      console.log(error);
-      res.status(404).json({ message: 'User not found' })
+    console.log(error);
+    res.status(404).json({ message: 'User not found' })
   }
 })
 
@@ -322,16 +322,16 @@ router.get('/:id', async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   try {
-      const { id } = req.params
+    const { id } = req.params
 
-      if (!mongoose.Types.ObjectId.isValid(id))
-          res.status(404).json({ message: 'This id does not belong to any user' })
+    if (!mongoose.Types.ObjectId.isValid(id))
+      res.status(404).json({ message: 'This id does not belong to any user' })
 
-      await Users.findByIdAndDelete(id)
-      res.status(200).json({ message: 'User deletion successful' })
+    await Users.findByIdAndDelete(id)
+    res.status(200).json({ message: 'User deletion successful' })
   } catch (error) {
-      console.log(error.message)
-      res.json({ message: 'An error occurred during the deletion process' })
+    console.log(error.message)
+    res.json({ message: 'An error occurred during the deletion process' })
   }
 
 })
@@ -343,12 +343,14 @@ router.post("/profile/update", async (req, res) => {
 
     const user = await Users.findOne({ email });
     if (!user)
-      return res.status(404).json({ message: "User doesn't exists." });
+      return res.status(404).json({ message: "Bu E-Maile Sahip Kullanıcı Bulunamadı" });
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect)
-      return res.status(400).json({ message: "Wrong password." });
-      console.log(user);
+      return res.status(400).json({ message: "Yanlış Şifre" });
+    const isPasswordSame = password === newPassword
+    if (isPasswordSame)
+      return res.status(400).json({ message: "Aynı Şifre Bir Daha Girilemez" });
     const inputSet = (newPassword ? { fullname, phoneNumber, password: await bcrypt.hash(newPassword, 10) } :
       { fullname, phoneNumber });
     const updatedUser = await Users.findOneAndUpdate(
@@ -403,6 +405,33 @@ router.get("/profile/get/:email", async (req, res) => {
 
 
 
+router.post("/password/update", async (req, res) => {
+  try {
+    const { email, password, samePassword } = req.body;
 
+    const user = await Users.findOne({ email });
+    if (!user)
+      return res.status(404).json({ message: "Bu E-Maile Sahip Kullanıcı Bulunamadı" });
+
+    const isPasswordSame = password !== samePassword
+    if (isPasswordSame)
+      return res.status(400).json({ message: "Girilen İki Şifre Eşleşmiyor" });
+
+    const isPasswordNew = await bcrypt.compare(password, user.password);
+    if (isPasswordNew)
+      return res.status(400).json({ message: "Son Şifre İle Girilen Şifre Aynı Olamaz" });
+    const inputSet = { password: await bcrypt.hash(password, 10) };
+    const updatedUser = await Users.findOneAndUpdate(
+      { email },
+      inputSet
+    );
+    return res.status(200).json(updatedUser);
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ message: `update user failed -> ${error.message}` });
+  }
+});
 
 export default router;

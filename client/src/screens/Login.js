@@ -35,6 +35,10 @@ const Login = ({ setUser }) => {
     e.preventDefault();
     navigate("/signup");
   };
+  const forgotPassword = (e) => {
+    e.preventDefault();
+    navigate("/forgotPassword");
+  }
   if (localStorage.getItem("user")) {
     return <Navigate to="/browse" />
   }
@@ -43,7 +47,7 @@ const Login = ({ setUser }) => {
       <div className="signin-body">
         <Container className="signIn">
           <form className="signIn-form" onSubmit={doLogin}>
-            <h2 className="signIn-header">Sign In</h2>
+            <h2 className="signIn-header">Giriş Yap</h2>
 
             <input
               type="email"
@@ -59,17 +63,18 @@ const Login = ({ setUser }) => {
               value={password}
               required
             />
-            <button type="submit">Sign In</button>
+            <button type="submit">Giriş Yap</button>
             <div className="form-help">
               <div className="remember-me">
                 <input type="checkbox" id="remember-me" />
-                <label htmlFor="remember-me">Remember me</label>
+                <label htmlFor="remember-me">Beni Hatırla</label>
+                <div onClick={forgotPassword} style={{marginLeft:"50px", cursor:"pointer"}}>Şifremi Unuttum</div>
               </div>
             </div>
             <h4>
-              New to ReelQuorum?{" "}
+              ReelQourum'da yeni misin?{" "}
               <a href="" onClick={signUpHandler}>
-                Sign up now.
+                Şimdi Kayıt Ol
               </a>
             </h4>
           </form>

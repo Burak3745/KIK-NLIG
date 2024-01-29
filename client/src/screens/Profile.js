@@ -38,7 +38,6 @@ const Profile = () => {
     const [newPasswordType, setNewPasswordType] = useState("password");
 
     useEffect(() => {
-        console.log(formData);
         if (
             formData.password.length >= 1 &&
             formData.fullname.length >= 5 &&
@@ -94,7 +93,7 @@ const Profile = () => {
                                 <div className="mb-1 mt-4">
                                     <Row>
                                         <Col>
-                                            <h2 className="fw-bold mb-2 text-uppercase">KIK'NLIG</h2>
+                                            <h2 className="fw-bold mb-2 text-uppercase">ReelQuorum</h2>
                                             <p className=" mb-3" style={{ color: "red" }}>{user?.email}</p>
                                         </Col>
                                         <Col>

@@ -49,7 +49,7 @@ const Signup = () => {
                 });
             }}
           >
-            <h2 className="signIn-header">Sign Up</h2>
+            <h2 className="signIn-header">Kayıt Ol</h2>
             <input
               onChange={(e) =>
                 setFormData({ ...formData, fullname: e.target.value })
@@ -99,9 +99,9 @@ const Signup = () => {
             >
               Kaydol
             </button>
-            <h4>
-              <a href="" onClick={() => navigate("/login")}>Back to login</a>
-            </h4>
+            <h5>
+              <a href="" onClick={() => navigate("/login")}>Zaten Hesabın Var mı? Giriş Yap</a>
+            </h5>
           </form>
           <div
             style={{

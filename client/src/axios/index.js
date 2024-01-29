@@ -22,6 +22,9 @@ const HTTP = axios.create({
   export const ProfileUpdate = async (userData) =>
   await HTTP.post("/users/profile/update", userData);
 
+  export const PasswordUpdate = async (formData) =>
+  await HTTP.post("/users/password/update", formData);
+
   /************************************************* */
 
   export const UserGet = async () =>
