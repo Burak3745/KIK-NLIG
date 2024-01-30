@@ -45,7 +45,7 @@ export default function MovieCard({ movie, hidden }) {
                         {movie && movie.type === "Film" ? (
 
                             <div>
-                                {movie.watched.filter((item) => userid === item.userid).length != 0 ? (
+                                {movie && movie.watched.filter((item) => userid === item.userid).length != 0 ? (
                                     <h1 style={{color:"red", position:"absolute", top:"2px", left:"45px"}}>İZLENDİ</h1>
                                 ):(<div></div>)}
                                 <h1 >{movie && movie.name}</h1>
