@@ -339,7 +339,7 @@ router.delete("/:id", async (req, res) => {
 router.post("/profile/update", async (req, res) => {
   try {
     console.log(req.body);
-    const { email, fullname, phoneNumber, password, newPassword } = req.body;
+    const { email, fullname, phoneNumber, image, password, newPassword } = req.body;
 
     const user = await Users.findOne({ email });
     if (!user)
@@ -351,8 +351,8 @@ router.post("/profile/update", async (req, res) => {
     const isPasswordSame = password === newPassword
     if (isPasswordSame)
       return res.status(400).json({ message: "Aynı Şifre Bir Daha Girilemez" });
-    const inputSet = (newPassword ? { fullname, phoneNumber, password: await bcrypt.hash(newPassword, 10) } :
-      { fullname, phoneNumber });
+    const inputSet = (newPassword ? { fullname, phoneNumber, image, password: await bcrypt.hash(newPassword, 10) } :
+      { fullname, phoneNumber, image });
     const updatedUser = await Users.findOneAndUpdate(
       { email },
       inputSet
@@ -395,8 +395,8 @@ router.get("/profile/get/:email", async (req, res) => {
     const { email } = req.params;
     const user = await Users.findOne({ email });
     if (!user) return res.status(404).json({ message: "User doesn't exist." });
-    const { fullname, phoneNumber, userType } = user;
-    return res.status(200).json({ email, fullname, phoneNumber, userType, message: "Profile get successful" });
+    const { fullname, phoneNumber, userType, image } = user;
+    return res.status(200).json({ email, fullname, phoneNumber, userType, image,  message: "Profile get successful" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: error.message });
@@ -430,7 +430,7 @@ router.post("/password/update", async (req, res) => {
     console.log(error);
     return res
       .status(500)
-      .json({ message: `update user failed -> ${error.message}` });
+      .json({ message: `update password failed -> ${error.message}` });
   }
 });
 

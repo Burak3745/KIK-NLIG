@@ -23,6 +23,7 @@ const ResetPassword = ({ email, setEmail, otp, setOTP }) => {
         e.preventDefault();
         PasswordUpdate(formData)
         .then((res) => {
+            toast.success("Şifreniz değiştirilmiştir, giriş yapabilirsiniz")
             navigate("/login")
         })
         .catch((err) => {

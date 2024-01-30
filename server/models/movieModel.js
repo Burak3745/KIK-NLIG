@@ -99,6 +99,13 @@ const movieSchema = Schema({
     image: {
         type: String,
     },
+    watched: [
+        {
+            userid: {
+                type: String,
+              }
+        }
+    ],
 })
 
 export default mongoose.model('Movie', movieSchema)

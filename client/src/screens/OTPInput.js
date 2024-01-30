@@ -21,7 +21,7 @@ const OTPInput = ({ email, setEmail, otp, setOTP }) => {
                 recipient_email: email,
             })
             .then(() => setDisable(true))
-            .then(() => toast.error("Yeni kod E-mail adresinize gönderilmiştir"))
+            .then(() => toast.success("Yeni kod E-mail adresinize gönderilmiştir"))
             .then(() => setTimer(60))
             .catch(console.log);
     }
@@ -125,11 +125,11 @@ const OTPInput = ({ email, setEmail, otp, setOTP }) => {
                         <div className="flex flex-row items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
                             <p style={{color:"white"}}>Kod Gönderilmedi mi?</p>{" "}
                             <a
-                                className="flex flex-row items-center"
+                                className= "flex flex-row items-center"
+                                
                                 style={{
-                                    color: disable ? "gray" : "blue",
-                                    cursor: disable ? "none" : "pointer",
-                                    textDecorationLine: disable ? "default" : "underline",
+                                    color: disable ? "gray" : "#2dffb9",
+                                    cursor: disable ? "default" : "pointer",
                                 }}
                                 onClick={() => resendOTP()}
                             >

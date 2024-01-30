@@ -17,7 +17,6 @@ const Signup = () => {
   });
   const [disabled, setDisabled] = useState(true);
   useEffect(() => {
-    console.log(formData);
     if (
       formData.password.length >= 6 &&
       formData.fullname.length >= 5 &&
@@ -30,6 +29,10 @@ const Signup = () => {
       setDisabled(true);
     }
   }, [formData]);
+  const signInHandler = (e) => {
+    e.preventDefault();
+    navigate("/login");
+  };
   if (localStorage.getItem("user")) {
     return <Navigate to="/browse" />
   }
@@ -99,9 +102,10 @@ const Signup = () => {
             >
               Kaydol
             </button>
-            <h5>
-              <a href="" onClick={() => navigate("/login")}>Zaten Hesabın Var mı? Giriş Yap</a>
-            </h5>
+            <h4 style={{color:"gray"}}>
+              Zaten Hesabın Var mı? {" "}
+              <a href="" className="kayıtol" onClick={signInHandler}>Giriş Yap</a>
+            </h4>
           </form>
           <div
             style={{

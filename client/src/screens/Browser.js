@@ -15,7 +15,6 @@ const Browser = ({ user }) => {
     if (localStorage.getItem("user")) {
       GenresGet()
         .then((res) => {
-          console.log(res);
           setGenres(res.data);
           setIsLoading(false);
         })

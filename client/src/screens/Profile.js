@@ -12,7 +12,7 @@ import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import PassEye from '../components/PassEye'
 import { ProfileGet, ProfileUpdate } from '../axios';
-
+import ReactFileBase64 from 'react-file-base64'
 const animations = {
     initial: { opacity: 0 },
     animate: { opacity: 1 },
@@ -30,6 +30,7 @@ const Profile = () => {
         fullname: user?.fullname,
         email: user?.email,
         phoneNumber: user?.phoneNumber,
+        image: user?.image,
         password: "",
         newPassword: "",
     });
@@ -43,6 +44,7 @@ const Profile = () => {
             formData.fullname.length >= 5 &&
             formData.phoneNumber.length >= 10 &&
             formData.email.length >= 3 &&
+            formData.image.length >= 2 &&
             (!newpassControl || formData.newPassword.length >= 6)
         ) {
             setDisabled(false);
@@ -71,6 +73,23 @@ const Profile = () => {
         setNewpassControl(false);
         setFormData({ ...formData, password: "", newPassword: "" });
     }
+
+    const MAX_IMAGE_WIDTH = 50;
+    const MAX_IMAGE_HEIGHT = 50;
+    const handleFileSelect = (file) => {
+        const img = new Image();
+        img.src = file.base64;
+
+        img.onload = function () {
+            if (img.width === MAX_IMAGE_WIDTH && img.height === MAX_IMAGE_HEIGHT) {
+                setFormData({ ...formData, image: file.base64 })
+                
+                // Alternatif olarak, istediğiniz başka bir işlemi de gerçekleştirebilirsiniz.
+            } else {
+                toast.error("Resmin Boyutu 50 pixel'e 50 pixel olmalı");
+            }
+        };
+    };
 
     if (!user) {
         return <Navigate to="/login" />;
@@ -207,20 +226,21 @@ const Profile = () => {
 
                                             </Form.Group>
                                         </Row>
+                                        <Row>
+                                            <ReactFileBase64
+                                                disabled={!vana}
+                                                type='file'
+                                                multiple={false}
+                                                onDone={handleFileSelect}
+
+                                            />
+                                        </Row>
                                         <div className="d-grid">
                                             <Button disabled={disabled} variant="primary" type="submit" hidden={!vana}>
                                                 Kaydet
                                             </Button>
                                         </div>
                                     </Form>
-                                    <div className="mt-2">
-                                        <p className="mb-0  text-center">
-                                            @BerkayErsoy&BurakDuyar
-                                            <a href="/browse" className="text-primary fw-bold">
-                                                Tarama sayfası
-                                            </a>
-                                        </p>
-                                    </div>
                                 </div>
                             </Card.Body>
                         </Card>

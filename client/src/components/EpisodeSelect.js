@@ -78,9 +78,9 @@ const EpisodeSelect = () => {
         setUser(userData)
     }, [userState])
     const userType = user && user.userType
-
+    const userid = user && user._id
     if (movieData.type == "Film") {
-        return (navigate(`/filmler`))
+        return (navigate(`/play/${id}`))
     }
     else {
         return (
@@ -104,7 +104,7 @@ const EpisodeSelect = () => {
                             <tbody className='text-muted'>
                                 <tr>
                                     <td>
-                                        <br/>
+                                        <br />
                                         <div className='text-white'>
                                             {Array.from(Array(Math.floor(Number(movieData.season)))).map((_, i) => (
                                                 <div>
@@ -135,26 +135,39 @@ const EpisodeSelect = () => {
                                                     <td>
                                                         <div>
                                                             <br />
-                                                            <h6 className='text-white' onClick={() => playEpisode(episode._id)} style={{ position: "relative", cursor: "pointer" }}>{episode.season}.Sezon {episode.episode}.Bölüm</h6>
+                                                            <h6 onClick={() => playEpisode(episode._id)} style={{ position: "relative", cursor: "pointer", 
+                                                         textDecoration: episode && episode.watched.filter((item) => userid === item.userid).length == 0 ? "" : "line-through",
+                                                         color: episode && episode.watched.filter((item) => userid === item.userid).length == 0 ? "white" : "gray"}}>{episode.season}.Sezon {episode.episode}.Bölüm</h6>
 
                                                         </div>
                                                     </td>
                                                     <td>
                                                         <div>
                                                             <br />
-                                                            <h6 className=' text-white mx-3' onClick={() => playEpisode(episode._id)} style={{ position: "relative", cursor: "pointer" }}>{episode.name}</h6>
+                                                            <h6 className=' mx-3' onClick={() => playEpisode(episode._id)} style={{ position: "relative", cursor: "pointer",
+                                                        textDecoration: episode && episode.watched.filter((item) => userid === item.userid).length == 0 ? "" : "line-through",
+                                                        color: episode && episode.watched.filter((item) => userid === item.userid).length == 0 ? "white" : "gray" }}>{episode.name}</h6>
                                                         </div>
                                                     </td>
                                                     <td>
                                                         <div className=' mx-3'>
-                                                            <br/>
+                                                            <br />
                                                             {userType == "ADMIN" ? (<div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                                <br /><div style={{ position: "relative", color: "#2dffb9", cursor: "pointer", marginRight:"20px" }} onClick={() => DashboardSeries(episode._id)}><MdDashboard /></div>
-                                                                <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer", marginRight:"20px" }} onClick={() => UpdateSeries(episode._id)} ><MdBrowserUpdated /></div>
+                                                                <br /><div style={{ position: "relative", color: "#2dffb9", cursor: "pointer", marginRight: "20px" }} onClick={() => DashboardSeries(episode._id)}><MdDashboard /></div>
+                                                                <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer", marginRight: "20px" }} onClick={() => UpdateSeries(episode._id)} ><MdBrowserUpdated /></div>
                                                                 <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => deleteSeries(episode._id)}><RiDeleteBin5Fill /></div>
                                                             </div>) :
                                                                 (<div></div>)}
                                                         </div>
+                                                    </td>
+                                                    <td>
+                                                        <br />
+                                                        {episode && episode.watched.filter((item) => userid === item.userid).length != 0 === true ? (
+                                                            <div className='mx-3' style={{ color: '' }}>
+                                                                <h6>İzlendi</h6>
+                                                            </div>
+                                                        ) : (<div></div>)}
+
                                                     </td>
                                                 </tr>
                                             ))}

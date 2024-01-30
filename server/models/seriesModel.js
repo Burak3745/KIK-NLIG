@@ -39,7 +39,14 @@ const seriesSchema = mongoose.Schema({
     foreignkey: {
         type: String,
         require: true,
-    }
+    },
+    watched: [
+        {
+            userid: {
+                type: String,
+              }
+        }
+    ],
 })
 
 export default mongoose.model('Series', seriesSchema)

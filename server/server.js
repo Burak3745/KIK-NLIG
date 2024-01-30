@@ -53,10 +53,7 @@ app.use("/posts", postRouter);
 app.use("/actors", actorsRouter);
 
 async function sendEmail({ recipient_email, OTP }) {
-    console.log(recipient_email)
-    const user = await Users.findOne({ email: recipient_email });
-    if (!user)
-        return res.status(404).json({ message: "User doesn't exists." });
+    
 
     return new Promise((resolve, reject) => {
         var transporter = nodemailer.createTransport({
@@ -68,9 +65,9 @@ async function sendEmail({ recipient_email, OTP }) {
         });
 
         const mail_configs = {
-            from: 'burak45duyar@gmail.com',
+            from: 'reelquorum@gmail.com',
             to: recipient_email,
-            subject: "KODING 101 PASSWORD RECOVERY",
+            subject: "ReelQuorum | Şifremi Unuttum",
             html: `<!DOCTYPE html>
   <html lang="en" >
   <head>
@@ -117,7 +114,10 @@ async function sendEmail({ recipient_email, OTP }) {
     });
 }
 
-app.post("/send_recovery_email", (req, res) => {
+app.post("/send_recovery_email", async (req, res) => {
+    const user = await Users.findOne({ email: req.body.recipient_email });
+    if (!user)
+        return res.status(404).json({ message: "Bu E-Mail adresine sahip kullanıcı bulunamadı" });
     sendEmail(req.body)
         .then((response) => res.send(response.message))
         .catch((error) => res.status(500).send(error.message));

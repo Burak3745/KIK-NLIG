@@ -68,12 +68,12 @@ const Login = ({ setUser }) => {
               <div className="remember-me">
                 <input type="checkbox" id="remember-me" />
                 <label htmlFor="remember-me">Beni Hatırla</label>
-                <div onClick={forgotPassword} style={{marginLeft:"50px", cursor:"pointer"}}>Şifremi Unuttum</div>
+                <div onClick={forgotPassword} className="şifremi-unuttum" style={{marginLeft:"50px", cursor:"pointer"}}>Şifremi Unuttum</div>
               </div>
             </div>
             <h4>
               ReelQourum'da yeni misin?{" "}
-              <a href="" onClick={signUpHandler}>
+              <a href="" onClick={signUpHandler} className="kayıtol">
                 Şimdi Kayıt Ol
               </a>
             </h4>

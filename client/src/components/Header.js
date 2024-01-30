@@ -71,9 +71,9 @@ const Header = ({ user, setUser }) => {
           <Nav>
             <img
               hidden={!user}
-              height="35"
+              height="50"
               width="50"
-              src={SmileFace}
+              src={user && user.image}
               alt=""
               className="rounded-circle me-1"
               fluid
@@ -83,6 +83,7 @@ const Header = ({ user, setUser }) => {
               hidden={!user}
               title={user && user.email}
               id="dropdownMenu"
+              style={{marginTop:"8px"}}
             >
               <NavDropdown.Item className="dropdownItem" onClick={() => navigate("/posts")}>
                 Bildirimler

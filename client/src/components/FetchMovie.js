@@ -13,13 +13,47 @@ export default function FetchMovie() {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch()
+  
 
+  const [user, setUser] = useState()
+  const userState = useSelector((state) => state.user)
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem('user'))
+    setUser(userData)
+  }, [userState])
+  const userid = user && user._id
   const [movieData, setMovieData] = useState({
     user: '', name: '', time: '', link: '', country: '', year: '', score: '',
-    description: '', director: '', company: '', actors: '', catagory: '', image: '', likes: [{ user: '' }], views: '', player: [], links: []
+    description: '', director: '', company: '', actors: '', catagory: '', image: '', likes: [{ user: '' }], views: '', player: [], links: [], watched: []
   })
+  const isChecked = movieData.watched.filter((item) => userid === item.userid).length != 0
+  const handleCheckChange = () => {
+    if (movieData && movieData.watched.filter((item) => userid === item.userid).length == 0) {
+      const newWatched = { userid: userid };
+      const currentData = { ...movieData };
+
+      currentData.watched.push(newWatched);
+      setMovieData(currentData);
+      dispatch(updateMovieAction(id, movieData))
+      console.log("Checkbox işaretlendi");
+    } else {
+      const currentData = { ...movieData };
+
+      const watchedIndex = currentData.watched.findIndex(
+        (watched) => watched.userid === userid
+      );
+
+      if (watchedIndex !== -1) {
+        currentData.watched.splice(watchedIndex, 1);
+        setMovieData(currentData);
+      }
+      dispatch(updateMovieAction(id, movieData))
+      console.log("Checkbox işareti kaldırıldı!");
+    }
+    
+  };
+  console.log(movieData.watched)
   const [linksData, setLinksData] = useState('')
-  console.log(linksData)
   useEffect(() => {
     const getMemo = async () => {
       const { data } = await getIdMovie(id)
@@ -43,7 +77,7 @@ export default function FetchMovie() {
 
   viewsData.views = movieData.views + 1
 
-
+  
 
   useEffect(() => {
     if (!movieData[0]) {
@@ -57,36 +91,43 @@ export default function FetchMovie() {
   }
 
   if (movieData.type == "Dizi") {
-    return (navigate(`/diziler`))
+    return (navigate(`/episodes/${id}`))
   }
   else {
     return (
       <div>
-        <div class="select-dropdown  mx-3">
-          <select onChange={(e) => setLinksData(e.target.value)}>
-            <option value=''>Choose Link</option>
-          {movieData.links.map((item) => (
-            <option value={item.hostingname}>{item && item.hostingname}</option>
-          ))}
-          </select>
+        <div style={{ display: "flex", justifyContent: "flex-start" }}>
+          <div class="select-dropdown  mx-3">
+            <select onChange={(e) => setLinksData(e.target.value)}>
+              <option value=''>Choose Link</option>
+              {movieData.links.map((item) => (
+                <option value={item.hostingname}>{item && item.hostingname}</option>
+              ))}
+            </select>
+
+          </div>
+          <div style={{ position: "relative", color: "white", marginLeft: "20px" }}>
+            <label htmlFor="remember-me">İzlendi Olarak İşaretle:</label>
+            <input checked={isChecked} onChange={handleCheckChange} type="checkbox" style={{ marginLeft: "10px" }} id="remember-me" />
+          </div>
         </div>
         <Card style={{ background: "#06001d" }}>
           <Card.Footer className='mx-4 my-4' style={{ display: 'flex', justifyContent: "center" }}>
-            {linksData == '' ? (<h1 style={{color:"white"}}>Yukarıdan Bir Link Seçiniz</h1>):(
+            {linksData == '' ? (<h1 style={{ color: "white" }}>Yukarıdan Bir Link Seçiniz</h1>) : (
               movieData.links.filter((item2) => {
-                if(item2.hostingname === linksData && linksData){
+                if (item2.hostingname === linksData && linksData) {
                   return item2
                 }
               })
-              .map((link) => (
-                <iframe src={link.adress} scrolling="no"
-                frameborder="0" width="640" height="360" allowfullscreen="true"
-                webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
-              ))
+                .map((link) => (
+                  <iframe src={link.adress} scrolling="no"
+                    frameborder="0" width="640" height="360" allowfullscreen="true"
+                    webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+                ))
             )}
-            
-            
-            
+
+
+
 
           </Card.Footer>
           <div style={{ display: 'flex', justifyContent: "center", color: "#22cf95" }}>

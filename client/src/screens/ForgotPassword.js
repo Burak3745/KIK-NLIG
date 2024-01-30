@@ -13,6 +13,10 @@ const ForgotPassword = ({ email, setEmail, otp, setOTP }) => {
     function setUsernameHandler(evt) {
         setEmail(evt.target.value);
     }
+    const signInHandler = (e) => {
+        e.preventDefault();
+        navigate("/login");
+    };
 
     function nagigateToOtp(e) {
         e.preventDefault();
@@ -26,10 +30,11 @@ const ForgotPassword = ({ email, setEmail, otp, setOTP }) => {
                     recipient_email: email,
                 })
                 .then(() => {
+                    toast.success("Kod E-mail adresinize gönderilmiştir")
                     navigate("/code");
                 })
                 .catch((err) => {
-                    toast.error("Bu E-Maile Sahip Kullanıcı Bulunamadı");
+                    toast.error(err.response.data.message);
                 });
             return;
         }
@@ -45,7 +50,6 @@ const ForgotPassword = ({ email, setEmail, otp, setOTP }) => {
                 <Container className="signIn">
                     <form className="signIn-form">
                         <h2 className="signIn-header">Şifremi Unuttum</h2>
-
                         <input
                             type="email"
                             placeholder="E-mail adresinizi girin"
@@ -54,6 +58,7 @@ const ForgotPassword = ({ email, setEmail, otp, setOTP }) => {
                             required
                         />
                         <button onClick={nagigateToOtp} type="submit">Mail Gönder</button>
+                        <div className="şifremi-unuttum" onClick={signInHandler} style={{ cursor: "pointer" }}>Önceki Sayfaya Geri Dön</div>
                     </form>
                 </Container>
             </div>

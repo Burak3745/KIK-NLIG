@@ -1,7 +1,7 @@
-
 .signin-body {
   background: #000;
 }
+
 .signin-body::before {
   content: "";
   position: absolute;
@@ -12,11 +12,13 @@
   height: 100%;
   background-position: center;
   background-repeat: repeat-y;
-  background-image: url("../image/BG.jpg");
+  background-image: url("../image/BG.png");
 }
 
-*, *::before, *::after {
-	box-sizing: border-box;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 
@@ -34,21 +36,18 @@
   background: #1c1c1c;
   border-radius: 8px;
   overflow: hidden;
-	justify-content: center;
-	align-items: center;
+  justify-content: center;
+  align-items: center;
   padding: 2rem;
   z-index: 0;
   --border-size: 3px;
   --border-angle: 0turn;
-  background-image: conic-gradient(
-      from var(--border-angle),
+  background-image: conic-gradient(from var(--border-angle),
       #1c1c1c,
       #1c1c1c 50%,
-      #1c1c1c
-    ),
+      #1c1c1c),
     conic-gradient(from var(--border-angle), transparent 20%, #11998e, #38ef7d);
-  background-size: calc(100% - (var(--border-size) * 2))
-      calc(100% - (var(--border-size) * 2)),
+  background-size: calc(100% - (var(--border-size) * 2)) calc(100% - (var(--border-size) * 2)),
     cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -78,7 +77,7 @@
   flex-direction: column;
   width: 100%;
   padding: 20px 30px;
-  
+
 }
 
 
@@ -88,7 +87,7 @@
   color: white;
 }
 
-.signIn-form > input {
+.signIn-form>input {
   padding: 10px;
   outline-width: 0;
   height: 40px;
@@ -99,7 +98,7 @@
   width: 100%;
 }
 
-.signIn-form > button {
+.signIn-form>button {
   padding: 10px 60px !important;
   width: 100%;
   display: flex;
@@ -124,6 +123,7 @@
   vertical-align: baseline;
   transition: all .2s cubic-bezier(.22, .61, .36, 1);
   font-family: "Space Grotesk", -apple-system, system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
   &:hover {
     background-image: linear-gradient(to right, #0d7068, #29ad5c);
     transform: translateY(-2px);
@@ -132,14 +132,14 @@
 
 
 
-.signIn-form > h4 {
+.signIn-form>h4 {
   margin-top: 10px;
   font-size: 17px;
   color: gray;
 
 }
 
-.signIn-form > h4 > span {
+.signIn-form>h4>span {
   color: white;
   cursor: pointer;
 
@@ -152,4 +152,20 @@
 .remember-me {
   display: flex;
   color: white;
+}
+
+.şifremi-unuttum {
+  color: white;
+  &:hover {
+    color: #2dffb9;
+    transition: color 0.3s ease;
+  }
+}
+
+.kayıtol {
+  color: #2dffb9;
+  &:hover {
+    color: #11998e;
+    transition: color 0.3s ease;
+  }
 }
