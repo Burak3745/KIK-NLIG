@@ -5,12 +5,12 @@ import { Navigate, useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { Table } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
-import { getUserAction, updateUserAction } from '../action/movieAction';
+import { getUserAction, updateUserAction } from '../action/userAction';
 
 import { RiUser3Fill } from 'react-icons/ri'
 import { RiAdminFill } from 'react-icons/ri'
 const MovieList = ({ user, setUser }) => {
-    const user1 = useSelector(state => state.movie)
+    const user1 = useSelector(state => state.users)
     const dispatch = useDispatch();
     const [search, setSearch] = useState('')
     const [adminData, setAdminData] = useState({

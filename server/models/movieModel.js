@@ -2,22 +2,18 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
 const movieSchema = Schema({
-    user: {
-        type: String,
-        
-    },
     likes: [
         {
-            user: {
-              type: String,
+            userid: {
+                type: String,
             }
         }
     ],
-    
+
     dislikes: [
         {
-            user: {
-              type: String,
+            userid: {
+                type: String,
             }
         }
     ],
@@ -30,7 +26,7 @@ const movieSchema = Schema({
             image: {
                 type: String,
             },
-            actorsid:{
+            actorsid: {
                 type: String,
             }
         }
@@ -50,7 +46,7 @@ const movieSchema = Schema({
             hostingname: {
                 type: String,
             },
-            adress:{
+            adress: {
                 type: String,
             }
         }
@@ -85,16 +81,16 @@ const movieSchema = Schema({
         type: String,
         enum: ['Film', 'Dizi'],
     },
-    
+
     views: {
-       type: Number,
-       default: 0,
+        type: Number,
+        default: 0,
     },
     catagory: {
         type: String,
-        enum: ['Action & Advanture', 'Animation','Comedy', 'Crime','Documentary', 
-        'Drama','Family', 'Kids','Mystery', 'News','Reality',
-        'Sci-Fi & Fantasy','Soap', 'Talk','War & Politics', 'Western'],
+        enum: ['Action & Advanture', 'Animation', 'Comedy', 'Crime', 'Documentary',
+            'Drama', 'Family', 'Kids', 'Mystery', 'News', 'Reality',
+            'Sci-Fi & Fantasy', 'Soap', 'Talk', 'War & Politics', 'Western'],
     },
     image: {
         type: String,
@@ -103,7 +99,20 @@ const movieSchema = Schema({
         {
             userid: {
                 type: String,
-              }
+            }
+        }
+    ],
+    comment: [
+        {
+            userid: {
+                type: String,
+            },
+            description: {
+                type: String,
+            },
+            date: {
+                type: String,
+            }
         }
     ],
 })

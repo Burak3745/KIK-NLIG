@@ -62,10 +62,6 @@ const SeriesDashboard = () => {
             <div class="AddMovie">
 
                 <div class="float-child">
-                    <div class="green"><SideBar /></div>
-                </div>
-
-                <div class="float-child">
                     <div class="blue ">
 
                         <div class="ag-format-container" >

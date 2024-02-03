@@ -5,11 +5,11 @@ import { Navigate, useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { Table } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
-import { deleteUserAction, getUserAction, updateUserAction } from '../action/movieAction';
+import { deleteUserAction, getUserAction, updateUserAction } from '../action/userAction';
 import { MdBrowserUpdated } from 'react-icons/md'
 import { RiDeleteBin5Fill } from 'react-icons/ri'
 const UpdateProfile = ({ user, setUser }) => {
-    const user1 = useSelector(state => state.movie)
+    const user1 = useSelector(state => state.users)
     const dispatch = useDispatch();
     const [search, setSearch] = useState('')
     useEffect(() => {

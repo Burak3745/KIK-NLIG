@@ -17,19 +17,6 @@ export const getMovieAction = () => async (dispatch) => {
   }
 }
 
-export const getUserAction = () => async (dispatch) => {
-  try {
-    const { data } = await axios.UserGet()
-
-    dispatch({ type: "GET_USER", payload: data })
-  } catch (error) {
-    console.log(error)
-    toast(error.response.data.msg, {
-      position: "top-right",
-      autoClose: 5000,
-    });
-  }
-}
 
 export const createMovieAction = (movieData) => async (dispatch) => {
   try {
@@ -117,19 +104,7 @@ export const undislikeMovieAction = (id, userid) => async (dispatch) => {
   }
 }
 
-export const updateUserAction = (id, updatedUser) => async (dispatch) => {
-  try {
-    const { data } = await axios.UserUpdate(id, updatedUser)
 
-    dispatch({ type: "UPDATE_USER", payload: data })
-  } catch (error) {
-    console.log(error)
-    toast(error.response.data.msg, {
-      position: "top-right",
-      autoClose: 5000,
-    });
-  }
-}
 
 export const deleteMovieAction = (id) => async (dispatch) => {
   try {
@@ -145,19 +120,7 @@ export const deleteMovieAction = (id) => async (dispatch) => {
   }
 }
 
-export const deleteUserAction = (id) => async (dispatch) => {
-  try {
-    await axios.deleteUser(id)
 
-    dispatch({ type: "DELETE_MOVIE", payload: id })
-  } catch (error) {
-    console.log(error)
-    toast(error.response.data.msg, {
-      position: "top-right",
-      autoClose: 5000,
-    });
-  }
-}
 
 
 export const getIdMovieAction = (id) => async (dispatch) => {

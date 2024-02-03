@@ -47,6 +47,34 @@ const seriesSchema = mongoose.Schema({
               }
         }
     ],
+    comment: [
+        {
+            userid: {
+                type: String,
+            },
+            description: {
+                type: String,
+            },
+            date: {
+                type: String,
+            }
+        }
+    ],
+    likes: [
+        {
+            userid: {
+                type: String,
+            }
+        }
+    ],
+
+    dislikes: [
+        {
+            userid: {
+                type: String,
+            }
+        }
+    ],
 })
 
 export default mongoose.model('Series', seriesSchema)

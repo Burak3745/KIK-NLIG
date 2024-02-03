@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import { Navigate, useNavigate, useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux'
 import ReactFileBase64 from 'react-file-base64'
-import { updateUserAction } from '../action/movieAction';
+import { updateUserAction } from '../action/userAction';
 import { getIdUser } from '../axios/index.js'
 const UpdateUsers = () => {
 

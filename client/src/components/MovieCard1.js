@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { dislikeMovieAction, likeMovieAction, undislikeMovieAction, unlikeMovieAction } from '../action/movieAction'
 export default function MovieCard({ movie, hidden }) {
     const dispatch = useDispatch()
-    
+
     const navigate = useNavigate();
     const [user, setUser] = useState()
     const userState = useSelector((state) => state.user)
@@ -40,81 +40,38 @@ export default function MovieCard({ movie, hidden }) {
         <div className="movie-card" hidden={hidden} style={{ width: "170px", height: "300px" }} >
             <div class="wrapper">
                 <div class="card1">
-                    <img src={movie&& movie.image} />
+                    <img src={movie && movie.image} />
                     <div class="descriptions">
                         {movie && movie.type === "Film" ? (
 
                             <div>
-                                {movie && movie.watched.filter((item) => userid === item.userid).length != 0 ? (
-                                    <h1 style={{color:"red", position:"absolute", top:"2px", left:"45px"}}>İZLENDİ</h1>
-                                ):(<div></div>)}
-                                <h1 >{movie && movie.name}</h1>
+                                { }
+                                <h1 style={{marginTop:"7px"}}>{movie && movie.name}</h1>
                                 <div onClick={() => navigatee(movie)}>
-                                    <FaPlayCircle size={"85px"} color='#2dffb9' style={{ position: "absolute", left: "32px", top: "70px" }} />
+                                    <FaPlayCircle size={"85px"} color='#2dffb9' style={{ position: "absolute", left: "32px", top: "80px" }} />
                                 </div>
-                                <h1 style={{position: "absolute", left: "55px", top: "157px",color:"rgba(245, 197, 24)"}}>IMDB</h1>
-                                <Rating style={{position: "absolute", left: "20px", top: "170px",color:"rgba(245, 197, 24)"}} score={movie && movie.score} />
-                                <h1 style={{position: "absolute", left: "115px", top: "177px",color:"rgba(245, 197, 24)"}}>{movie && movie.score}</h1>
+                                <h1 style={{ position: "absolute", left: "55px", top: "170px", color: "rgba(245, 197, 24)" }}>IMDB</h1>
+                                <Rating style={{ position: "absolute", left: "20px", top: "190px", color: "rgba(245, 197, 24)" }} score={movie && movie.score} />
+                                <h1 style={{ position: "absolute", left: "115px", top: "193px", color: "rgba(245, 197, 24)" }}>{movie && movie.score}</h1>
                             </div>
                         ) : (
                             <div>
-                                <h1>{movie && movie.name}</h1>
+                                <h1 style={{marginTop:"7px"}}>{movie && movie.name}</h1>
                                 <div onClick={() => navigateeEpisode(movie)}>
-                                    <FaPlayCircle size={"85px"} color='#2dffb9' style={{ position: "absolute", left: "32px", top: "70px" }} />
+                                    <FaPlayCircle size={"85px"} color='#2dffb9' style={{ position: "absolute", left: "32px", top: "80px" }} />
                                 </div>
-                                <h1 style={{position: "absolute", left: "55px", top: "157px",color:"rgba(245, 197, 24)"}}>IMDB</h1>
-                                <Rating style={{position: "absolute", left: "20px", top: "170px",color:"rgba(245, 197, 24)"}} score={movie && movie.score} />
-                                <h1 style={{position: "absolute", left: "105px", top: "177px",color:"rgba(245, 197, 24)"}}>{movie && movie.score}</h1>
+                                <h1 style={{ position: "absolute", left: "55px", top: "170px", color: "rgba(245, 197, 24)" }}>IMDB</h1>
+                                <Rating style={{ position: "absolute", left: "20px", top: "190px", color: "rgba(245, 197, 24)" }} score={movie && movie.score} />
+                                <h1 style={{ position: "absolute", left: "105px", top: "193px", color: "rgba(245, 197, 24)" }}>{movie && movie.score}</h1>
                             </div>
                         )}
-                        
-                            {
-                                movie && movie.likes.filter((item) => userData1 === item.user).length == 0 ? (
-                                    <div onClick={(e) => {
-                                        e.preventDefault()
-                                        dispatch(likeMovieAction(movie && movie._id, userData))
-                                        setTimeout(function () {
-                                            window.location.reload();
-                                        }, 600)
-                                    }} style={{ cursor: "pointer", position: "absolute", left: "40px", top: "200px" }}>
 
-                                        <AiFillLike color='#2dffb9' size={20} />
+                        {
+                            movie && movie.watched.filter((item) => userid === item.userid).length > 0 && movie.type === "Film" ? (
+                                <h1 style={{ color: "red", position: "absolute", top: "5px", left: "45px" }}>İZLENDİ</h1>
+                            ) : (<div></div>)
 
-                                    </div>
-                                ) : (<div onClick={(e) => {
-                                    e.preventDefault()
-                                    dispatch(unlikeMovieAction(movie && movie._id, userData))
-                                    setTimeout(function () {
-                                        window.location.reload();
-                                    }, 600)
-                                }} style={{ cursor: "pointer", position: "absolute", left: "40px", top: "200px" }}>
-                                    <AiFillLike color='red' size={20} />
-                                </div>)
-                            }
-                            <div style={{ color: "#2dffb9", position: "absolute", left: "65px", top: "200px" }}>{ movie &&movie.likes.length}</div>
-
-                            {
-                                movie && movie.dislikes.filter((item) => userData1 === item.user).length == 0 ? (
-                                    <div onClick={(e) => {
-                                        e.preventDefault()
-                                        dispatch(dislikeMovieAction(movie && movie._id, userData))
-                                        setTimeout(function () {
-                                            window.location.reload();
-                                        }, 600)
-                                    }} style={{ cursor: "pointer", position: "absolute", left: "90px", top: "200px" }}>
-                                        <AiFillDislike color='#2dffb9' size={20} />
-                                    </div>
-                                ) : (<div onClick={(e) => {
-                                    e.preventDefault()
-                                    dispatch(undislikeMovieAction(movie && movie._id, userData))
-                                    setTimeout(function () {
-                                        window.location.reload();
-                                    }, 600)
-                                }} style={{ cursor: "pointer", position: "absolute", left: "90px", top: "200px" }}>
-                                    <AiFillDislike color='red' size={20} />
-                                </div>)
-
-                            }
+                        }
                     </div>
 
                 </div>
