@@ -192,7 +192,7 @@
 }
 
 .primary-comment-text {
-    color: #d5d5d5;
+    color: #494949;
     font-size: 16px;
     font-weight: 600;
     letter-spacing: 0.7px;
@@ -210,11 +210,12 @@
 .description-comment {
     margin-bottom: 20px;
     max-width: 500px;
+    text-align: justify;
 }
 
 @media only screen and (max-width: 768px) {
     .description-comment {
-        max-width: 250px;
+        max-width: 200px;
     }
 }
 

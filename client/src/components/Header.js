@@ -110,7 +110,7 @@ const Header = ({ user, setUser }) => {
           </Nav>
 
 
-          <div className={`search-wrapper ${searchActive ? 'active' : ''}`}>
+          <div hidden={!user} className={`search-wrapper ${searchActive ? 'active' : ''}`}>
 
             <div className="input-holder">
               <input type="text" className="search-input" value={search1} onChange={(e) => setSearch1(e.target.value)} placeholder="Film veya Dizi Arayın" onKeyDown={handleKeyDown} />

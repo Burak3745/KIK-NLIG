@@ -79,7 +79,7 @@ const FilmDiziSearch = () => {
 
     return width;
   };
-  const kutuCount = Math.round(useWindowWide() / 300);
+  const kutuCount = Math.round(useWindowWide() / 200);
 
   const responsive = {
     desktop: {

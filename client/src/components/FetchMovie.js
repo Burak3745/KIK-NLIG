@@ -400,7 +400,7 @@ export default function FetchMovie() {
                   lg={4}
                   xl={3}
                   key={movieData._id}
-                  style={{ width: "128px", height: "180px" }}
+                  style={{ width: "128px", height: "200px" }}
                   className='my-2'
                 >
                   <div class='card-glass'>

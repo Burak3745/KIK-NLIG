@@ -343,26 +343,31 @@ const UpdateMovie = ({ id }) => {
 
                         </div>
                         <button disabled={disabled} onClick={movieUpdate} className='button-66 ' role="button-66">Güncelle</button>
-                        <h3 style={{ color: "white" }} className='mx-4'>Linkler</h3>
-                        <Row className='mx-2'>
-                            {movieData.links.map((item) => (
-                                <Col
-                                    sm={12}
-                                    md={6}
-                                    lg={4}
-                                    xl={3}
-                                    key={item._id}
-                                    style={{ width: "150px", height: "120px" }}
-                                >
-                                    <div style={{
-                                        background: "white", borderRadius: "5px", textAlign: "center",
-                                        position: "relative", cursor: "pointer"
-                                    }} onClick={() => handleLinkDeleteButtonClick(item)}>
-                                        <h5 className='my-5' style={{ fontSize: "16px" }}>{item.hostingname} <IoClose color='#e44002' /></h5>
-                                    </div>
-                                </Col>
-                            ))}
-                        </Row>
+                        {movieData.type === 'Film' ? (
+                            <div>
+                                <h3 style={{ color: "white" }} className='mx-4'>Linkler</h3>
+                                <Row className='mx-2'>
+                                    {movieData.links.map((item) => (
+                                        <Col
+                                            sm={12}
+                                            md={6}
+                                            lg={4}
+                                            xl={3}
+                                            key={item._id}
+                                            style={{ width: "150px", height: "120px" }}
+                                        >
+                                            <div style={{
+                                                background: "white", borderRadius: "5px", textAlign: "center",
+                                                position: "relative", cursor: "pointer"
+                                            }} onClick={() => handleLinkDeleteButtonClick(item)}>
+                                                <h5 className='my-5' style={{ fontSize: "16px" }}>{item.hostingname} <IoClose color='#e44002' /></h5>
+                                            </div>
+                                        </Col>
+                                    ))}
+                                </Row>
+                            </div>
+                        ) : (<div></div>)}
+
                         <h3 style={{ color: "white" }} className='mx-4'>Oyuncular</h3>
                         <Row className='my-5 mx-2'>
                             {movieData.player.map((item) => (
