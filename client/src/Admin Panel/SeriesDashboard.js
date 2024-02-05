@@ -10,27 +10,11 @@ import { AiFillLike } from "react-icons/ai"
 const SeriesDashboard = () => {
     const { id1, id2 } = useParams()
     const navigate = useNavigate();
-    const [movieData, setMovieData] = useState({
-        name: '', time: '', link: '', country: '', year: '', score: '',
-        description: '', director: '', company: '', actors: '', season: '', type: '', catagory: '', image: '',
-        likes: [{ user: '' }], dislikes: [{ user: '' }]
-    })
-
-
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        const getMovie = async () => {
-            const { data } = await getIdMovie(id1)
-            setMovieData(data)
-        }
-
-        getMovie()
-    }, [id1])
+    
     
 
     const [seriesData, setSeriesData] = useState({
-        time: '', link: '', year: '', description: '', season: '', episode: '', foreignkey: '', views: '',
+        time: '', link: '', year: '', description: '', season: '', episode: '', foreignkey: '', views: '', likes: [], dislikes: []
       })
     
       useEffect(() => {
@@ -88,7 +72,7 @@ const SeriesDashboard = () => {
                                             <AiFillLike size={40} color='#22cf95' style={{ position: "absolute", left: "120px", top: "30px" }} />
                                         </div>
                                         <div class="ag-courses-item_title" style={{ position: "absolute", left: "50px", top: "50px" }}>
-                                            {movieData && movieData.likes.length} <br />
+                                            {seriesData && seriesData.likes.length} <br />
                                             <h5 style={{ fontSize: "15px", color: "#808080" }}>Likes</h5>
                                         </div>
 
@@ -103,7 +87,7 @@ const SeriesDashboard = () => {
                                             <AiFillDislike size={40} color='#22cf95' style={{ position: "absolute", left: "120px", top: "30px" }} />
                                         </div>
                                         <div class="ag-courses-item_title" style={{ position: "absolute", left: "50px", top: "50px" }}>
-                                            {movieData && movieData.dislikes.length} <br />
+                                            {seriesData && seriesData.dislikes.length} <br />
                                             <h5 style={{ fontSize: "15px", color: "#808080" }}>Dislikes</h5>
                                         </div>
                                     </a>
@@ -122,3 +106,4 @@ const SeriesDashboard = () => {
 };
 
 export default SeriesDashboard
+

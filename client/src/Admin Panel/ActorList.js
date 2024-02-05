@@ -103,7 +103,7 @@ const ActorList = () => {
                             <i class="fas fa-search"></i>
 
                         </div>
-                        <div class="blue">
+                        <div class="blue" style={{overflowX: "auto", whiteSpace: "nowrap"}}>
                             <Table>
                                 <thead className='text-light'>
                                     <th>IMAGE</th>

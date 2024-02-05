@@ -108,11 +108,15 @@ const MovieList = () => {
                             <i class="fas fa-search"></i>
 
                         </div>
-                        <div class="blue">
+                        <div class="blue" style={{overflowX: "auto", whiteSpace: "nowrap"}}>
                             <Table>
                                 <thead className='text-light'>
-                                    <th>IMAGE</th>
+                                    <th className='px-3'>IMAGE</th>
                                     <th>NAME</th>
+                                    <th>TIME</th>
+                                    <th className='px-3'>COUNTRY</th>
+                                    <th>YEAR</th>
+                                    <th>CATAGORY</th>
                                     <th>ACTIONS</th>
                                 </thead>
                                 <tbody className='text-muted'>
@@ -126,7 +130,10 @@ const MovieList = () => {
                                             </motion.div>
                                             </td>
                                             <td ><br/><div style={{ position: "relative", cursor: "pointer" }} onClick={() => playMovie(d._id)}>{d.name}</div></td>
-                                           
+                                            <td ><br/><div>{d.time}</div></td>
+                                            <td ><br/><div>{d.country}</div></td>
+                                            <td ><br/><div>{d.year}</div></td>
+                                            <td ><br/><div>{d.catagory}</div></td>
                                             <td><div style={{ position:"relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => dashboardMovie(d._id)}><MdDashboard /> Dashboard</div>
                                                 <div style={{ position:"relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => updateMovie(d._id)}><MdBrowserUpdated /> Edit</div>
                                                 <div style={{ position:"relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => deleteMovie(d._id)}><RiDeleteBin5Fill /> Delete</div>

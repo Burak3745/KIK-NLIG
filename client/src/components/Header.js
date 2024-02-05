@@ -30,7 +30,6 @@ const Header = ({ user, setUser }) => {
   const handleChangeName = (e) => {
 
     const value = search1;
-    console.log(value)
     const params2 = new URLSearchParams(window.location.search);
     params2.forEach((value, key) => {
       params2.delete(key);
@@ -75,11 +74,6 @@ const Header = ({ user, setUser }) => {
 
   }
 
-  const moviesAndSeries = [
-    { title: 'Film 1', genre: 'Aksiyon' },
-    { title: 'Dizi 1', genre: 'Drama' },
-    // Diğer filmler ve diziler
-  ];
   return (
     <Navbar
       className="bg-body-tertiary"

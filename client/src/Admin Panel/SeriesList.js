@@ -105,13 +105,15 @@ const SeriesList = () => {
                             <i class="fas fa-search"></i>
 
                         </div>
-                        <div class="blue">
+                        <div class="blue" style={{overflowX: "auto", whiteSpace: "nowrap"}}>
                             <Table >
                                 <thead className='text-light'>
-                                    <th>IMAGE</th>
+                                    <th className='px-3'>IMAGE</th>
                                     <th>NAME</th>
+                                    <th>COUNTRY</th>
+                                    <th >CATAGORY</th>
                                     <th className='px-2'>SEASON</th>
-                                    <th>ADD</th>
+                                    <th className='px-2'>ADD</th>
                                     <th>ACTIONS</th>
                                 </thead>
                                 <tbody className='text-muted'>
@@ -125,8 +127,10 @@ const SeriesList = () => {
                                             </motion.div>
                                             </td>
                                             <td ><br /><div style={{ position: "relative", cursor: "pointer", maxWidth:"120px" }} onClick={() => playSeries(d._id)}>{d.name}</div></td>
+                                            <td ><br />{d.country}</td>
+                                            <td ><br />{d.catagory}</td>
                                             <td ><br />{d.season}</td>
-                                            <td><br /><div style={{ position: "absolute", color: "#2dffb9", cursor: "pointer" }} onClick={() => addEpisode(d._id)}><IoIosAddCircle size={30} /></div></td>
+                                            <td><br /><div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => addEpisode(d._id)}><IoIosAddCircle size={30} /></div></td>
                                             <td >
                                                 <div style={{position:"relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => updateSeries(d._id)}><MdBrowserUpdated /> Edit</div>
                                                 <div style={{ position:"relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => deleteSeries(d._id)}><RiDeleteBin5Fill /> Delete</div>

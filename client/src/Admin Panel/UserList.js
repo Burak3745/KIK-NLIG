@@ -37,7 +37,11 @@ const MovieList = ({ user, setUser }) => {
     }).filter((item) => {
         return search.toLowerCase() === '' ? item : item.fullname.toLowerCase().includes(search.toLowerCase())
     }).slice(firstIndex, lastIndex);
-    const npage = Math.ceil(user1.length / recordsPerPage)
+    const npage = Math.ceil(user1.filter((item) => {
+        if (item.email !== user.email) { return item }
+    }).filter((item) => {
+        return search.toLowerCase() === '' ? item : item.fullname.toLowerCase().includes(search.toLowerCase())
+    }).length / recordsPerPage)
     const numbers = [...Array(npage + 1).keys()].slice(1)
 
     const navigate = useNavigate();
@@ -76,12 +80,12 @@ const MovieList = ({ user, setUser }) => {
                             <i class="fas fa-search"></i>
 
                         </div>
-                        <div class="blue">
+                        <div class="blue" style={{overflowX: "auto", whiteSpace: "nowrap"}}>
                             <Table >
                                 <thead className='text-light'>
-                                    <th className='mx-2'>FULLNAME</th>
+                                    <th className='px-2'>FULLNAME</th>
                                     <th className='mx-2'>E-MAIL</th>
-                                    <th className='mx-2' >USERTYPE</th>
+                                    <th className='px-2' >USERTYPE</th>
                                     <th className='mx-2'>ACTIONS</th>
                                 </thead>
                                 <tbody className='text-muted'>

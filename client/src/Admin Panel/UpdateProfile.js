@@ -30,7 +30,11 @@ const UpdateProfile = ({ user, setUser }) => {
     }).filter((item) => {
         return search.toLowerCase() === '' ? item : item.fullname.toLowerCase().includes(search.toLowerCase())
     }).slice(firstIndex, lastIndex);
-    const npage = Math.ceil(user1.length / recordsPerPage)
+    const npage = Math.ceil(user1.filter((item) => {
+        if (item.email !== user.email) { return item }
+    }).filter((item) => {
+        return search.toLowerCase() === '' ? item : item.fullname.toLowerCase().includes(search.toLowerCase())
+    }).length / recordsPerPage)
     const numbers = [...Array(npage + 1).keys()].slice(1)
 
     const navigate = useNavigate();
@@ -74,10 +78,10 @@ const UpdateProfile = ({ user, setUser }) => {
                             <i class="fas fa-search"></i>
 
                         </div>
-                        <div class="blue">
+                        <div class="blue" style={{overflowX: "auto", whiteSpace: "nowrap"}}>
                             <Table>
                                 <thead className='text-light'>
-                                    <th>FULLNAME</th>
+                                    <th className='px-3'>FULLNAME</th>
                                     <th>E-MAIL</th>
                                     <th>ACTIONS</th>
                                 </thead>

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Card } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
-import { getIdMovie, getIdSeries } from '../axios';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { getIdMovie, getIdSeries, getIdUser } from '../axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateSeriesAction } from '../action/seriesAction';
+import { getSeriesAction, updateSeriesAction } from '../action/seriesAction';
 import { FaEye } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { IoSend } from "react-icons/io5";
@@ -11,6 +11,9 @@ import CommentCard from './CommentCard';
 import "../css/FetchMovie.css"
 import { AiFillDislike } from "react-icons/ai";
 import { AiFillLike } from "react-icons/ai"
+import { updateUserAction } from '../action/userAction';
+import { IoChevronBack } from "react-icons/io5";
+import { IoChevronForward } from "react-icons/io5";
 export default function FetchSeries() {
 
   const { id } = useParams();
@@ -26,9 +29,26 @@ export default function FetchSeries() {
   const userid = user && user._id
 
   const [seriesData, setSeriesData] = useState({
-    time: '', link: '', year: '', description: '', season: '', episode: '', foreignkey: '', views: '', links: [], watched: [], comment: [],
+    name: '', time: '', link: '', year: '', description: '', season: '', episode: '', foreignkey: '', views: '', links: [], watched: [], comment: [],
     likes: [], dislikes: []
   })
+
+  const [userData, setUserData] = useState({
+    fullname: '', email: '', phoneNumber: '', hostingname: ''
+  })
+
+  useEffect(() => {
+    const getUser = async () => {
+      if (userid != undefined) {
+        const { data } = await getIdUser(userid)
+        setUserData(data)
+      }
+
+    }
+
+    getUser()
+  }, [userid])
+
   const [linksData, setLinksData] = useState('')
   useEffect(() => {
     const getMemo = async () => {
@@ -43,7 +63,7 @@ export default function FetchSeries() {
     views: ''
   }
 
-  viewsData.views = seriesData.views + 1
+  
 
   const isChecked = seriesData.watched.filter((item) => userid === item.userid).length != 0
   const handleCheckChange = () => {
@@ -72,12 +92,6 @@ export default function FetchSeries() {
 
   };
 
-  useEffect(() => {
-    if (!seriesData[0]) {
-      dispatch(updateSeriesAction(id, viewsData))
-    }
-
-  }, [dispatch, id, viewsData]);
 
 
   const [editedComment, setEditedComment] = useState('');
@@ -95,6 +109,7 @@ export default function FetchSeries() {
 
       currentData.comment.push(newComment);
       setSeriesData(currentData);
+      setDescription('')
       dispatch(updateSeriesAction(id, seriesData))
     }
   }
@@ -280,11 +295,101 @@ export default function FetchSeries() {
   const likesayisi = bölünmüssayi(seriesData.likes.map((item) => { return item }).length);
   const dislikesayisi = bölünmüssayi(seriesData.dislikes.map((item) => { return item }).length);
 
+  const userUpdate = (e) => {
+    e.preventDefault()
+    setLinksData(e.target.value)
+    setValue(e.target.value)
+    userData.hostingname = e.target.value
+    if (userid != undefined) {
+
+      dispatch(updateUserAction(userid, userData))
+    }
+
+  }
+  const [value, setValue] = useState('');
+  useEffect(() => {
+    if (seriesData.links.filter((item) => item.hostingname === userData.hostingname).length > 0) {
+      setValue(userData.hostingname)
+      setLinksData(userData.hostingname)
+    }
+  }, [seriesData, userData]);
+
+  const episodes = useSelector(state => state.series)
+  useEffect(() => {
+    if (!episodes[0]) {
+      dispatch(getSeriesAction());
+    }
+  }, [dispatch]);
+
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const movieid = searchParams.get('dizi');
+  const navigate = useNavigate();
+
+  const nextepisode = (e) => {
+    const shortepisode = episodes.filter((item) => item.foreignkey === movieid)
+      .sort((a, b) => {
+        if (a.season !== b.season) {
+          return a.season - b.season;
+        }
+        return a.episode - b.episode;
+      })
+    const Index = shortepisode.findIndex(
+      (item) => item._id === id
+    );
+    if (shortepisode[Index + 1]) {
+      const nextepisode = shortepisode[Index + 1]
+      const value = movieid && movieid;
+      const params = new URLSearchParams(window.location.search);
+      params.forEach((value, key) => {
+        params.delete(key);
+      });
+      params.set("dizi", value);
+      navigate(`/playseries/${nextepisode._id}?${params.toString()}`);
+      window.location.reload()
+    }
+  }
+
+
+  const forwardepisode = (e) => {
+    const shortepisode = episodes.filter((item) => item.foreignkey === movieid)
+      .sort((a, b) => {
+        if (a.season !== b.season) {
+          return a.season - b.season;
+        }
+        return a.episode - b.episode;
+      })
+    const Index = shortepisode.findIndex(
+      (item) => item._id === id
+    );
+    if (shortepisode[Index - 1]) {
+      const forwardepisode = shortepisode[Index - 1]
+      const value = movieid && movieid;
+      const params = new URLSearchParams(window.location.search);
+      params.forEach((value, key) => {
+        params.delete(key);
+      });
+      params.set("dizi", value);
+      navigate(`/playseries/${forwardepisode._id}?${params.toString()}`);
+      window.location.reload()
+    }
+  }
+  const shortallepisode = episodes.filter((item) => item.foreignkey === movieid)
+    .sort((a, b) => {
+      if (a.season !== b.season) {
+        return a.season - b.season;
+      }
+      return a.episode - b.episode;
+    })
+  const Indexepisode = shortallepisode.findIndex(
+    (item) => item._id === id
+  )
+
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "flex-start", marginBottom:"10px" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", overflowX: "auto", whiteSpace: "nowrap", marginBottom: "10px" }}>
         <div class="select-dropdown  mx-3">
-          <select onChange={(e) => setLinksData(e.target.value)}>
+          <select value={value} onChange={(e) => userUpdate(e)}>
             <option value=''>Choose Link</option>
             {seriesData.links.map((item) => (
               <option value={item.hostingname}>{item && item.hostingname}</option>
@@ -295,13 +400,46 @@ export default function FetchSeries() {
           <label htmlFor="remember-me">İzlendi Olarak İşaretle:</label>
           <input checked={isChecked} onChange={handleCheckChange} type="checkbox" style={{ marginLeft: "10px" }} id="remember-me" />
         </div>
+        {shortallepisode[Indexepisode - 1] ? (
+          <div className='backforward' onClick={forwardepisode}>
+            <h5>
+              <IoChevronBack style={{ marginRight: "5px", marginLeft: "30px" }} size={15} />
+              Önceki Bölüm
+            </h5>
+          </div>
+        ) : (<div className='backforward' style={{ color: "gray", cursor: "default" }} >
+          <h5>
+            <IoChevronBack style={{ marginRight: "5px", marginLeft: "30px" }} size={15} />
+            Önceki Bölüm
+          </h5>
+        </div>)}
+        {shortallepisode[Indexepisode + 1] ? (
+          <div className='backforward' style={{ marginLeft: "30px" }} onClick={nextepisode}>
+            <h5>
+              Sonraki Bölüm
+              <IoChevronForward style={{ marginLeft: "5px" }} size={15} />
+            </h5>
+          </div>
+        ) : (
+          <div className='backforward' style={{ marginLeft: "30px", color: "gray", cursor: "default" }} >
+            <h5>
+              Sonraki Bölüm
+              <IoChevronForward style={{ marginLeft: "5px" }} size={15} />
+            </h5>
+          </div>
+        )}
 
       </div>
       <Card style={{ background: "#06001d" }}>
-        {linksData == '' ? (<h1 style={{ color: "white",display: 'flex', justifyContent: "center", margin:"30px" }}>Yukarıdan Bir Link Seçiniz</h1>) : (
+        {linksData == '' ? (<h1 style={{ color: "white", display: 'flex', justifyContent: "center", margin: "30px" }}>Yukarıdan Bir Link Seçiniz</h1>) : (
 
           <Card.Footer className='mx-4 my-4' >
-            <div style={{ display: 'flex', justifyContent: "center"}}>
+            <div style={{ display: 'flex', justifyContent: "center" }}>
+              <h5 style={{ color: "white", margin: "5px" }}> {seriesData.name} </h5>
+
+            </div>
+            <div style={{ display: 'flex', justifyContent: "center" }}>
+
               {
                 seriesData.links.filter((item2) => {
                   if (item2.hostingname === linksData && linksData) {
@@ -309,6 +447,7 @@ export default function FetchSeries() {
                   }
                 })
                   .map((link) => (
+
                     <iframe src={link.adress} scrolling="no"
                       frameborder="0" width="640" height="360" allowfullscreen="true"
                       webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
@@ -359,6 +498,7 @@ export default function FetchSeries() {
 
         </Card.Footer>
         <div className='mx-3 my-2' style={{ display: 'flex', justifyContent: "center", color: "rgba(255, 255, 255, 0.5)" }}>
+          {seriesData.season}.sezon {' '} {seriesData.episode}.bölüm{': '}
           {seriesData.description}
 
         </div>
@@ -377,7 +517,7 @@ export default function FetchSeries() {
             fluid />
           <div class="form__group field mx-3">
 
-            <input type="input" class="form__field" placeholder="Yorum Ekleyin..." name="Yorum Ekleyin..." id='Yorum Ekleyin...' required onChange={(e) => setDescription(e.target.value)} />
+            <input type="input" value={description} class="form__field" placeholder="Yorum Ekleyin..." name="Yorum Ekleyin..." id='Yorum Ekleyin...' required onChange={(e) => setDescription(e.target.value)} />
             <label for="Yorum Ekleyin..." class="form__label">Yorum Ekleyin</label>
           </div>
           <IoSend onClick={sendButtonClick} size={20} style={{ marginTop: "35px", position: "relative" }} className='send-icon' />
@@ -445,3 +585,11 @@ export default function FetchSeries() {
     </div >
   )
 }
+
+/*
+  useEffect(() => {
+    if (!seriesData[0]) {
+      dispatch(updateSeriesAction(id, viewsData))
+    }
+
+  }, [dispatch, id, viewsData]);*/

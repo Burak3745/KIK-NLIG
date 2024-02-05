@@ -55,7 +55,7 @@ const UpdateUsers = () => {
                 </div>
 
                 <div class="float-child">
-                    <div class="blue ">
+                    <div class="blue " >
 
                         <div className='flex-container mx-2'>
                             <div class="form__group field py-2 px-2">

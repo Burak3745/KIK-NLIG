@@ -1,7 +1,7 @@
 import { useState, useEffect, useReducer } from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getIdMovie } from '../axios';
+import { getIdMovie, getIdUser } from '../axios';
 import { FaEye } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
 import { updateMovieAction } from '../action/movieAction'
@@ -12,6 +12,7 @@ import SeriesCard from './SeriesCard';
 import { IoSend } from "react-icons/io5";
 import { AiFillDislike } from "react-icons/ai";
 import { AiFillLike } from "react-icons/ai"
+import { updateUserAction } from '../action/userAction';
 export default function FetchMovie() {
 
 
@@ -34,7 +35,21 @@ export default function FetchMovie() {
     player: [], links: [], watched: [], comment: []
   })
 
+  const [userData, setUserData] = useState({
+    fullname: '', email: '', phoneNumber: '', hostingname: ''
+  })
 
+  useEffect(() => {
+    const getUser = async () => {
+      if (userid != undefined) {
+        const { data } = await getIdUser(userid)
+        setUserData(data)
+      }
+   
+    }
+
+    getUser()
+  }, [userid])
   const isChecked = movieData.watched.filter((item) => userid === item.userid).length != 0
   const handleCheckChange = () => {
     if (movieData && movieData.watched.filter((item) => userid === item.userid).length == 0) {
@@ -100,6 +115,7 @@ export default function FetchMovie() {
 
       currentData.comment.push(newComment);
       setMovieData(currentData);
+      setDescription('')
       dispatch(updateMovieAction(id, movieData))
     }
   }
@@ -295,15 +311,36 @@ export default function FetchMovie() {
     navigate(`/actors/${id}`);
   }
 
+  const userUpdate = (e) => {
+    e.preventDefault()
+    setLinksData(e.target.value)
+    setValue(e.target.value)
+    userData.hostingname = e.target.value
+    console.log(userData)
+    if(userid != undefined){
+      
+      console.log(userid)
+      dispatch(updateUserAction(userid, userData))
+    }
+    
+  }
+  const [value, setValue] = useState('');
+  useEffect(() => {
+    if(movieData.links.filter((item) => item.hostingname === userData.hostingname).length > 0){
+      setValue(userData.hostingname)
+      setLinksData(userData.hostingname)
+    }
+  },[movieData, userData]);
+  
   if (movieData.type == "Dizi") {
     return (navigate(`/episodes/${id}`))
   }
   else {
     return (
       <div>
-        <div style={{ display: "flex", justifyContent: "flex-start", marginBottom:"10px" }}>
+        <div style={{ display: "flex", justifyContent: "flex-start", marginBottom: "10px" }}>
           <div class="select-dropdown  mx-3">
-            <select onChange={(e) => setLinksData(e.target.value)}>
+            <select value={value} onChange={(e) => userUpdate(e)}>
               <option value=''>Choose Link</option>
               {movieData.links.map((item) => (
                 <option value={item.hostingname}>{item && item.hostingname}</option>
@@ -318,20 +355,20 @@ export default function FetchMovie() {
         </div>
         <Card style={{ background: "#06001d" }}>
 
-          {linksData == '' ? (<h1 style={{ color: "white",display: 'flex', justifyContent: "center", margin:"30px"}}>Yukarıdan Bir Link Seçiniz</h1>) : (
+          {linksData == '' ? (<h1 style={{ color: "white", display: 'flex', justifyContent: "center", margin: "30px" }}>Yukarıdan Bir Link Seçiniz</h1>) : (
             <Card.Footer className='mx-4 my-4' >
               <div style={{ display: 'flex', justifyContent: "center" }}>
-              {movieData.links.filter((item2) => {
-                if (item2.hostingname === linksData && linksData) {
-                  return item2
-                }
-              })
-                .map((link) => (
-                  <iframe src={link.adress} scrolling="no"
-                    frameborder="0" width="640" height="360" allowfullscreen="true"
-                    webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
-                ))}
-                </div>
+                {movieData.links.filter((item2) => {
+                  if (item2.hostingname === linksData && linksData) {
+                    return item2
+                  }
+                })
+                  .map((link) => (
+                    <iframe src={link.adress} scrolling="no"
+                      frameborder="0" width="640" height="360" allowfullscreen="true"
+                      webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+                  ))}
+              </div>
               <div style={{ display: 'flex', justifyContent: "center", marginTop: "10px" }}>
                 <div style={{ display: 'flex', justifyContent: "center", width: "240px", borderRadius: "15px", border: "1px solid #2dffb9" }}>
                   <span >
@@ -432,7 +469,7 @@ export default function FetchMovie() {
               fluid />
             <div class="form__group field mx-3">
 
-              <input type="input" class="form__field" placeholder="Yorum Ekleyin..." name="Yorum Ekleyin..." id='Yorum Ekleyin...' required onChange={(e) => setDescription(e.target.value)} />
+              <input type="input" value={description} class="form__field" placeholder="Yorum Ekleyin..." name="Yorum Ekleyin..." id='Yorum Ekleyin...' required onChange={(e) => setDescription(e.target.value)} />
               <label for="Yorum Ekleyin..." class="form__label">Yorum Ekleyin</label>
             </div>
             <IoSend onClick={sendButtonClick} size={20} style={{ marginTop: "35px", position: "relative" }} className='send-icon' />
@@ -501,48 +538,3 @@ export default function FetchMovie() {
     )
   }
 }
-
-/*
-const [user, setUser] = useState()
-  const userState = useSelector((state) => state.user)
-  useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem('user'))
-    setUser(userData)
-  }, [userState])
-  const userid = user && user._id
-
-  const [userData] = [{
-    userid: `${user && user._id}`
-  }]
-
-  const likess = movieData.likes
-
-  const userData1 = JSON.stringify(userData)
-  const bool = likess.filter((item) => userData1 === item.user).length > 0
-
-  console.log(bool)
-        */
-
-/*{
-          likess.filter((item) => userData1 === item.user).length == 0 ?(
-            <div onClick={(e) => {
-              e.preventDefault()
-              dispatch(likeMovieAction(movieData._id, userData))
-              setTimeout(function(){
-                window.location.reload();
-            }, 800)
-            }} style={{ cursor: "pointer" }}>
-              <AiFillLike color='white' size={100} />
-            </div>
-          ) : (<div onClick={(e) => {
-            e.preventDefault()
-            dispatch(unlikeMovieAction(movieData._id, userData))
-            setTimeout(function(){
-              window.location.reload();
-          }, 800)
-          }} style={{ cursor: "pointer" }}>
-            <AiFillLike color='red' size={100} style={{ cursor: "pointer" }} />
-          </div>)}
-        <div>{
-          likess.length}</div>
-*/

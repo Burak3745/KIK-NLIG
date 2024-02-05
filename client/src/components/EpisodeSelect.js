@@ -19,18 +19,25 @@ const EpisodeSelect = () => {
         }
     }, [dispatch]);
     const navigate = useNavigate();
-    const playEpisode = (id) => {
-        navigate(`/playseries/${id}`);
-    }
+    
 
     const [movieData, setMovieData] = useState({
         name: '', time: '', link: '', country: '', year: '', score: '',
         description: '', director: '', company: '', actors: '', season: '', type: '', catagory: '', image: ''
     })
 
+    const playEpisode = (id) => {
+        const value = movieData && movieData._id;
+        const params2 = new URLSearchParams(window.location.search);
+        params2.forEach((value, key) => {
+            params2.delete(key);
+        });
+        params2.set("dizi", value);
+        navigate(`/playseries/${id}?${params2.toString()}`);
+    }
+
     const [click, setClick] = useState('Hakkında')
 
-    console.log(click)
     useEffect(() => {
         const getMemo = async () => {
             const { data } = await getIdMovie(id)
@@ -95,8 +102,8 @@ const EpisodeSelect = () => {
                     <h3 className='mx-2 my-2' style={{ cursor: "pointer", position: "relative" }} onClick={() => setClick('Oyuncular')} >Oyuncular</h3>
                 </div>
                 {click === 'Bölümler' ? (<div class="float-child">
-                    <div class="blue" style={{ padding: "20px" }}>
-                        <Table >
+                    <div class="blue" style={{ padding: "20px",overflowX: "auto", whiteSpace: "nowrap" }}>
+                        <Table style={{}}>
                             <thead className='text-light'>
                                 <th>Sezonlar</th>
                                 <th className='mx-2'>Bölümler</th>
@@ -135,18 +142,22 @@ const EpisodeSelect = () => {
                                                     <td>
                                                         <div>
                                                             <br />
-                                                            <h6 onClick={() => playEpisode(episode._id)} style={{ position: "relative", cursor: "pointer", 
-                                                         textDecoration: episode && episode.watched.filter((item) => userid === item.userid).length == 0 ? "" : "line-through",
-                                                         color: episode && episode.watched.filter((item) => userid === item.userid).length == 0 ? "white" : "gray"}}>{episode.season}.Sezon {episode.episode}.Bölüm</h6>
+                                                            <h6 onClick={() => playEpisode(episode._id)} style={{
+                                                                position: "relative", cursor: "pointer",
+                                                                textDecoration: episode && episode.watched.filter((item) => userid === item.userid).length == 0 ? "" : "line-through",
+                                                                color: episode && episode.watched.filter((item) => userid === item.userid).length == 0 ? "white" : "gray"
+                                                            }}>{episode.season}.Sezon {episode.episode}.Bölüm</h6>
 
                                                         </div>
                                                     </td>
                                                     <td>
                                                         <div>
                                                             <br />
-                                                            <h6 className=' mx-3' onClick={() => playEpisode(episode._id)} style={{ position: "relative", cursor: "pointer",
-                                                        textDecoration: episode && episode.watched.filter((item) => userid === item.userid).length == 0 ? "" : "line-through",
-                                                        color: episode && episode.watched.filter((item) => userid === item.userid).length == 0 ? "white" : "gray" }}>{episode.name}</h6>
+                                                            <h6 className=' mx-3' onClick={() => playEpisode(episode._id)} style={{
+                                                                position: "relative", cursor: "pointer",
+                                                                textDecoration: episode && episode.watched.filter((item) => userid === item.userid).length == 0 ? "" : "line-through",
+                                                                color: episode && episode.watched.filter((item) => userid === item.userid).length == 0 ? "white" : "gray"
+                                                            }}>{episode.name}</h6>
                                                         </div>
                                                     </td>
                                                     <td>
