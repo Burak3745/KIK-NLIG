@@ -23,6 +23,7 @@ const Torrent = () => {
     if(videoUrl != ''){
         console.log(videoUrl)
     }
+    
     return (
         <div>
             {videoUrl != '' && <video controls src={videoUrl} />}

@@ -38,7 +38,6 @@ import UpdateActors from "./Admin Panel/UpdateActors";
 import ForgotPassword from "./screens/ForgotPassword";
 import OTPInput from "./screens/OTPInput";
 import ResetPassword from "./screens/ResetPassword";
-import Torrent from "./components/Torrent";
 import Players from "./screens/Players";
 const App = () => {
   const [user, setUser] = useState(null);
@@ -84,7 +83,6 @@ const App = () => {
               <Route path="/forgotPassword" element={<ForgotPassword email={username} setEmail={setUsername} otp={OTP} setOTP={setOTP}/>} />
               <Route path="/code" element={<OTPInput email={username} setEmail={setUsername} otp={OTP} setOTP={setOTP}/>} />
               <Route path="/reset" element={<ResetPassword email={username} setEmail={setUsername} otp={OTP} setOTP={setOTP}/>} />
-              <Route path="/torrent" element={<Torrent/>} />
               <Route path="/oyuncular" element={<Players/>} />
             </Routes>
           </Container>

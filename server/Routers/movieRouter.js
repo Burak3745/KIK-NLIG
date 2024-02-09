@@ -2,25 +2,10 @@ import express from "express";
 import mongoose from "mongoose";
 
 import Movie from "../models/movieModel.js";
-import WebTorrent from 'webtorrent'
+
 
 const router = express.Router();
-const client = new WebTorrent();
-const torrentId1 = 'magnet:?xt=urn:btih:99B85DFA7B585D201C396ABB9B858FD11EE677AB&dn=WWE.NXT.Vengeance.Day.2024.Kickoff.WEB.h264-HEEL%5BTGx%5D&tr=udp%3A%2F%2Fopen.stealth.si%3A80%2Fannounce&tr=udp%3A%2F%2Ftracker.tiny-vps.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce&tr=udp%3A%2F%2Fexplodie.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.cyberia.is%3A6969%2Fannounce&tr=udp%3A%2F%2Fipv4.tracker.harry.lu%3A80%2Fannounce&tr=udp%3A%2F%2Fp4p.arenabg.com%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.birkenwald.de%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.moeking.me%3A6969%2Fannounce&tr=udp%3A%2F%2Fopentor.org%3A2710%2Fannounce&tr=udp%3A%2F%2Ftracker.dler.org%3A6969%2Fannounce&tr=udp%3A%2F%2Fuploads.gamecoast.net%3A6969%2Fannounce&tr=https%3A%2F%2Ftracker.foreverpirates.co%3A443%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=http%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&tr=udp%3A%2F%2Fopentracker.i2p.rocks%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&tr=udp%3A%2F%2Fcoppersurfer.tk%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.zer0day.to%3A1337%2Fannounce';
 
-
-router.get('/torrent/:torrentId', (req, res) => {
-    const { torrentId } = req.params;
-    client.add(torrentId1, function (torrent) {
-        const file = torrent.files.find(file => file.name.endsWith('.mp4')); // Örnek olarak sadece mp4 dosyasını alalım
-        file.createReadStream()
-            .on('error', (err) => {
-                console.error('Error reading stream:', err);
-                res.status(500).send('Internal Server Error');
-            })
-            .pipe(res); // Dosyayı HTTP yanıtına boru hattıyla gönder
-    });
-});
 
 /**
  * @swagger
@@ -539,3 +524,23 @@ router.delete("/deleteallactor/:id", async (req, res) => {
     })*/
 
 export default router;
+
+/*
+import WebTorrent from 'webtorrent'
+const client = new WebTorrent();
+const torrentId1 = 'magnet:?xt=urn:btih:99B85DFA7B585D201C396ABB9B858FD11EE677AB&dn=WWE.NXT.Vengeance.Day.2024.Kickoff.WEB.h264-HEEL%5BTGx%5D&tr=udp%3A%2F%2Fopen.stealth.si%3A80%2Fannounce&tr=udp%3A%2F%2Ftracker.tiny-vps.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce&tr=udp%3A%2F%2Fexplodie.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.cyberia.is%3A6969%2Fannounce&tr=udp%3A%2F%2Fipv4.tracker.harry.lu%3A80%2Fannounce&tr=udp%3A%2F%2Fp4p.arenabg.com%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.birkenwald.de%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.moeking.me%3A6969%2Fannounce&tr=udp%3A%2F%2Fopentor.org%3A2710%2Fannounce&tr=udp%3A%2F%2Ftracker.dler.org%3A6969%2Fannounce&tr=udp%3A%2F%2Fuploads.gamecoast.net%3A6969%2Fannounce&tr=https%3A%2F%2Ftracker.foreverpirates.co%3A443%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=http%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&tr=udp%3A%2F%2Fopentracker.i2p.rocks%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&tr=udp%3A%2F%2Fcoppersurfer.tk%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.zer0day.to%3A1337%2Fannounce';
+
+
+router.get('/torrent/:torrentId', (req, res) => {
+    const { torrentId } = req.params;
+    client.add(torrentId1, function (torrent) {
+        const file = torrent.files.find(file => file.name.endsWith('.mp4')); // Örnek olarak sadece mp4 dosyasını alalım
+        file.createReadStream()
+            .on('error', (err) => {
+                console.error('Error reading stream:', err);
+                res.status(500).send('Internal Server Error');
+            })
+            .pipe(res); // Dosyayı HTTP yanıtına boru hattıyla gönder
+    });
+});
+*/
