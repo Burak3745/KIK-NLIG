@@ -25,7 +25,6 @@ export default function MovieCard({ movie, hidden }) {
     const [userData] = [{
         userid: `${userid}`
     }]
-
     const userData1 = JSON.stringify(userData)
 
     const navigatee = (movie) => {
@@ -35,7 +34,6 @@ export default function MovieCard({ movie, hidden }) {
     const navigateeEpisode = (movie) => {
         navigate(`/episodes/${movie && movie._id}`);
     }
-
     return (
         <div className="movie-card" hidden={hidden} style={{ width: "170px", height: "300px" }} >
             <div class="wrapper">

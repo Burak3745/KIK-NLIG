@@ -14,6 +14,8 @@ import { AiFillLike } from "react-icons/ai"
 import { updateUserAction } from '../action/userAction';
 import { IoChevronBack } from "react-icons/io5";
 import { IoChevronForward } from "react-icons/io5";
+import { RiAdvertisementFill } from "react-icons/ri";
+import { MdSubtitles } from "react-icons/md";
 export default function FetchSeries() {
 
   const { id } = useParams();
@@ -34,7 +36,7 @@ export default function FetchSeries() {
   })
 
   const [userData, setUserData] = useState({
-    fullname: '', email: '', phoneNumber: '', hostingname: ''
+    fullname: '', email: '', phoneNumber: '', hostingname: '', options: ''
   })
 
   useEffect(() => {
@@ -63,7 +65,7 @@ export default function FetchSeries() {
     views: ''
   }
 
-  
+
 
   const isChecked = seriesData.watched.filter((item) => userid === item.userid).length != 0
   const handleCheckChange = () => {
@@ -312,6 +314,19 @@ export default function FetchSeries() {
       setValue(userData.hostingname)
       setLinksData(userData.hostingname)
     }
+    else {
+
+    }
+    if (userData.options === "Altyazı" && seriesData.links.filter((item) => item.options === 'Altyazı').length === 0) {
+      setLinkOptions("Dublaj")
+    }
+    else if (userData.options === "Dublaj" && seriesData.links.filter((item) => item.options === 'Dublaj').length === 0) {
+      setLinkOptions("Altyazı")
+    }
+    else {
+      setLinkOptions(userData.options)
+    }
+
   }, [seriesData, userData]);
 
   const episodes = useSelector(state => state.series)
@@ -384,14 +399,75 @@ export default function FetchSeries() {
   const Indexepisode = shortallepisode.findIndex(
     (item) => item._id === id
   )
+  const [linkOptions, setLinkOptions] = useState('')
+
+  const userUpdateOptionsAltyazi = (e) => {
+    setLinkOptions('Altyazı')
+    userData.options = 'Altyazı'
+    if (userid != undefined) {
+
+      dispatch(updateUserAction(userid, userData))
+    }
+  }
+  useEffect(() => {
+    if (linkOptions === 'Altyazı') {
+      if (seriesData.links.filter((item) => item.hostingname === userData.hostingname)
+        .filter((item) => item.options === linkOptions).length === 0) {
+        setLinksData('')
+        setValue('')
+      }
+      else {
+        setValue(userData.hostingname)
+        setLinksData(userData.hostingname)
+
+      }
+
+    }
+  }, [linkOptions]);
+
+  const userUpdateOptionsDublaj = (e) => {
+    setLinkOptions('Dublaj');
+    userData.options = 'Dublaj'
+    if (userid != undefined) {
+
+      dispatch(updateUserAction(userid, userData))
+    }
+  };
+
+  useEffect(() => {
+    if (linkOptions === 'Dublaj') {
+      if (seriesData.links.filter((item) => item.hostingname === userData.hostingname)
+        .filter((item) => item.options === linkOptions).length === 0) {
+        setLinksData('')
+        setValue('')
+      }
+      else {
+        setValue(userData.hostingname)
+        setLinksData(userData.hostingname)
+      }
+
+    }
+  }, [linkOptions]);
 
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", overflowX: "auto", whiteSpace: "nowrap", marginBottom: "10px" }}>
+        {seriesData.links.filter((item) => item.options === 'Altyazı').length > 0 ? (
+          <div className='backforward' style={{ marginRight: "20px", marginLeft:"20px" }} onClick={(e) => userUpdateOptionsAltyazi()}>
+            <MdSubtitles size={16} style={{ marginRight: "5px" }} /> Altyazı
+          </div>
+        ) : (<div></div>)}
+        {seriesData.links.filter((item) => item.options === 'Dublaj').length > 0 ? (
+          <div className='backforward' onClick={(e) => userUpdateOptionsDublaj(e)}>
+            <RiAdvertisementFill /> Dublaj
+          </div>
+        ) : (<div></div>)}
+
+
         <div class="select-dropdown  mx-3">
           <select value={value} onChange={(e) => userUpdate(e)}>
             <option value=''>Choose Link</option>
-            {seriesData.links.map((item) => (
+            {seriesData.links.filter((item) => item.options === linkOptions).map((item) => (
               <option value={item.hostingname}>{item && item.hostingname}</option>
             ))}
           </select>
@@ -445,7 +521,7 @@ export default function FetchSeries() {
                   if (item2.hostingname === linksData && linksData) {
                     return item2
                   }
-                })
+                }).filter((item) => item.options === linkOptions)
                   .map((link) => (
 
                     <iframe src={link.adress} scrolling="no"

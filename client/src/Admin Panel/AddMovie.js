@@ -25,14 +25,15 @@ const AddMovie = () => {
         description: '', director: '', company: '', season: '', type: 'Film', catagory: '', image: '', player: [], links: []
     })
     const [linkData, setLinkData] = useState({
-        hostingname: '', adress: ''
+        hostingname: '', adress: '', options: ''
     })
     const [disabled, setDisabled] = useState(true);
     const [disabled2, setDisabled2] = useState(true);
     useEffect(() => {
         if (
             linkData.hostingname.length >= 2 &&
-            linkData.adress.length >= 2
+            linkData.adress.length >= 2 &&
+            linkData.options.length >= 2
         ) {
             setDisabled2(false)
         }
@@ -133,8 +134,8 @@ const AddMovie = () => {
         console.log(movieData)
     }
     const createLink = () => {
-        if (movieData.links.filter((item) => item.hostingname === linkData.hostingname).length == 0) {
-            const newLink = { hostingname: linkData.hostingname, adress: linkData.adress }
+        if (movieData.links.filter((item) => item.options == linkData.options).filter((item) => item.hostingname === linkData.hostingname).length == 0) {
+            const newLink = { hostingname: linkData.hostingname, adress: linkData.adress, options: linkData.options }
             addLink(newLink)
         }
     }
@@ -157,6 +158,26 @@ const AddMovie = () => {
         deleteLink(linkNameToDelete);
 
     };
+
+    const isAltyazi = linkData.options === 'Altyazı';
+    const isDublaj = linkData.options === 'Dublaj';
+    const altyaziCheckChange = (e) => {
+        if (linkData.options == 'Altyazı') {
+            setLinkData({ ...linkData, options: '' })
+        }
+        else {
+            setLinkData({ ...linkData, options: e.target.value })
+        }
+    }
+    const dublajCheckChange = (e) => {
+        if (linkData.options == 'Dublaj') {
+            setLinkData({ ...linkData, options: '' })
+        }
+        else {
+            setLinkData({ ...linkData, options: e.target.value })
+        }
+    }
+
     const [user, setUser] = useState()
     const userState = useSelector((state) => state.user)
     useEffect(() => {
@@ -238,7 +259,13 @@ const AddMovie = () => {
                                                 <label for="Adress" class="form__label">Link Adresi</label>
                                             </div>
                                             <div class="form__group field py-4 px-5 ">
-                                                <button disabled={disabled2} onClick={createLink} className=' ' role="button-66">Link Ekle</button>
+                                                <span style={{ position: "relative", color: "white", marginRight: "15px" }}>
+                                                    <label htmlFor="altyazı">Altyazı</label>
+                                                    <input checked={isAltyazi} value={'Altyazı'} onChange={(e) => altyaziCheckChange(e)} type="checkbox" style={{ marginLeft: "10px" }} id="altyazı" />
+                                                    <label style={{ marginLeft: "5px" }} htmlFor="dublaj">Dublaj</label>
+                                                    <input checked={isDublaj} value={'Dublaj'} onChange={(e) => dublajCheckChange(e)} type="checkbox" style={{ marginLeft: "10px" }} id="dublaj" />
+                                                </span>
+                                                <button disabled={disabled2} onClick={createLink} className='button-37 ' role="button-37">Link Ekle</button>
                                             </div>
 
                                         </div>

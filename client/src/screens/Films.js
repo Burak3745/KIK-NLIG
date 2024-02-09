@@ -4,6 +4,12 @@ import MovieCard from '../components/MovieCard1'
 import { Col, Row } from 'react-bootstrap'
 import { getMovieAction } from '../action/movieAction'
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownItem,
+  DropdownHeader,
+  Dropdown,
+} from 'semantic-ui-react'
 import '../css/Films.css'
 const Films = () => {
   const movie = useSelector(state => state.movie)
@@ -17,41 +23,85 @@ const Films = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
 
-  const catagory = searchParams.get('catagory');
+  const [timerCount, setTimer] = React.useState(300)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (timerCount > 0) {
+        setTimer(prevCount => prevCount - 1);
+      }
+    }, 1); // her milisaniyede bir azalt
 
-  const handleChangeCatagory = (e) => {
-    const { value } = e.target;
+    // Temizleme işlemi
+    return () => clearInterval(interval);
+  }, [timerCount]); // yalnızca bir kez çağırılacak
 
-    const params = new URLSearchParams(window.location.search);
-    params.set("catagory", value);
-    params.set("page", 1)
-    navigate(`/filmler?${params.toString()}`);
-    window.location.reload()
+
+  let sortBy = ''
+  let sortOrder = ''
+  if (searchParams.get('siralamatipi') != null) {
+    sortBy = searchParams.get('siralamatipi');
+  }
+  else {
+    sortBy = 'score'
+  }
+
+  if (searchParams.get('siralamaturu') != null) {
+    sortOrder = searchParams.get('siralamaturu');
+  }
+  else {
+    sortOrder = 'desc'
+  }
+
+
+
+  const sortMovies = (sortBy, sortOrder) => {
+    return movie.sort((a, b) => {
+      let comparison = 0;
+      if (a[sortBy] > b[sortBy]) {
+        comparison = 1;
+      } else if (a[sortBy] < b[sortBy]) {
+        comparison = -1;
+      }
+      return sortOrder === 'desc' ? comparison * -1 : comparison;
+    });
   };
+
+  const handleSortOderChange = (e, { value }) => {
+    const params = new URLSearchParams(window.location.search);
+    params.set("siralamaturu", value);
+    params.set("page", 1);
+    setTimer(300)
+    navigate(`/filmler?${params.toString()}`);
+    setCurrentPage(1)
+  };
+
+  const handleByChange = (e, { value }) => {
+    const params = new URLSearchParams(window.location.search);
+    params.set("siralamatipi", value);
+    params.set("page", 1);
+    setTimer(300)
+    navigate(`/filmler?${params.toString()}`);
+    setCurrentPage(1)
+  };
+
+
+
 
   const [currentPage, setCurrentPage] = useState(1)
   const recordsPerPage = 48;
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
-  const records = movie.filter((item2) => {
+  const records = sortMovies(sortBy, sortOrder).filter((item2) => {
     if (item2.type === 'Film') {
       return item2
     }
     else {
       return
     }
-  }).filter(item => {
-    if (catagory === '' || catagory === null) return item
-    else
-      return catagory && item.catagory.toLowerCase().includes(catagory.toLowerCase())
   }).slice(firstIndex, lastIndex);
 
 
-  const npage = Math.ceil(movie.filter((item) => item.type == "Film").filter(item => {
-    if (catagory === '' || catagory === null) return item
-    else
-      return catagory && item.catagory.toLowerCase().includes(catagory.toLowerCase())
-  }).length / recordsPerPage)
+  const npage = Math.ceil(movie.filter((item) => item.type == "Film").length / recordsPerPage)
   const numbers = [...Array(npage + 1).keys()].slice(1)
 
   useEffect(() => {
@@ -63,7 +113,7 @@ const Films = () => {
       setCurrentPage(pageFromUrl);
     }
   }, [currentPage])
-
+  
   function prePage() {
     if (currentPage == 1) { }
     else {
@@ -110,9 +160,104 @@ const Films = () => {
     sliceCurrent = currentPage - 3
   }
 
+
+
   return (
     <div>
-      <div class="select-dropdown  mx-3">
+      <div>
+        <Dropdown
+          text='Sırala'
+          icon='sort'
+          floating
+          labeled
+          button
+          className='icon'
+
+        >
+          <DropdownMenu >
+            <DropdownHeader icon='tags' content='Etikete göre sırala' />
+            <DropdownItem>
+              <Dropdown
+                text='Artan Azalan'
+                floating
+                labeled
+                button
+              >
+                <DropdownMenu>
+                  <DropdownItem icon='sort amount up' onClick={handleSortOderChange} value='asc'>Artan</DropdownItem>
+                  <DropdownItem onClick={handleSortOderChange} value='desc'>Azalan</DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </DropdownItem>
+            <DropdownItem onClick={handleByChange} value='name'>İsme göre</DropdownItem>
+            <DropdownItem onClick={handleByChange} value='score'>IMDB Puanına göre</DropdownItem>
+            <DropdownItem onClick={handleByChange} value='time'>Süresine göre</DropdownItem>
+            <DropdownItem onClick={handleByChange} value='views'>İzlenme sayısına göre</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      </div>
+      {timerCount == 0 ?
+        <div>
+
+          <Row>
+            {records
+              .map((movie) => (
+                <Col
+                  sm={12}
+                  md={6}
+                  lg={4}
+                  xl={3}
+                  key={movie._id}
+                  style={{ width: "160px", height: "250px" }}
+                >
+                  <MovieCard movie={movie} />
+                </Col>
+              ))}
+          </Row>
+          <div className='pagination-container' style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: "70px" }}>
+            <ul class="pagination1">
+              <li >
+                <a className='prev' style={{ cursor: "pointer", position: "relative" }} onClick={prePage}>Geri</a>
+
+              </li>
+              {
+                numbers.map((n, i) => (
+                  <li key={i} className={`page-item ${parseInt(currentPage, 10) === n ? 'active' : ''}`}>
+                    <a style={{ cursor: "pointer", position: "relative" }} onClick={() => changeCPage(n)}>{n}</a>
+                  </li>
+                )).slice(sliceCurrent, parseInt(currentPage, 10) + 2)
+              }
+              <li>
+                <a className='next' style={{ cursor: "pointer", position: "relative" }} onClick={nextPage}>İleri</a>
+
+              </li>
+            </ul>
+          </div>
+        </div>
+        : <span class="loader"></span>}
+    </div>
+  )
+}
+
+export default Films
+
+/*
+
+const catagory = searchParams.get('catagory');
+
+  const handleChangeCatagory = (e) => {
+    const { value } = e.target;
+
+    const params = new URLSearchParams(window.location.search);
+    params.set("catagory", value);
+    params.set("page", 1)
+    navigate(`/filmler?${params.toString()}`);
+    window.location.reload()
+  };
+
+
+
+<div class="select-dropdown  mx-3">
         <select value={catagory} onChange={handleChangeCatagory}>
           <option value=''>All</option>
           <option value="Action & Advanture">Action & Advanture</option>
@@ -133,43 +278,13 @@ const Films = () => {
           <option value="Western">Western</option>
         </select>
       </div>
-      <Row>
-        {records
-          .map((movie) => (
-            <Col
-              sm={12}
-              md={6}
-              lg={4}
-              xl={3}
-              key={movie._id}
-              style={{ width: "160px", height: "250px" }}
-            >
-              <MovieCard movie={movie} />
-            </Col>
-          ))}
-      </Row>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: "100px" }}>
-        <ul className='pagination'>
-          <li className='page-item '>
-            <a style={{ cursor: "pointer" }} className='page-link' onClick={prePage}>Prev</a>
 
-          </li>
-          {
-            numbers.map((n, i) => (
-              <li className={`page-item ${parseInt(currentPage, 10) === n ? 'active' : ''}`} key={i}>
-                <a style={{ cursor: "pointer" }} className='page-link' onClick={() => changeCPage(n)}>{n}</a>
-              </li>
-            )).slice(sliceCurrent, parseInt(currentPage, 10) + 2)
-          }
-          <li className='page-item'>
-            <a style={{ cursor: "pointer" }} className='page-link' onClick={nextPage}>Next</a>
 
-          </li>
-        </ul>
-      </div>
 
-    </div>
-  )
-}
 
-export default Films
+      .filter(item => {
+    if (catagory === '' || catagory === null) return item
+    else
+      return catagory && item.catagory.toLowerCase().includes(catagory.toLowerCase())
+  })
+*/

@@ -68,7 +68,10 @@ const HTTP = axios.create({
   await HTTP.get("/movie");
 
   export const getIdMovie = async (id) =>  
-  await  HTTP.get(`/movie/${id}`)
+  await HTTP.get(`/movie/${id}`)
+
+  export const getSortedMovies = async (sortBy, sortOrder) =>
+  await HTTP.get(`/movie/${sortBy}/${sortOrder}`);
 
   export const deleteMovie = async (id) =>
   await HTTP.delete(`/movie/${id}`);
@@ -93,6 +96,9 @@ const HTTP = axios.create({
 
   export const deleteActorMovie = async (id) =>
   await HTTP.delete(`/movie/deleteallactor/${id}`);
+
+  export const torrentMovie = async (id) =>
+  await HTTP.get(`/movie/torrent/${id}`);
 
   /*************************************************** */
 

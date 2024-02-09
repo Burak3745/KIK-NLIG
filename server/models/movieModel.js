@@ -48,6 +48,11 @@ const movieSchema = Schema({
             },
             adress: {
                 type: String,
+            },
+            options: {
+                type: String,
+                enum: ['Dublaj', 'Altyazı'],
+                default: 'Altyazı'
             }
         }
     ],

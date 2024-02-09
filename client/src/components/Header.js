@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Navbar, Nav, Container, NavDropdown, Form } from "react-bootstrap";
+import { Navbar, Nav, Container, NavDropdown, Form, Row, Col, NavbarCollapse } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Logo from "../image/King.png";
 import SmileFace from "../image/smiley-face.png"
@@ -31,11 +31,21 @@ const Header = ({ user, setUser }) => {
 
     const value = search1;
     const params2 = new URLSearchParams(window.location.search);
-    params2.forEach((value, key) => {
-      params2.delete(key);
-    });
+    params2.delete("catagory")
+    params2.delete("country")
+    params2.delete("page")
+    params2.delete("minscore")
+    params2.delete("maxscore")
+    params2.delete("time")
+    params2.delete("siralamatipi")
+    params2.delete("siralamatürü")
+    params2.delete("director")
+    params2.delete("minyear")
+    params2.delete("maxyear")
+    params2.delete("type")
     params2.set("name", value);
     navigate(`/search?${params2.toString()}`);
+    window.location.reload()
   };
 
   const AdminControl = user && user.userType
@@ -75,36 +85,29 @@ const Header = ({ user, setUser }) => {
   }
 
   return (
+
     <Navbar
-      className="bg-body-tertiary"
+      className="bg-body-tertiary flex-column"
       collapseOnSelect
       bg="auto"
       variant="dark"
       expand="lg"
     >
-      <Container fluid>
+      <Container fluid  >
         <Nav.Link href="/">
           <img
             alt="Logo"
             src={Logo}
-            style={{ height: "90px", width: "auto" }}
-            className="mx-4 d-inline-block align-top"
+            style={{ height: "90px", width: "auto", marginLeft: "30px" }}
+            className=" d-inline-block align-top navbar-image"
           />
         </Nav.Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto my-2 my-lg-0" hidden={!user}>
-            <Nav.Link href="/diziler" className="dizifilm-text" style={{}}>
-              <button class="draw">Diziler</button>
-
-            </Nav.Link>
-            <Nav.Link href="/filmler" className="dizifilm-text" style={{}}>
-              <button class="draw">Filmler</button>
-            </Nav.Link>
-          </Nav>
+        <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
 
 
-          <div hidden={!user} className={`search-wrapper ${searchActive ? 'active' : ''}`}>
+
+          <div hidden={!user} className={`search-wrapper ${searchActive ? 'active' : ''}`} >
 
             <div className="input-holder">
               <input type="text" className="search-input" value={search1} onChange={(e) => setSearch1(e.target.value)} placeholder="Film veya Dizi Arayın" onKeyDown={handleKeyDown} />
@@ -112,14 +115,14 @@ const Header = ({ user, setUser }) => {
                 <span></span>
               </button>
             </div>
-            {search1.length >= 3 ? (<div className="card-container-search">
+            {search1.length >= 1 ? (<div className="card-container-search">
               <h4 style={{ color: "white", margin: "20px" }}>Sonuçlar</h4>
               {movie.filter((item) => {
                 return search1.toLowerCase() === '' ? item : item.name.toLowerCase().includes(search1.toLowerCase())
               }).length === 0 ? (
                 <h4 style={{ color: "white", margin: "20px" }}>Sonuç Bulunamadı</h4>
               ) : (<div>
-                
+
                 <h4 style={{ color: "#2dffb9", margin: "20px" }}>Filmler</h4>
 
                 {movie.filter((item) => item.type == "Film").filter((item) => {
@@ -168,7 +171,7 @@ const Header = ({ user, setUser }) => {
                 Profil
               </NavDropdown.Item>
               {AdminControl == "ADMIN" ? (
-                <NavDropdown.Item className="dropdownItem" onClick={() => navigate("/movielist")}>
+                <NavDropdown.Item href="/movielist" className="dropdownItem" >
                   Admin Panel
                 </NavDropdown.Item>
               ) : (<div></div>)
@@ -196,7 +199,31 @@ const Header = ({ user, setUser }) => {
               </motion.button>
             ) : null}
           </Nav>
+
         </Navbar.Collapse>
+      </Container>
+      <Container>
+      {user ? (
+        <NavbarCollapse className="justify-content-center" style={{ border: "2px solid white", borderRadius: "10px", marginTop: "10px", marginBottom:"10px" }} >
+          <div>
+            <Nav hidden={!user} >
+              <Nav.Link href="/diziler" className="dizifilm-text" >
+                <button class="draw">Diziler</button>
+
+              </Nav.Link>
+              <Nav.Link href="/filmler" className="dizifilm-text" >
+                <button class="draw">Filmler</button>
+              </Nav.Link>
+              <Nav.Link className="dizifilm-text" >
+                <button class="draw">Kategoriler</button>
+              </Nav.Link>
+              <Nav.Link href="/oyuncular" className="dizifilm-text">
+                <button class="draw">Oyuncular</button>
+              </Nav.Link>
+            </Nav>
+          </div>
+        </NavbarCollapse>
+      ): null}
       </Container>
     </Navbar>
   );

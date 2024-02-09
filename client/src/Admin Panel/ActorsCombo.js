@@ -56,6 +56,13 @@ const ActorsCombo = ({ handleMovieSelect }) => {
             setCurrentPage(currentPage + 1);
         }
     }
+    let sliceCurrent = 0
+    if (currentPage == 2 || currentPage == 1) {
+        sliceCurrent = 0
+    }
+    else {
+        sliceCurrent = currentPage - 3
+    }
 
     return (
         <DropdownButton
@@ -63,7 +70,8 @@ const ActorsCombo = ({ handleMovieSelect }) => {
             title="Oyuncular"
             id="dropdown-menu-align-top"
             onSelect={handleMovieSelect}
-            style={{width:"110px"}}
+            variant="success"
+            style={{ width: "110px" }}
         >
             <div className="float-child">
                 <div className="box" >
@@ -103,32 +111,37 @@ const ActorsCombo = ({ handleMovieSelect }) => {
                 </>
             ))}
             {filteredRecords.length > 0 ?
-                <ul className="pagination">
-                    <li className="page-item ">
-                        <a style={{cursor:"pointer"}} className="page-link" onClick={prePage}>
-                            Önce
-                        </a>
-                    </li>
-                    {numbers.map((n, i) => (
-                        <li
-                            className={`page-item ${currentPage === n ? "active" : ""}`}
-                            key={i}
-                        >
-                            <a style={{cursor:"pointer"}} className="page-link" onClick={() => changeCPage(n)}>
-                                {n}
+                <div className="pagination-container1">
+                    <ul className="pagination2">
+                        <li>
+                            <a style={{ cursor: "pointer" }} className='prev' onClick={prePage}>
+                                Önce
                             </a>
                         </li>
-                    ))}
-                    <li className="page-item">
-                        <a style={{cursor:"pointer"}} className="page-link" onClick={nextPage}>
-                            Sonra
-                        </a>
-                    </li>
-                </ul>
+                        {numbers.map((n, i) => (
+                            <li
+                                className={`page-item ${currentPage === n ? "active" : ""}`}
+                                key={i}
+                            >
+                                <a style={{ cursor: "pointer" }} onClick={() => changeCPage(n)}>
+                                    {n}
+                                </a>
+                            </li>
+                        )).slice(sliceCurrent, parseInt(currentPage, 10) + 2)}
+                        <li className="page-item">
+                            <a style={{ cursor: "pointer" }} className='next' onClick={nextPage}>
+                                Sonra
+                            </a>
+                        </li>
+                    </ul>
+                </div>
                 : ""}
         </DropdownButton>
     );
 };
+
+
+
 
 const imageanimations = {
     hidden: {

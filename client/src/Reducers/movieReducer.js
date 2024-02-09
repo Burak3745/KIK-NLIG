@@ -11,6 +11,9 @@ const movieReducer = (movie = [], action) => {
     case "GET_ID_MOVIE":
       return movie.filter((item) => item._id !== action.payload._id)
 
+    case "GET_SORTED_MOVIES":
+      return action.payload;
+
     case "CREATE_MOVIE":
       return [...movie, action.payload]
 

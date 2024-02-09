@@ -46,6 +46,24 @@ const MovieList = ({ user, setUser }) => {
 
     const navigate = useNavigate();
 
+    let sliceCurrent = 0
+    if (currentPage == 2 || currentPage == 1) {
+        sliceCurrent = 0
+    }
+    else {
+        sliceCurrent = currentPage - 3
+    }
+    const [timerCount, setTimer] = useState(300)
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (timerCount > 0) {
+                setTimer(prevCount => prevCount - 1);
+            }
+        }, 1); // her milisaniyede bir azalt
+
+        // Temizleme işlemi
+        return () => clearInterval(interval);
+    }, [timerCount]); // yalnızca bir kez çağırılacak
 
 
     const [user2, setUser2] = useState()
@@ -80,62 +98,65 @@ const MovieList = ({ user, setUser }) => {
                             <i class="fas fa-search"></i>
 
                         </div>
-                        <div class="blue" style={{overflowX: "auto", whiteSpace: "nowrap"}}>
-                            <Table >
-                                <thead className='text-light'>
-                                    <th className='px-2'>FULLNAME</th>
-                                    <th className='mx-2'>E-MAIL</th>
-                                    <th className='px-2' >USERTYPE</th>
-                                    <th className='mx-2'>ACTIONS</th>
-                                </thead>
-                                <tbody className='text-muted'>
-                                    {records
-                                        .map((d, i) => (
-                                            <tr key={i}>
-                                                <td >{d.fullname}</td>
-                                                <td>{d.email}</td>
-                                                <td>{d.userType}</td>
-                                                <td>
-                                                    <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={(e) => {
-                                                        e.preventDefault()
-                                                        dispatch(updateUserAction(d._id, adminData))
-                                                    }}>
+                        <div class="blue" style={{ overflowX: "auto", whiteSpace: "nowrap" }}>
+                            {timerCount == 0 ?
+                                <div>
+                                    <Table >
+                                        <thead className='text-light'>
+                                            <th className='px-3'>FULLNAME</th>
+                                            <th className='mx-2'>E-MAIL</th>
+                                            <th className='px-2' >USERTYPE</th>
+                                            <th className='mx-2'>ACTIONS</th>
+                                        </thead>
+                                        <tbody className='text-muted'>
+                                            {records
+                                                .map((d, i) => (
+                                                    <tr key={i}>
+                                                        <td >{d.fullname}</td>
+                                                        <td>{d.email}</td>
+                                                        <td>{d.userType}</td>
+                                                        <td>
+                                                            <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={(e) => {
+                                                                e.preventDefault()
+                                                                dispatch(updateUserAction(d._id, adminData))
+                                                            }}>
 
-                                                        <RiAdminFill /> ADMIN
+                                                                <RiAdminFill /> ADMIN
 
-                                                    </div>
-                                                    <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={(e) => {
-                                                        e.preventDefault()
-                                                        dispatch(updateUserAction(d._id, userData))
-                                                    }}>
+                                                            </div>
+                                                            <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={(e) => {
+                                                                e.preventDefault()
+                                                                dispatch(updateUserAction(d._id, userData))
+                                                            }}>
 
-                                                        <RiUser3Fill /> USER
+                                                                <RiUser3Fill /> USER
 
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                </tbody>
-                            </Table>
-                            <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                <ul className='pagination'>
-                                    <li className='page-item '>
-                                        <a style={{ cursor: "pointer" }} className='page-link' onClick={prePage}>Prev</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                        </tbody>
+                                    </Table>
+                                    <div className='pagination-container' style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                        <ul class="pagination1">
+                                            <li >
+                                                <a className='prev' style={{ cursor: "pointer", position: "relative" }} onClick={prePage}>Geri</a>
 
-                                    </li>
-                                    {
-                                        numbers.map((n, i) => (
-                                            <li className={`page-item ${currentPage === n ? 'active' : ''}`} key={i}>
-                                                <a style={{ cursor: "pointer" }} className='page-link' onClick={() => changeCPage(n)}>{n}</a>
                                             </li>
-                                        ))
-                                    }
-                                    <li className='page-item'>
-                                        <a style={{ cursor: "pointer" }} className='page-link' onClick={nextPage}>Next</a>
+                                            {
+                                                numbers.map((n, i) => (
+                                                    <li key={i} className={`page-item ${parseInt(currentPage, 10) === n ? 'active' : ''}`}>
+                                                        <a style={{ cursor: "pointer", position: "relative" }} onClick={() => changeCPage(n)}>{n}</a>
+                                                    </li>
+                                                )).slice(sliceCurrent, parseInt(currentPage, 10) + 2)
+                                            }
+                                            <li>
+                                                <a className='next' style={{ cursor: "pointer", position: "relative" }} onClick={nextPage}>İleri</a>
 
-                                    </li>
-                                </ul>
-                            </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div> : <span class="loader"></span>}
                         </div>
 
                     </div>

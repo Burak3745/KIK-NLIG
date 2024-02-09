@@ -32,6 +32,20 @@ export const createMovieAction = (movieData) => async (dispatch) => {
   }
 }
 
+export const getSortedMoviesAction = (sortBy, sortOrder) => async (dispatch) => {
+  try {
+    const { data } = await axios.getSortedMovies(sortBy, sortOrder);
+
+    dispatch({ type: "GET_SORTED_MOVIES", payload: data  })
+  } catch (error) {
+    console.log(error)
+    toast(error.response.data.msg, {
+      position: "top-right",
+      autoClose: 5000,
+    });
+  }
+}
+
 
 export const updateMovieAction = (id, updatedMovie) => async (dispatch) => {
   try {

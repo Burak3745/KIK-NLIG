@@ -30,10 +30,12 @@ const ActorList = () => {
     const firstIndex = lastIndex - recordsPerPage;
     const records = actors.filter((item) => {
         return search.toLowerCase() === '' ? item : item.name.toLowerCase().includes(search.toLowerCase())
-    }).slice(firstIndex, lastIndex);
+    }).sort((a, b) => a.name.localeCompare(b.name)).slice(firstIndex, lastIndex);
 
 
-    const npage = Math.ceil(actors.map((item) => item).length / recordsPerPage)
+    const npage = Math.ceil(actors.map((item) => item).filter((item) => {
+        return search.toLowerCase() === '' ? item : item.name.toLowerCase().includes(search.toLowerCase())
+    }).length / recordsPerPage)
     const numbers = [...Array(npage + 1).keys()].slice(1)
 
     const navigate = useNavigate();
@@ -66,9 +68,26 @@ const ActorList = () => {
             }
         }
     }
-   
-    
+    let sliceCurrent = 0
+    if (currentPage == 2 || currentPage == 1) {
+        sliceCurrent = 0
+    }
+    else {
+        sliceCurrent = currentPage - 3
+    }
 
+
+    const [timerCount, setTimer] = useState(300)
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (timerCount > 0) {
+                setTimer(prevCount => prevCount - 1);
+            }
+        }, 1); // her milisaniyede bir azalt
+
+        // Temizleme işlemi
+        return () => clearInterval(interval);
+    }, [timerCount]); // yalnızca bir kez çağırılacak
 
 
     const [user, setUser] = useState()
@@ -103,52 +122,56 @@ const ActorList = () => {
                             <i class="fas fa-search"></i>
 
                         </div>
-                        <div class="blue" style={{overflowX: "auto", whiteSpace: "nowrap"}}>
-                            <Table>
-                                <thead className='text-light'>
-                                    <th>IMAGE</th>
-                                    <th>NAME</th>
-                                    <th>ACTIONS</th>
-                                </thead>
-                                <tbody className='text-muted'>
-                                    {records.map((d, i) => (
-                                        <tr key={i}>
-                                            <td>
-                                            <motion.div variants={imageanimations} initial="hidden" animate="show">
-                                                <div className='bg-image hover-zoom'>
-                                                    <Card.Img variant="top" src={d.image} />
-                                                </div>
-                                            </motion.div>
-                                            </td>
-                                            <td ><br/><div style={{ position: "relative", cursor: "pointer" }} onClick={() => actorSeriesMovie(d._id)}>{d.name}</div></td>
-                                            <td>
-                                                <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => updateActor(d._id)}><MdBrowserUpdated /> Edit</div>
-                                                <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => deleteActor(d._id)}><RiDeleteBin5Fill /> Delete</div>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </Table>
-                            <div style={{ display:"flex", alignItems:"center", justifyContent:"center" }}>
-                                <ul className='pagination'>
-                                    <li className='page-item '>
-                                        <a style={{cursor:"pointer"}} className='page-link' onClick={prePage}>Prev</a>
+                        <div class="blue" style={{ overflowX: "auto", whiteSpace: "nowrap" }}>
+                            {timerCount == 0 ?
+                                <div>
+                                    <Table>
+                                        <thead className='text-light'>
+                                            <th className='px-3'>IMAGE</th>
+                                            <th>NAME</th>
+                                            <th>ACTIONS</th>
+                                        </thead>
+                                        <tbody className='text-muted'>
+                                            {records.map((d, i) => (
+                                                <tr key={i}>
+                                                    <td>
+                                                        <motion.div variants={imageanimations} initial="hidden" animate="show">
+                                                            <div className='bg-image hover-zoom'>
+                                                                <Card.Img variant="top" src={d.image} />
+                                                            </div>
+                                                        </motion.div>
+                                                    </td>
+                                                    <td ><br /><div style={{ position: "relative", cursor: "pointer" }} onClick={() => actorSeriesMovie(d._id)}>{d.name}</div></td>
+                                                    <td>
+                                                        <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => updateActor(d._id)}><MdBrowserUpdated /> Edit</div>
+                                                        <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => deleteActor(d._id)}><RiDeleteBin5Fill /> Delete</div>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </Table>
+                                    <div className='pagination-container' style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                        <ul class="pagination1">
+                                            <li >
+                                                <a className='prev' style={{ cursor: "pointer", position: "relative" }} onClick={prePage}>Geri</a>
 
-                                    </li>
-                                    {
-                                        numbers.map((n, i) => (
-                                            <li className={`page-item ${currentPage === n ? 'active' : ''}`} key={i}>
-                                                <a style={{cursor:"pointer"}} className='page-link' onClick={() => changeCPage(n)}>{n}</a>
                                             </li>
-                                        ))
-                                    }
-                                    <li className='page-item'>
-                                        <a style={{cursor:"pointer"}} className='page-link' onClick={nextPage}>Next</a>
+                                            {
+                                                numbers.map((n, i) => (
+                                                    <li key={i} className={`page-item ${parseInt(currentPage, 10) === n ? 'active' : ''}`}>
+                                                        <a style={{ cursor: "pointer", position: "relative" }} onClick={() => changeCPage(n)}>{n}</a>
+                                                    </li>
+                                                )).slice(sliceCurrent, parseInt(currentPage, 10) + 2)
+                                            }
+                                            <li>
+                                                <a className='next' style={{ cursor: "pointer", position: "relative" }} onClick={nextPage}>İleri</a>
 
-                                    </li>
-                                </ul>
-                            </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div> : <span class="loader"></span>}
                         </div>
+
 
                     </div>
 

@@ -15,8 +15,13 @@ const seriesSchema = mongoose.Schema({
             hostingname: {
                 type: String,
             },
-            adress:{
+            adress: {
                 type: String,
+            },
+            options: {
+                type: String,
+                enum: ['Dublaj', 'Altyazı'],
+                default: 'Altyazı'
             }
         }
     ],
@@ -35,7 +40,7 @@ const seriesSchema = mongoose.Schema({
     views: {
         type: Number,
         default: 0,
-     },
+    },
     foreignkey: {
         type: String,
         require: true,
@@ -44,7 +49,7 @@ const seriesSchema = mongoose.Schema({
         {
             userid: {
                 type: String,
-              }
+            }
         }
     ],
     comment: [

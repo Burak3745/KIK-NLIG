@@ -19,7 +19,8 @@
     "nodemailer": "^6.9.8",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
-    "validator": "^13.11.0"
+    "validator": "^13.11.0",
+    "webtorrent": "^2.1.35"
   },
   "scripts": {
     "start": "nodemon server.js"

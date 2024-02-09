@@ -38,6 +38,8 @@ import UpdateActors from "./Admin Panel/UpdateActors";
 import ForgotPassword from "./screens/ForgotPassword";
 import OTPInput from "./screens/OTPInput";
 import ResetPassword from "./screens/ResetPassword";
+import Torrent from "./components/Torrent";
+import Players from "./screens/Players";
 const App = () => {
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
@@ -50,11 +52,9 @@ const App = () => {
         <main className="py-1">
           <Container>
             <Routes>
-
-              <Route path="/" element={<DetectAuth user={user} setUser={setUser} />} exact />
               <Route path="/login" element={<Login setUser={setUser} />}></Route>
               <Route path="/signup" element={<Signup />}></Route>
-              <Route path="/browse" element={<Browser user={user} />}></Route>
+              <Route path="/" element={<Browser user={user} />}></Route>
               <Route path="/details/:id" element={<Protected><Details /></Protected>} user={user}></Route>
               <Route path="/play/:id" element={<FetchMovie user={user} />}> </Route>
               <Route path="/playseries/:id" element={<FetchSeries user={user} />}> </Route>
@@ -84,6 +84,8 @@ const App = () => {
               <Route path="/forgotPassword" element={<ForgotPassword email={username} setEmail={setUsername} otp={OTP} setOTP={setOTP}/>} />
               <Route path="/code" element={<OTPInput email={username} setEmail={setUsername} otp={OTP} setOTP={setOTP}/>} />
               <Route path="/reset" element={<ResetPassword email={username} setEmail={setUsername} otp={OTP} setOTP={setOTP}/>} />
+              <Route path="/torrent" element={<Torrent/>} />
+              <Route path="/oyuncular" element={<Players/>} />
             </Routes>
           </Container>
         </main>

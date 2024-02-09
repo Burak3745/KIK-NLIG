@@ -31,6 +31,10 @@ const userSchema = mongoose.Schema({
         type: String,
         default: ""
     },
+    options: {
+        type: String,
+        default: "Altyazı"
+    },
 })
 
 export default mongoose.model('User', userSchema)

@@ -205,10 +205,10 @@ router.put('/:id', async (req, res) => {
 
     if (!mongoose.Types.ObjectId.isValid(id))
       res.status(404).json({ message: 'User is not valid' })
-    const { fullname, email, password, userType, phoneNumber, hostingname} = req.body
+    const { fullname, email, password, userType, phoneNumber, hostingname, options} = req.body
 
     const updatedUser = await Users.findByIdAndUpdate(id,
-      { fullname, email, password, userType, phoneNumber, hostingname, _id: id },
+      { fullname, email, password, userType, phoneNumber, hostingname, options, _id: id },
       { new: true })
     res.status(200).json(updatedUser)
 

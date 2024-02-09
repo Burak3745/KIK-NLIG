@@ -30,6 +30,7 @@ const UpdateProfile = ({ user, setUser }) => {
     }).filter((item) => {
         return search.toLowerCase() === '' ? item : item.fullname.toLowerCase().includes(search.toLowerCase())
     }).slice(firstIndex, lastIndex);
+
     const npage = Math.ceil(user1.filter((item) => {
         if (item.email !== user.email) { return item }
     }).filter((item) => {
@@ -45,6 +46,26 @@ const UpdateProfile = ({ user, setUser }) => {
     const deleteUser = (id) => {
         dispatch(deleteUserAction(id));
     }
+
+    let sliceCurrent = 0
+    if (currentPage == 2 || currentPage == 1) {
+        sliceCurrent = 0
+    }
+    else {
+        sliceCurrent = currentPage - 3
+    }
+
+    const [timerCount, setTimer] = useState(300)
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (timerCount > 0) {
+                setTimer(prevCount => prevCount - 1);
+            }
+        }, 1); // her milisaniyede bir azalt
+
+        // Temizleme işlemi
+        return () => clearInterval(interval);
+    }, [timerCount]); // yalnızca bir kez çağırılacak
 
     const [user2, setUser2] = useState()
     const userState = useSelector((state) => state.user)
@@ -78,53 +99,56 @@ const UpdateProfile = ({ user, setUser }) => {
                             <i class="fas fa-search"></i>
 
                         </div>
-                        <div class="blue" style={{overflowX: "auto", whiteSpace: "nowrap"}}>
-                            <Table>
-                                <thead className='text-light'>
-                                    <th className='px-3'>FULLNAME</th>
-                                    <th>E-MAIL</th>
-                                    <th>ACTIONS</th>
-                                </thead>
-                                <tbody className='text-muted'>
-                                    {records
-                                        .map((d, i) => (
-                                            <tr key={i} style={{ height: "60px" }}>
-                                                <td >{d.fullname}</td>
-                                                <td>{d.email}</td>
-                                                <td><div style={{ position:"relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => updateUser(d._id)}>
+                        <div class="blue" style={{ overflowX: "auto", whiteSpace: "nowrap" }}>
+                            {timerCount == 0 ?
+                                <div>
+                                    <Table>
+                                        <thead className='text-light'>
+                                            <th className='px-3'>FULLNAME</th>
+                                            <th>E-MAIL</th>
+                                            <th>ACTIONS</th>
+                                        </thead>
+                                        <tbody className='text-muted'>
+                                            {records
+                                                .map((d, i) => (
+                                                    <tr key={i} style={{ height: "60px" }}>
+                                                        <td >{d.fullname}</td>
+                                                        <td>{d.email}</td>
+                                                        <td><div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => updateUser(d._id)}>
 
-                                                    <MdBrowserUpdated /> Edit
+                                                            <MdBrowserUpdated /> Edit
 
-                                                </div>
-                                                    <div style={{ position:"relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => deleteUser(d._id)}>
+                                                        </div>
+                                                            <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => deleteUser(d._id)}>
 
-                                                        <RiDeleteBin5Fill /> Delete
+                                                                <RiDeleteBin5Fill /> Delete
 
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                </tbody>
-                            </Table>
-                            <div style={{ display:"flex", alignItems:"center", justifyContent:"center" }}>
-                                <ul className='pagination'>
-                                    <li className='page-item '>
-                                        <a style={{cursor:"pointer"}} className='page-link' onClick={prePage}>Prev</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                        </tbody>
+                                    </Table>
+                                    <div className='pagination-container' style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                        <ul class="pagination1">
+                                            <li >
+                                                <a className='prev' style={{ cursor: "pointer", position: "relative" }} onClick={prePage}>Geri</a>
 
-                                    </li>
-                                    {
-                                        numbers.map((n, i) => (
-                                            <li className={`page-item ${currentPage === n ? 'active' : ''}`} key={i}>
-                                                <a style={{cursor:"pointer"}} className='page-link' onClick={() => changeCPage(n)}>{n}</a>
                                             </li>
-                                        ))
-                                    }
-                                    <li className='page-item'>
-                                        <a style={{cursor:"pointer"}} className='page-link' onClick={nextPage}>Next</a>
+                                            {
+                                                numbers.map((n, i) => (
+                                                    <li key={i} className={`page-item ${parseInt(currentPage, 10) === n ? 'active' : ''}`}>
+                                                        <a style={{ cursor: "pointer", position: "relative" }} onClick={() => changeCPage(n)}>{n}</a>
+                                                    </li>
+                                                )).slice(sliceCurrent, parseInt(currentPage, 10) + 2)
+                                            }
+                                            <li>
+                                                <a className='next' style={{ cursor: "pointer", position: "relative" }} onClick={nextPage}>İleri</a>
 
-                                    </li>
-                                </ul>
-                            </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div> : <span class="loader"></span>}
                         </div>
 
                     </div>

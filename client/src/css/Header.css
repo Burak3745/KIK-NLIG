@@ -143,8 +143,9 @@
 
 
 .search-wrapper {
-  margin-right: 50px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  margin-top: 20px;
   margin-left: 10px;
   top: 50%;
   left: 50%;
@@ -302,9 +303,8 @@
 
 @media (max-width: 991px) {
   .search-wrapper .input-holder {
-    display: block;
-    margin-right: 0;
     margin-bottom: 10px;
+    margin-right: 100px;
   }
 
   .search-wrapper .close {
@@ -323,12 +323,13 @@
 }
 
 .card-container-search {
-  position: absolute;
+  position: fixed;
   /* Kartların mutlak konumda olmasını sağlar */
   /* Kartları başlangıçta gizle */
   background-color: rgb(6, 0, 29);
   border-radius: 10px;
   width: 450px;
+  z-index: 9999; 
 }
 
 .card-search {
@@ -358,6 +359,12 @@
   position: relative;
 }
 
+
+.search-wrapper.active 
+.navbar-image{
+  margin-right: 600px;
+}
+
 .card-search:hover {
   background-color: rgba(255, 255, 255, 0.132);
 }
@@ -371,11 +378,13 @@
 @media (min-width: 991px) and (max-width: 1100px){
   .search-wrapper.active .input-holder {
     max-width: 150px;
+    
 }
 }
 @media (min-width: 1100px) and (max-width: 1250px) {
   .search-wrapper.active .input-holder {
       max-width: 200px;
+      
   }
 }
 
@@ -384,3 +393,4 @@
     max-width: 300px;
 }
 }
+

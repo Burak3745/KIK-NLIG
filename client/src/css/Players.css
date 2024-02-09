@@ -1,0 +1,140 @@
+:root {
+    --dur: all 550ms ease-in-out; 
+    --dur-a: all 650ms ease-in-out;
+    --dur-b: all 750ms ease-in-out;
+  }
+
+.players-container {
+    
+    max-width:1200px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    grid-gap:20px;
+    padding:20px;
+    box-sizing:border-box;
+  }
+  .players-item {
+    cursor: pointer;
+    border: 2px solid #2dffb9;
+    background:#2dffb9;
+    width:150px;
+    height:230px;
+    position:relative;
+    border-radius:15px;
+    padding:30px;
+    box-sizing:border-box;
+    color:#fff;
+  }
+  .players-card {
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    margin:auto;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    border-radius:15px;
+    -webkit-transition: var(--dur);
+    -moz-transition: var(--dur);
+    -ms-transition: var(--dur);
+    -o-transition: var(--dur);
+    transition: var(--dur);
+    clip-path: circle(100.0% at 50% 50%);
+  }
+  .players-card .players-img {
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    margin:auto;
+    z-index:10;
+    width:100%;
+    height:100%;
+    width:auto;
+    max-width:9999px;
+    overflow:hidden;
+    border-radius:15px;
+    -webkit-transition: var(--dur);
+    -moz-transition: var(--dur);
+    -ms-transition: var(--dur);
+    -o-transition: var(--dur);
+    transition: var(--dur);
+    clip-path: circle(100.0% at 50% 50%);
+  }
+  .players-item:hover .players-card  .players-img{
+    clip-path: circle(0.0% at 50% 50%);
+  }
+  .players-circle {
+    background:#23c891;
+    max-width:100%;
+    height:100%;
+    position:absolute;
+    z-index:2;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    margin:auto;
+    -webkit-transition: var(--dur-a);
+    -moz-transition: var(--dur-a);
+    -ms-transition: var(--dur-a);
+    -o-transition: var(--dur-a);
+    transition: var(--dur-a);
+    clip-path: circle(100.0% at 50% 50%);
+  }
+  .circle2 {
+    background:white;
+    -webkit-transition: var(--dur-b);
+    -moz-transition: var(--dur-b);
+    -ms-transition: var(--dur-b);
+    -o-transition: var(--dur-b);
+    transition: var(--dur-b);
+    clip-path: circle(100.0% at 50% 50%);
+  }
+  .players-item:hover .players-card  .players-img {
+    clip-path: circle(0.0% at 50% 50%);
+  }
+  .players-item:hover .players-card  .players-circle {
+    clip-path: circle(0.0% at 75% 60%);
+  }
+  .players-item:hover .players-card  .circle2 {
+    clip-path: circle(0.0% at 35% 20%);
+  }
+  .players-img {
+    max-width:100%;
+    position:absolute;
+    z-index:3;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    margin:auto;
+  }
+  .players-content {
+    color: white;
+    position:relative;
+    z-index:0;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height:100%;
+    text-align: center;
+    text-shadow:
+    2px 0 #000000, -2px 0 #000000, 0 2px #000000, 0 -2px #000000,
+    1px 1px #000000, -1px -1px #000000, 1px -1px #000000, -1px 1px #000000;
+    clip-path: circle(0% at 100% 100%);
+  }
+
+  .players-item:hover .players-content{
+    -webkit-transition: var(--dur-b);
+    -moz-transition: var(--dur-b);
+    -ms-transition: var(--dur-b);
+    -o-transition: var(--dur-b);
+    transition: var(--dur-b);
+    clip-path: circle(75%);
+  }
+  

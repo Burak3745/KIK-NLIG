@@ -13,6 +13,8 @@ import { IoSend } from "react-icons/io5";
 import { AiFillDislike } from "react-icons/ai";
 import { AiFillLike } from "react-icons/ai"
 import { updateUserAction } from '../action/userAction';
+import { RiAdvertisementFill } from "react-icons/ri";
+import { MdSubtitles } from "react-icons/md";
 export default function FetchMovie() {
 
 
@@ -36,7 +38,7 @@ export default function FetchMovie() {
   })
 
   const [userData, setUserData] = useState({
-    fullname: '', email: '', phoneNumber: '', hostingname: ''
+    fullname: '', email: '', phoneNumber: '', hostingname: '', options: ''
   })
 
   useEffect(() => {
@@ -45,7 +47,7 @@ export default function FetchMovie() {
         const { data } = await getIdUser(userid)
         setUserData(data)
       }
-   
+
     }
 
     getUser()
@@ -317,32 +319,107 @@ export default function FetchMovie() {
     setValue(e.target.value)
     userData.hostingname = e.target.value
     console.log(userData)
-    if(userid != undefined){
-      
+    if (userid != undefined) {
+
       console.log(userid)
       dispatch(updateUserAction(userid, userData))
     }
-    
+
   }
   const [value, setValue] = useState('');
   useEffect(() => {
-    if(movieData.links.filter((item) => item.hostingname === userData.hostingname).length > 0){
+    if (movieData.links.filter((item) => item.hostingname === userData.hostingname).length > 0) {
       setValue(userData.hostingname)
       setLinksData(userData.hostingname)
     }
-  },[movieData, userData]);
-  
+    else {
+
+    }
+    if (userData.options === "Altyazı" && movieData.links.filter((item) => item.options === 'Altyazı').length === 0) {
+      setLinkOptions("Dublaj")
+    }
+    else if (userData.options === "Dublaj" && movieData.links.filter((item) => item.options === 'Dublaj').length === 0) {
+      setLinkOptions("Altyazı")
+    }
+    else {
+      setLinkOptions(userData.options)
+    }
+  }, [movieData, userData]);
+
+
+
+  const [linkOptions, setLinkOptions] = useState('')
+
+  const userUpdateOptionsAltyazi = (e) => {
+    setLinkOptions('Altyazı')
+    userData.options = 'Altyazı'
+    if (userid != undefined) {
+
+      dispatch(updateUserAction(userid, userData))
+    }
+  }
+  useEffect(() => {
+    if (linkOptions === 'Altyazı') {
+      if (movieData.links.filter((item) => item.hostingname === userData.hostingname)
+        .filter((item) => item.options === linkOptions).length === 0) {
+        setLinksData('')
+        setValue('')
+      }
+      else {
+        setValue(userData.hostingname)
+        setLinksData(userData.hostingname)
+
+      }
+
+    }
+  }, [linkOptions]);
+
+  const userUpdateOptionsDublaj = (e) => {
+    setLinkOptions('Dublaj');
+    userData.options = 'Dublaj'
+    if (userid != undefined) {
+
+      dispatch(updateUserAction(userid, userData))
+    }
+  };
+
+  useEffect(() => {
+    if (linkOptions === 'Dublaj') {
+      if (movieData.links.filter((item) => item.hostingname === userData.hostingname)
+        .filter((item) => item.options === linkOptions).length === 0) {
+        setLinksData('')
+        setValue('')
+      }
+      else {
+        setValue(userData.hostingname)
+        setLinksData(userData.hostingname)
+      }
+
+    }
+  }, [linkOptions]);
+
   if (movieData.type == "Dizi") {
     return (navigate(`/episodes/${id}`))
   }
   else {
     return (
       <div>
-        <div style={{ display: "flex", justifyContent: "flex-start", marginBottom: "10px" }}>
+        <div style={{ display: "flex", justifyContent: "flex-start", overflowX: "auto", whiteSpace: "nowrap", marginBottom: "10px" }}>
+          {movieData.links.filter((item) => item.options === 'Altyazı').length > 0 ? (
+            <div className='backforward' style={{ marginRight: "20px", marginLeft:"20px" }} onClick={(e) => userUpdateOptionsAltyazi()}>
+              <MdSubtitles size={16} style={{ marginRight: "5px" }} /> Altyazı
+            </div>
+          ) : (<div></div>)}
+          {movieData.links.filter((item) => item.options === 'Dublaj').length > 0 ? (
+            <div className='backforward' onClick={(e) => userUpdateOptionsDublaj(e)}>
+              <RiAdvertisementFill /> Dublaj
+            </div>
+          ) : (<div></div>)}
+
           <div class="select-dropdown  mx-3">
             <select value={value} onChange={(e) => userUpdate(e)}>
               <option value=''>Choose Link</option>
-              {movieData.links.map((item) => (
+              {movieData.links.filter((item) => item.options === linkOptions).map((item) => (
                 <option value={item.hostingname}>{item && item.hostingname}</option>
               ))}
             </select>
@@ -362,7 +439,7 @@ export default function FetchMovie() {
                   if (item2.hostingname === linksData && linksData) {
                     return item2
                   }
-                })
+                }).filter((item) => item.options === linkOptions)
                   .map((link) => (
                     <iframe src={link.adress} scrolling="no"
                       frameborder="0" width="640" height="360" allowfullscreen="true"
