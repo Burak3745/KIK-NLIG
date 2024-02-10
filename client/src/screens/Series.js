@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import MovieCard from '../components/MovieCard1'
 import { Col, Row } from 'react-bootstrap'
 import { getMovieAction } from '../action/movieAction'
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import '../css/Films.css'
 import {
   DropdownMenu,
@@ -165,79 +165,84 @@ const Series = () => {
   else {
     sliceCurrent = currentPage - 3
   }
-  return (
-    <div>
+  if (!localStorage.getItem("user")) {
+    return <Navigate to="/login" />;
+  } else {
+
+    return (
       <div>
-        <Dropdown
-          text='Sırala'
-          icon='sort'
-          floating
-          labeled
-          button
-          className='icon'
-
-        >
-          <DropdownMenu >
-            <DropdownHeader icon='tags' content='Etikete göre sırala' />
-            <DropdownItem>
-              <Dropdown
-                text='Artan Azalan'
-                floating
-                labeled
-                button
-              >
-                <DropdownMenu>
-                  <DropdownItem onClick={handleSortOderChange} value='asc'>Artan</DropdownItem>
-                  <DropdownItem onClick={handleSortOderChange} value='desc'>Azalan</DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </DropdownItem>
-            <DropdownItem onClick={handleByChange} value='name'>İsme göre</DropdownItem>
-            <DropdownItem onClick={handleByChange} value='score'>IMDB Puanına göre</DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-      </div>
-      {timerCount == 0 ? (
         <div>
-          {records.length > 0 ? (
-            <div>
-              <Row>
-                {records.map((movie) => (
-                  <Col
-                    sm={12}
-                    md={6}
-                    lg={4}
-                    xl={3}
-                    key={movie._id}
-                    style={{ width: "160px", height: "250px" }}
-                  >
-                    <MovieCard movie={movie} />
-                  </Col>
-                ))}
-              </Row>
-              <div className='pagination-container' style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: "70px" }}>
-                <ul class="pagination1">
-                  <li >
-                    <a className='prev' style={{ cursor: "pointer", position: "relative" }} onClick={prePage}>Geri</a>
+          <Dropdown
+            text='Sırala'
+            icon='sort'
+            floating
+            labeled
+            button
+            className='icon'
 
-                  </li>
-                  {
-                    numbers.map((n, i) => (
-                      <li key={i} className={`page-item ${parseInt(currentPage, 10) === n ? 'active' : ''}`}>
-                        <a style={{ cursor: "pointer", position: "relative" }} onClick={() => changeCPage(n)}>{n}</a>
-                      </li>
-                    )).slice(sliceCurrent, parseInt(currentPage, 10) + 2)
-                  }
-                  <li >
-                    <a className='next' style={{ cursor: "pointer", position: "relative" }} onClick={nextPage}>İleri</a>
+          >
+            <DropdownMenu >
+              <DropdownHeader icon='tags' content='Etikete göre sırala' />
+              <DropdownItem>
+                <Dropdown
+                  text='Artan Azalan'
+                  floating
+                  labeled
+                  button
+                >
+                  <DropdownMenu>
+                    <DropdownItem onClick={handleSortOderChange} value='asc'>Artan</DropdownItem>
+                    <DropdownItem onClick={handleSortOderChange} value='desc'>Azalan</DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </DropdownItem>
+              <DropdownItem onClick={handleByChange} value='name'>İsme göre</DropdownItem>
+              <DropdownItem onClick={handleByChange} value='score'>IMDB Puanına göre</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </div>
+        {timerCount == 0 ? (
+          <div>
+            {records.length > 0 ? (
+              <div>
+                <Row>
+                  {records.map((movie) => (
+                    <Col
+                      sm={12}
+                      md={6}
+                      lg={4}
+                      xl={3}
+                      key={movie._id}
+                      style={{ width: "160px", height: "250px" }}
+                    >
+                      <MovieCard movie={movie} />
+                    </Col>
+                  ))}
+                </Row>
+                <div className='pagination-container' style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: "70px" }}>
+                  <ul class="pagination1">
+                    <li >
+                      <a className='prev' style={{ cursor: "pointer", position: "relative" }} onClick={prePage}>Geri</a>
 
-                  </li>
-                </ul>
-              </div>
-            </div>) : (<div></div>)}
-        </div>) : (<span class="loader"></span>)}
-    </div>
-  )
+                    </li>
+                    {
+                      numbers.map((n, i) => (
+                        <li key={i} className={`page-item ${parseInt(currentPage, 10) === n ? 'active' : ''}`}>
+                          <a style={{ cursor: "pointer", position: "relative" }} onClick={() => changeCPage(n)}>{n}</a>
+                        </li>
+                      )).slice(sliceCurrent, parseInt(currentPage, 10) + 2)
+                    }
+                    <li >
+                      <a className='next' style={{ cursor: "pointer", position: "relative" }} onClick={nextPage}>İleri</a>
+
+                    </li>
+                  </ul>
+                </div>
+              </div>) : (<div></div>)}
+          </div>) : (<span class="loader"></span>)}
+      </div>
+    )
+  }
 }
 
 export default Series

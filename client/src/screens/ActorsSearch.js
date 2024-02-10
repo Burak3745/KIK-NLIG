@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import MovieCard from '../components/MovieCard1'
 import { Col, Row } from 'react-bootstrap'
 import { getMovieAction } from '../action/movieAction'
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import '../css/Films.css'
@@ -52,12 +52,12 @@ const ActorsSearch = () => {
 
     function scrollToTop() {
         window.scrollTo(0, 0);
-      }
-    
-      useEffect(() => {
+    }
+
+    useEffect(() => {
         scrollToTop();
-      }, []);
-      
+    }, []);
+
     const kutuCount = Math.round(useWindowWide() / 300);
 
     const responsive = {
@@ -77,94 +77,99 @@ const ActorsSearch = () => {
             slidesToSlide: kutuCount // optional, default to 1.
         }
     };
-    return (
-        <div>
-            <div class="cards-grid">
-                <div class="flip-card">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front" style={{ backgroundImage: `url(${actorsData.image})` }}>
-                        </div>
-                        <div class="flip-card-back">
-                            {actorsData.name}
+    if (!localStorage.getItem("user")) {
+        return <Navigate to="/login" />;
+    } else {
+
+        return (
+            <div>
+                <div class="cards-grid">
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front" style={{ backgroundImage: `url(${actorsData.image})` }}>
+                            </div>
+                            <div class="flip-card-back">
+                                {actorsData.name}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <h2 className='text-white'>Filmleri</h2>
-            {movie.filter((item) => {
-                if (item.type === "Film") { return item }
-            }).filter((item) => {
-                if (item.player.filter((item) => item.actorsid === id).length !== 0) {
-                    return item
-                }
-            }).length === 0 ? (<h3 style={{color:"rgba(255, 255, 255, 0.5)"}}>Filmi Bulunamadı</h3>) : (
-                <div>
-                    
-                    <Carousel
-                        responsive={responsive}
-                    >
-                        {movie.filter((item) => {
-                            if (item.type === "Film") { return item }
-                            else {
-                                return
-                            }
-                        })
-                            .filter(item => {
-                                if (catagory === '') return item
-                                else
-                                    return catagory && item.catagory.toLowerCase().includes(catagory.toLowerCase())
-                            })
-                            .filter((item) => {
-                                if (item.player.filter((item) => item.actorsid === id).length !== 0) {
-                                    return item
+                <h2 className='text-white'>Filmleri</h2>
+                {movie.filter((item) => {
+                    if (item.type === "Film") { return item }
+                }).filter((item) => {
+                    if (item.player.filter((item) => item.actorsid === id).length !== 0) {
+                        return item
+                    }
+                }).length === 0 ? (<h3 style={{ color: "rgba(255, 255, 255, 0.5)" }}>Filmi Bulunamadı</h3>) : (
+                    <div>
+
+                        <Carousel
+                            responsive={responsive}
+                        >
+                            {movie.filter((item) => {
+                                if (item.type === "Film") { return item }
+                                else {
+                                    return
                                 }
                             })
-                            .map((movie) => (
-                                <MovieCard movie={movie} />
-                            ))}
-                    </Carousel>
-                </div>
-            )}
+                                .filter(item => {
+                                    if (catagory === '') return item
+                                    else
+                                        return catagory && item.catagory.toLowerCase().includes(catagory.toLowerCase())
+                                })
+                                .filter((item) => {
+                                    if (item.player.filter((item) => item.actorsid === id).length !== 0) {
+                                        return item
+                                    }
+                                })
+                                .map((movie) => (
+                                    <MovieCard movie={movie} />
+                                ))}
+                        </Carousel>
+                    </div>
+                )}
 
-            <h2 className='text-white'>Dizileri</h2>
-            {movie.filter((item) => {
-                if (item.type === "Dizi") { return item }
-            }).filter((item) => {
-                if (item.player.filter((item) => item.actorsid === id).length !== 0) {
-                    return item
-                }
-            }).length === 0 ? (<h3 style={{color:"rgba(255, 255, 255, 0.5)"}}>Dizisi Bulunamadı</h3>) : (
-                <div>
-            <Carousel
-                responsive={responsive}
-            >
+                <h2 className='text-white'>Dizileri</h2>
                 {movie.filter((item) => {
                     if (item.type === "Dizi") { return item }
-                    else {
-                        return
+                }).filter((item) => {
+                    if (item.player.filter((item) => item.actorsid === id).length !== 0) {
+                        return item
                     }
-                })
-                    .filter(item => {
-                        if (catagory === '') return item
-                        else
-                            return catagory && item.catagory.toLowerCase().includes(catagory.toLowerCase())
-                    })
-                    .filter((item) => {
-                        if (item.player.filter((item) => item.actorsid === id).length !== 0) {
-                            return item
-                        }
-                    })
-                    .map((movie) => (
-                        <MovieCard movie={movie} />
-                    ))}
-            </Carousel>
-            </div>
-)           
-            }
-            
+                }).length === 0 ? (<h3 style={{ color: "rgba(255, 255, 255, 0.5)" }}>Dizisi Bulunamadı</h3>) : (
+                    <div>
+                        <Carousel
+                            responsive={responsive}
+                        >
+                            {movie.filter((item) => {
+                                if (item.type === "Dizi") { return item }
+                                else {
+                                    return
+                                }
+                            })
+                                .filter(item => {
+                                    if (catagory === '') return item
+                                    else
+                                        return catagory && item.catagory.toLowerCase().includes(catagory.toLowerCase())
+                                })
+                                .filter((item) => {
+                                    if (item.player.filter((item) => item.actorsid === id).length !== 0) {
+                                        return item
+                                    }
+                                })
+                                .map((movie) => (
+                                    <MovieCard movie={movie} />
+                                ))}
+                        </Carousel>
+                    </div>
+                )
+                }
 
-        </div>
-    )
+
+            </div>
+        )
+    }
 }
 
 export default ActorsSearch

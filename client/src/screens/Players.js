@@ -3,7 +3,7 @@ import '../css/Players.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { getActorsAction } from '../action/actorsAction';
 import { Col, Row } from 'react-bootstrap';
-import { useLocation, useNavigate } from 'react-router';
+import { Navigate, useLocation, useNavigate } from 'react-router';
 const Players = () => {
     const actors = useSelector(state => state.actors)
     const navigate = useNavigate();
@@ -97,62 +97,67 @@ const Players = () => {
     else {
         sliceCurrent = currentPage - 3
     }
-    return (
-        <div>
-            {timerCount == 0 ?
-                <div>
+    if (!localStorage.getItem("user")) {
+        return <Navigate to="/login" />;
+    } else {
 
-                    <Row>
-                        {records
-                            .map((item) => (
-                                <Col
-                                    sm={12}
-                                    md={6}
-                                    lg={4}
-                                    xl={3}
-                                    key={item._id}
-                                    style={{ width: "160px", height: "250px" }}
-                                >
-                                    <div class="players-container" onClick={() => navigate(`/actors/${item._id}`)}>
-                                        <div class="players-item">
-                                            <div class="players-card">
-                                                <div class="players-circle circle2"></div>
-                                                <div class="players-circle circle1"></div>
-                                                <img class="players-img" src={item.image} />
+        return (
+            <div>
+                {timerCount == 0 ?
+                    <div>
+
+                        <Row>
+                            {records
+                                .map((item) => (
+                                    <Col
+                                        sm={12}
+                                        md={6}
+                                        lg={4}
+                                        xl={3}
+                                        key={item._id}
+                                        style={{ width: "160px", height: "250px" }}
+                                    >
+                                        <div class="players-container" onClick={() => navigate(`/actors/${item._id}`)}>
+                                            <div class="players-item">
+                                                <div class="players-card">
+                                                    <div class="players-circle circle2"></div>
+                                                    <div class="players-circle circle1"></div>
+                                                    <img class="players-img" src={item.image} />
+                                                </div>
+
+                                                <div class="players-content">
+
+                                                    <p>{item.name}</p>
+                                                </div>
+
                                             </div>
-
-                                            <div class="players-content">
-
-                                                <p>{item.name}</p>
-                                            </div>
-
                                         </div>
-                                    </div>
-                                </Col>
-                            ))}
-                    </Row>
-                    <div className='pagination-container' style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: "70px" }}>
-                        <ul class="pagination1">
-                            <li >
-                                <a className='prev' style={{ cursor: "pointer", position: "relative" }} onClick={prePage}>Geri</a>
+                                    </Col>
+                                ))}
+                        </Row>
+                        <div className='pagination-container' style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: "70px" }}>
+                            <ul class="pagination1">
+                                <li >
+                                    <a className='prev' style={{ cursor: "pointer", position: "relative" }} onClick={prePage}>Geri</a>
 
-                            </li>
-                            {
-                                numbers.map((n, i) => (
-                                    <li key={i} className={`page-item ${parseInt(currentPage, 10) === n ? 'active' : ''}`}>
-                                        <a style={{ cursor: "pointer", position: "relative" }} onClick={() => changeCPage(n)}>{n}</a>
-                                    </li>
-                                )).slice(sliceCurrent, parseInt(currentPage, 10) + 2)
-                            }
-                            <li>
-                                <a className='next' style={{ cursor: "pointer", position: "relative" }} onClick={nextPage}>İleri</a>
+                                </li>
+                                {
+                                    numbers.map((n, i) => (
+                                        <li key={i} className={`page-item ${parseInt(currentPage, 10) === n ? 'active' : ''}`}>
+                                            <a style={{ cursor: "pointer", position: "relative" }} onClick={() => changeCPage(n)}>{n}</a>
+                                        </li>
+                                    )).slice(sliceCurrent, parseInt(currentPage, 10) + 2)
+                                }
+                                <li>
+                                    <a className='next' style={{ cursor: "pointer", position: "relative" }} onClick={nextPage}>İleri</a>
 
-                            </li>
-                        </ul>
-                    </div>
-                </div> : <span class="loader"></span>}
-        </div>
-    )
+                                </li>
+                            </ul>
+                        </div>
+                    </div> : <span class="loader"></span>}
+            </div>
+        )
+    }
 }
 
 export default Players

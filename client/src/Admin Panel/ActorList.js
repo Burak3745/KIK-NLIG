@@ -88,7 +88,10 @@ const ActorList = () => {
         // Temizleme işlemi
         return () => clearInterval(interval);
     }, [timerCount]); // yalnızca bir kez çağırılacak
-
+    
+    if(npage > 0 && currentPage > npage){
+        setCurrentPage(npage)
+    }
 
     const [user, setUser] = useState()
     const userState = useSelector((state) => state.user)

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Card } from 'react-bootstrap';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getIdMovie, getIdSeries, getIdUser } from '../axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSeriesAction, updateSeriesAction } from '../action/seriesAction';
@@ -448,218 +448,235 @@ export default function FetchSeries() {
 
     }
   }, [linkOptions]);
+   
+  
+  
+  const [cur, setCur] = useState(0)
+  useEffect(() => {
+    if (seriesData.views != '' && cur == 0) {
+      viewsData.views = seriesData.views + 1
+      dispatch(updateSeriesAction(id, viewsData))
+      setCur(1)
+    }
 
-  return (
-    <div>
-      <div style={{ display: "flex", justifyContent: "space-between", overflowX: "auto", whiteSpace: "nowrap", marginBottom: "10px" }}>
-        {seriesData.links.filter((item) => item.options === 'Altyazı').length > 0 ? (
-          <div className='backforward' style={{ marginRight: "20px", marginLeft:"20px" }} onClick={(e) => userUpdateOptionsAltyazi()}>
-            <MdSubtitles size={16} style={{ marginRight: "5px" }} /> Altyazı
+  }, [dispatch, id, viewsData]);
+
+
+  if (!localStorage.getItem("user")) {
+    return <Navigate to="/login" />;
+  } else {
+    return (
+      <div>
+        <div style={{ display: "flex", justifyContent: "space-between", overflowX: "auto", whiteSpace: "nowrap", marginBottom: "10px" }}>
+          {seriesData.links.filter((item) => item.options === 'Altyazı').length > 0 ? (
+            <div className='backforward' style={{ marginRight: "20px", marginLeft: "20px" }} onClick={(e) => userUpdateOptionsAltyazi()}>
+              <MdSubtitles size={16} style={{ marginRight: "5px" }} /> Altyazı
+            </div>
+          ) : (<div></div>)}
+          {seriesData.links.filter((item) => item.options === 'Dublaj').length > 0 ? (
+            <div className='backforward' onClick={(e) => userUpdateOptionsDublaj(e)}>
+              <RiAdvertisementFill /> Dublaj
+            </div>
+          ) : (<div></div>)}
+
+
+          <div class="select-dropdown  mx-3">
+            <select value={value} onChange={(e) => userUpdate(e)}>
+              <option value=''>Choose Link</option>
+              {seriesData.links.filter((item) => item.options === linkOptions).map((item) => (
+                <option value={item.hostingname}>{item && item.hostingname}</option>
+              ))}
+            </select>
           </div>
-        ) : (<div></div>)}
-        {seriesData.links.filter((item) => item.options === 'Dublaj').length > 0 ? (
-          <div className='backforward' onClick={(e) => userUpdateOptionsDublaj(e)}>
-            <RiAdvertisementFill /> Dublaj
+          <div style={{ position: "relative", color: "white", marginLeft: "20px" }}>
+            <label htmlFor="remember-me">İzlendi Olarak İşaretle:</label>
+            <input checked={isChecked} onChange={handleCheckChange} type="checkbox" style={{ marginLeft: "10px" }} id="remember-me" />
           </div>
-        ) : (<div></div>)}
-
-
-        <div class="select-dropdown  mx-3">
-          <select value={value} onChange={(e) => userUpdate(e)}>
-            <option value=''>Choose Link</option>
-            {seriesData.links.filter((item) => item.options === linkOptions).map((item) => (
-              <option value={item.hostingname}>{item && item.hostingname}</option>
-            ))}
-          </select>
-        </div>
-        <div style={{ position: "relative", color: "white", marginLeft: "20px" }}>
-          <label htmlFor="remember-me">İzlendi Olarak İşaretle:</label>
-          <input checked={isChecked} onChange={handleCheckChange} type="checkbox" style={{ marginLeft: "10px" }} id="remember-me" />
-        </div>
-        {shortallepisode[Indexepisode - 1] ? (
-          <div className='backforward' onClick={forwardepisode}>
+          {shortallepisode[Indexepisode - 1] ? (
+            <div className='backforward' onClick={forwardepisode}>
+              <h5>
+                <IoChevronBack style={{ marginRight: "5px", marginLeft: "30px" }} size={15} />
+                Önceki Bölüm
+              </h5>
+            </div>
+          ) : (<div className='backforward' style={{ color: "gray", cursor: "default" }} >
             <h5>
               <IoChevronBack style={{ marginRight: "5px", marginLeft: "30px" }} size={15} />
               Önceki Bölüm
             </h5>
-          </div>
-        ) : (<div className='backforward' style={{ color: "gray", cursor: "default" }} >
-          <h5>
-            <IoChevronBack style={{ marginRight: "5px", marginLeft: "30px" }} size={15} />
-            Önceki Bölüm
-          </h5>
-        </div>)}
-        {shortallepisode[Indexepisode + 1] ? (
-          <div className='backforward' style={{ marginLeft: "30px" }} onClick={nextepisode}>
-            <h5>
-              Sonraki Bölüm
-              <IoChevronForward style={{ marginLeft: "5px" }} size={15} />
-            </h5>
-          </div>
-        ) : (
-          <div className='backforward' style={{ marginLeft: "30px", color: "gray", cursor: "default" }} >
-            <h5>
-              Sonraki Bölüm
-              <IoChevronForward style={{ marginLeft: "5px" }} size={15} />
-            </h5>
-          </div>
-        )}
-
-      </div>
-      <Card style={{ background: "#06001d" }}>
-        {linksData == '' ? (<h1 style={{ color: "white", display: 'flex', justifyContent: "center", margin: "30px" }}>Yukarıdan Bir Link Seçiniz</h1>) : (
-
-          <Card.Footer className='mx-4 my-4' >
-            <div style={{ display: 'flex', justifyContent: "center" }}>
-              <h5 style={{ color: "white", margin: "5px" }}> {seriesData.name} </h5>
-
+          </div>)}
+          {shortallepisode[Indexepisode + 1] ? (
+            <div className='backforward' style={{ marginLeft: "30px" }} onClick={nextepisode}>
+              <h5>
+                Sonraki Bölüm
+                <IoChevronForward style={{ marginLeft: "5px" }} size={15} />
+              </h5>
             </div>
-            <div style={{ display: 'flex', justifyContent: "center" }}>
-
-              {
-                seriesData.links.filter((item2) => {
-                  if (item2.hostingname === linksData && linksData) {
-                    return item2
-                  }
-                }).filter((item) => item.options === linkOptions)
-                  .map((link) => (
-
-                    <iframe src={link.adress} scrolling="no"
-                      frameborder="0" width="640" height="360" allowfullscreen="true"
-                      webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
-                  ))}
+          ) : (
+            <div className='backforward' style={{ marginLeft: "30px", color: "gray", cursor: "default" }} >
+              <h5>
+                Sonraki Bölüm
+                <IoChevronForward style={{ marginLeft: "5px" }} size={15} />
+              </h5>
             </div>
-            <div style={{ display: 'flex', justifyContent: "center", marginTop: "10px" }}>
-              <div style={{ display: 'flex', justifyContent: "center", width: "240px", borderRadius: "15px", border: "1px solid #2dffb9" }}>
-                <span >
-                  <FaEye size={25} color='white' />
-                </span>
-                <span style={{ borderRight: "1px solid gray", marginRight: "5px" }}>
-                  <div className='mx-2 my-1 text-white'>{izlenmesayisi}</div>
-                </span>
-                {seriesData.likes.filter((item) => item.userid == userid).length === 0 ? (
-                  <span style={{ display: "flex", marginRight: "5px", cursor: "pointer", position: "relative" }} onClick={likeseries}>
-                    <AiFillLike color='white' size={25} />
-                    <span style={{ borderRight: "1px solid gray" }}>
-                      <div className='mx-2 my-1 text-white'>{likesayisi}</div>
-                    </span>
-                  </span>) : (
-                  <span style={{ display: "flex", marginRight: "5px", cursor: "pointer", position: "relative" }} onClick={unlikeseries} >
-                    <AiFillLike color='#2dffb9' size={25} />
-                    <span style={{ borderRight: "1px solid gray" }}>
-                      <div className='mx-2 my-1 text-white'>{likesayisi}</div>
-                    </span>
-                  </span>)}
-                {seriesData.dislikes.filter((item) => item.userid == userid).length === 0 ? (
-                  <span style={{ display: "flex", marginRight: "5px", cursor: "pointer", position: "relative" }} onClick={dislikeseries}>
-                    <AiFillDislike color='white' size={25} />
-                    <span >
-                      <div className='mx-2 my-1 text-white'>{dislikesayisi}</div>
-                    </span>
-                  </span>) : (
-                  <span style={{ display: "flex", marginRight: "5px", cursor: "pointer", position: "relative" }} onClick={undislikeseries}>
-                    <AiFillDislike color='#2dffb9' size={25} />
-                    <span >
-                      <div className='mx-2 my-1 text-white'>{dislikesayisi}</div>
-                    </span></span>)}
+          )}
+
+        </div>
+        <Card style={{ background: "#06001d" }}>
+          {linksData == '' ? (<h1 style={{ color: "white", display: 'flex', justifyContent: "center", margin: "30px" }}>Yukarıdan Bir Link Seçiniz</h1>) : (
+
+            <Card.Footer className='mx-4 my-4' >
+              <div style={{ display: 'flex', justifyContent: "center" }}>
+                <h5 style={{ color: "white", margin: "5px" }}> {seriesData.name} </h5>
+
               </div>
-            </div>
-          </Card.Footer >
-        )
-        }
-      </Card >
-      <Card className='my-4' style={{ background: "#06001d" }}>
-        <Card.Footer className='mx-4 my-2' style={{ display: 'flex', justifyContent: "center", color: "white" }}>
-          <h3>BÖLÜM HAKKINDA</h3>
+              <div style={{ display: 'flex', justifyContent: "center" }}>
 
-        </Card.Footer>
-        <div className='mx-3 my-2' style={{ display: 'flex', justifyContent: "center", color: "rgba(255, 255, 255, 0.5)" }}>
-          {seriesData.season}.sezon {' '} {seriesData.episode}.bölüm{': '}
-          {seriesData.description}
+                {
+                  seriesData.links.filter((item2) => {
+                    if (item2.hostingname === linksData && linksData) {
+                      return item2
+                    }
+                  }).filter((item) => item.options === linkOptions)
+                    .map((link) => (
 
-        </div>
-      </Card>
-      <div className='' style={{ background: "#06001d", minHeight: "300px", borderRadius: "5px" }}>
-        <div style={{ display: 'flex', justifyContent: "center", color: "white" }}>
-          <h3 className='my-4' >YORUMLAR</h3>
-        </div>
-        <div style={{ display: 'flex', justifyContent: "start" }}>
-          <img hidden={!user}
-            height="50"
-            width="50"
-            src={user && user.image}
-            alt=""
-            className="rounded-circle me-1 my-3 mx-4"
-            fluid />
-          <div class="form__group field mx-3">
+                      <iframe src={link.adress} scrolling="no"
+                        frameborder="0" width="640" height="360" allowfullscreen="true"
+                        webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+                    ))}
+              </div>
+              <div style={{ display: 'flex', justifyContent: "center", marginTop: "10px" }}>
+                <div style={{ display: 'flex', justifyContent: "center", width: "240px", borderRadius: "15px", border: "1px solid #2dffb9" }}>
+                  <span >
+                    <FaEye size={25} color='white' />
+                  </span>
+                  <span style={{ borderRight: "1px solid gray", marginRight: "5px" }}>
+                    <div className='mx-2 my-1 text-white'>{izlenmesayisi}</div>
+                  </span>
+                  {seriesData.likes.filter((item) => item.userid == userid).length === 0 ? (
+                    <span style={{ display: "flex", marginRight: "5px", cursor: "pointer", position: "relative" }} onClick={likeseries}>
+                      <AiFillLike color='white' size={25} />
+                      <span style={{ borderRight: "1px solid gray" }}>
+                        <div className='mx-2 my-1 text-white'>{likesayisi}</div>
+                      </span>
+                    </span>) : (
+                    <span style={{ display: "flex", marginRight: "5px", cursor: "pointer", position: "relative" }} onClick={unlikeseries} >
+                      <AiFillLike color='#2dffb9' size={25} />
+                      <span style={{ borderRight: "1px solid gray" }}>
+                        <div className='mx-2 my-1 text-white'>{likesayisi}</div>
+                      </span>
+                    </span>)}
+                  {seriesData.dislikes.filter((item) => item.userid == userid).length === 0 ? (
+                    <span style={{ display: "flex", marginRight: "5px", cursor: "pointer", position: "relative" }} onClick={dislikeseries}>
+                      <AiFillDislike color='white' size={25} />
+                      <span >
+                        <div className='mx-2 my-1 text-white'>{dislikesayisi}</div>
+                      </span>
+                    </span>) : (
+                    <span style={{ display: "flex", marginRight: "5px", cursor: "pointer", position: "relative" }} onClick={undislikeseries}>
+                      <AiFillDislike color='#2dffb9' size={25} />
+                      <span >
+                        <div className='mx-2 my-1 text-white'>{dislikesayisi}</div>
+                      </span></span>)}
+                </div>
+              </div>
+            </Card.Footer >
+          )
+          }
+        </Card >
+        <Card className='my-4' style={{ background: "#06001d" }}>
+          <Card.Footer className='mx-4 my-2' style={{ display: 'flex', justifyContent: "center", color: "white" }}>
+            <h3>BÖLÜM HAKKINDA</h3>
 
-            <input type="input" value={description} class="form__field" placeholder="Yorum Ekleyin..." name="Yorum Ekleyin..." id='Yorum Ekleyin...' required onChange={(e) => setDescription(e.target.value)} />
-            <label for="Yorum Ekleyin..." class="form__label">Yorum Ekleyin</label>
+          </Card.Footer>
+          <div className='mx-3 my-2' style={{ display: 'flex', justifyContent: "center", color: "rgba(255, 255, 255, 0.5)" }}>
+            {seriesData.season}.sezon {' '} {seriesData.episode}.bölüm{': '}
+            {seriesData.description}
+
           </div>
-          <IoSend onClick={sendButtonClick} size={20} style={{ marginTop: "35px", position: "relative" }} className='send-icon' />
-        </div>
-        <div>
-          {seriesData && seriesData.comment.map((comment, index) => (
-            <div className='card-comment my-5' key={comment.id}>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <CommentCard comment={comment} index={index} editedComment={editedComment} setEditedComment={setEditedComment}
-                  editingCommentId={editingCommentId} setEditingCommentId={setEditingCommentId} />
+        </Card>
+        <div className='' style={{ background: "#06001d", minHeight: "300px", borderRadius: "5px" }}>
+          <div style={{ display: 'flex', justifyContent: "center", color: "white" }}>
+            <h3 className='my-4' >YORUMLAR</h3>
+          </div>
+          <div style={{ display: 'flex', justifyContent: "start" }}>
+            <img hidden={!user}
+              height="50"
+              width="50"
+              src={user && user.image}
+              alt=""
+              className="rounded-circle me-1 my-3 mx-4"
+              fluid />
+            <div class="form__group field mx-3">
 
-                {comment.userid === userid && editingCommentId !== index ? (
-                  <div className='edit-delete-comment'>
-                    <div
-                      style={{ cursor: "pointer" }}
+              <input type="input" value={description} class="form__field" placeholder="Yorum Ekleyin..." name="Yorum Ekleyin..." id='Yorum Ekleyin...' required onChange={(e) => setDescription(e.target.value)} />
+              <label for="Yorum Ekleyin..." class="form__label">Yorum Ekleyin</label>
+            </div>
+            <IoSend onClick={sendButtonClick} size={20} style={{ marginTop: "35px", position: "relative" }} className='send-icon' />
+          </div>
+          <div>
+            {seriesData && seriesData.comment.map((comment, index) => (
+              <div className='card-comment my-5' key={comment.id}>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <CommentCard comment={comment} index={index} editedComment={editedComment} setEditedComment={setEditedComment}
+                    editingCommentId={editingCommentId} setEditingCommentId={setEditingCommentId} />
+
+                  {comment.userid === userid && editingCommentId !== index ? (
+                    <div className='edit-delete-comment'>
+                      <div
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                          setEditedComment(comment.description);
+                          setEditingCommentId(index);
+                        }}
+                      >
+                        Düzenle
+                      </div>
+                      <br />
+                      <div style={{ cursor: "pointer" }}
+                        onClick={() => {
+                          handleDeleteButtonClick(comment)
+
+                        }}>
+                        Sil
+                      </div>
+                    </div>
+                  ) : (
+                    <div></div>
+                  )}
+                </div>
+
+                {editingCommentId === index ? (
+                  <div>
+                    <button className='button-edit'
                       onClick={() => {
-                        setEditedComment(comment.description);
-                        setEditingCommentId(index);
+                        updateComment(comment._id)
+                        setEditingCommentId(null);
                       }}
                     >
-                      Düzenle
-                    </div>
-                    <br />
-                    <div style={{ cursor: "pointer" }}
+                      Kaydet
+                    </button>
+                    <button
+                      className='button-iptal'
                       onClick={() => {
-                        handleDeleteButtonClick(comment)
-
-                      }}>
-                      Sil
-                    </div>
+                        setEditingCommentId(null);
+                      }}
+                    >
+                      İptal
+                    </button>
                   </div>
                 ) : (
-                  <div></div>
+                  <div
+                  >
+                  </div>
                 )}
               </div>
-
-              {editingCommentId === index ? (
-                <div>
-                  <button className='button-edit'
-                    onClick={() => {
-                      updateComment(comment._id)
-                      setEditingCommentId(null);
-                    }}
-                  >
-                    Kaydet
-                  </button>
-                  <button
-                    className='button-iptal'
-                    onClick={() => {
-                      setEditingCommentId(null);
-                    }}
-                  >
-                    İptal
-                  </button>
-                </div>
-              ) : (
-                <div
-                >
-                </div>
-              )}
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
-    </div >
-  )
+      </div >
+    )
+  }
 }
 
 /*

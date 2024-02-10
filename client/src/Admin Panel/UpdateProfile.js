@@ -54,7 +54,9 @@ const UpdateProfile = ({ user, setUser }) => {
     else {
         sliceCurrent = currentPage - 3
     }
-
+    if(npage > 0 && currentPage > npage){
+        setCurrentPage(npage)
+    }
     const [timerCount, setTimer] = useState(300)
     useEffect(() => {
         const interval = setInterval(() => {

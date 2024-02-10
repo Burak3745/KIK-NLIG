@@ -56,6 +56,9 @@ const ActorsCombo = ({ handleMovieSelect }) => {
             setCurrentPage(currentPage + 1);
         }
     }
+    if(npage > 0 && currentPage > npage){
+        setCurrentPage(npage)
+    }
     let sliceCurrent = 0
     if (currentPage == 2 || currentPage == 1) {
         sliceCurrent = 0

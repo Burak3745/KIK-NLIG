@@ -2,9 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from './screens/Login'
 import Signup from './screens/Signup'
 import Browser from './screens/Browser'
-import Protected from './components/Protected';
 import DetectAuth from './components/DetectAuth';
-import Details from "./components/Details";
 import FetchMovie from './components/FetchMovie';
 import FetchSeries from './components/FetchSeries';
 import AddMovie from "./Admin Panel/AddMovie";
@@ -22,7 +20,6 @@ import Profile from "./screens/Profile";
 import Search from "./screens/FilmDiziSearch";
 import ActorsSearch from "./screens/ActorsSearch";
 import Header from './components/Header'
-import { FaRegCopyright } from 'react-icons/fa';
 import './App.css';
 import Films from "./screens/Films";
 import Series from "./screens/Series";
@@ -54,7 +51,6 @@ const App = () => {
               <Route path="/login" element={<Login setUser={setUser} />}></Route>
               <Route path="/signup" element={<Signup />}></Route>
               <Route path="/" element={<Browser user={user} />}></Route>
-              <Route path="/details/:id" element={<Protected><Details /></Protected>} user={user}></Route>
               <Route path="/play/:id" element={<FetchMovie user={user} />}> </Route>
               <Route path="/playseries/:id" element={<FetchSeries user={user} />}> </Route>
               <Route path="/episodes/:id" element={<EpisodeSelect user={user} />}> </Route>

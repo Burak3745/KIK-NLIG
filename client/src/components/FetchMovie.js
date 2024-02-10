@@ -1,6 +1,6 @@
 import { useState, useEffect, useReducer } from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { getIdMovie, getIdUser } from '../axios';
 import { FaEye } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
@@ -397,8 +397,10 @@ export default function FetchMovie() {
 
     }
   }, [linkOptions]);
-
-  if (movieData.type == "Dizi") {
+  if (!localStorage.getItem("user")) {
+    return <Navigate to="/login" />;
+  }
+  else if (movieData.type == "Dizi") {
     return (navigate(`/episodes/${id}`))
   }
   else {

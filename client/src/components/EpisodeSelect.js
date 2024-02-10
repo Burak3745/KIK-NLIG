@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { deleteSeriesAction, getSeriesAction } from '../action/seriesAction';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router';
+import { Navigate, useNavigate, useParams } from 'react-router';
 import { MdBrowserUpdated } from 'react-icons/md'
 import { RiDeleteBin5Fill } from 'react-icons/ri'
 import '../css/AddMovie.css'
@@ -86,7 +86,10 @@ const EpisodeSelect = () => {
     }, [userState])
     const userType = user && user.userType
     const userid = user && user._id
-    if (movieData.type == "Film") {
+    if (!localStorage.getItem("user")) {
+        return <Navigate to="/login" />;
+    }
+    else if (movieData.type == "Film") {
         return (navigate(`/play/${id}`))
     }
     else {

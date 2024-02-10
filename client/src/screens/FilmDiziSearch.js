@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import MovieCard from '../components/MovieCard1'
 import { Button, Col, Row } from 'react-bootstrap'
 import { getMovieAction } from '../action/movieAction'
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import { useLocation } from "react-router-dom";
 import "react-multi-carousel/lib/styles.css";
@@ -93,83 +93,83 @@ const FilmDiziSearch = () => {
         return name.toLowerCase() === '' ? item : item.name.toLowerCase().includes(name.toLowerCase())
       }
     })
-    .filter(item => {
-      if (catagory === '' || catagory === 'null' || catagory === null) return item;
-      else {
-        const selectedCategories = catagory.split(',').map(category => category.trim().toLowerCase());
-        return selectedCategories.some(selectedCategory => item.catagory.toLowerCase().includes(selectedCategory));
-      }
-    })
-    .filter(item => {
-      if (country === '' || country === 'null' || country === null) return item;
-      else {
-        const selectedCountry = country.split(',').map(country => country.trim().toLowerCase());
-        const selectedItemCountry = item.country.split(',').map(country => country.trim().toLowerCase());
-        return selectedCountry.some(selectedCountry =>
-          selectedItemCountry.some(selectedItemCountry => selectedItemCountry.toLowerCase().includes(selectedCountry)
+      .filter(item => {
+        if (catagory === '' || catagory === 'null' || catagory === null) return item;
+        else {
+          const selectedCategories = catagory.split(',').map(category => category.trim().toLowerCase());
+          return selectedCategories.some(selectedCategory => item.catagory.toLowerCase().includes(selectedCategory));
+        }
+      })
+      .filter(item => {
+        if (country === '' || country === 'null' || country === null) return item;
+        else {
+          const selectedCountry = country.split(',').map(country => country.trim().toLowerCase());
+          const selectedItemCountry = item.country.split(',').map(country => country.trim().toLowerCase());
+          return selectedCountry.some(selectedCountry =>
+            selectedItemCountry.some(selectedItemCountry => selectedItemCountry.toLowerCase().includes(selectedCountry)
+            )
           )
-        )
-      }
-    })
-    .filter(item => {
-      if (time === '' || time === 'null' || time === null) return item;
-      else if (time == '1' || time == 1) {
-        return item.time >= '30' && item.time < '60'
-      }
-      else if (time == '2' || time == 2) {
-        return item.time >= '60' && item.time < '90'
-      }
-      else if (time == '3' || time == 3) {
-        return item.time >= '90' && item.time < '120'
-      }
-      else if (time == '4' || time == 4) {
-        return item.time >= '120' && item.time < '150'
-      }
-      else if (time == '5' || time == 5) {
-        return item.time >= '150' && item.time < '180'
-      }
-      else if (time == '6' || time == 6) {
-        return item.time >= '180'
-      }
-    })
-    .filter(item => {
-      if (minscore === '' && maxscore === '' || minscore === null && maxscore === null) return item;
-      else if (minscore && maxscore == '') {
-        return item.score >= parseInt(minscore)
-      }
-      else if (maxscore && minscore == '') {
-        return item.score <= parseInt(maxscore)
+        }
+      })
+      .filter(item => {
+        if (time === '' || time === 'null' || time === null) return item;
+        else if (time == '1' || time == 1) {
+          return item.time >= '30' && item.time < '60'
+        }
+        else if (time == '2' || time == 2) {
+          return item.time >= '60' && item.time < '90'
+        }
+        else if (time == '3' || time == 3) {
+          return item.time >= '90' && item.time < '120'
+        }
+        else if (time == '4' || time == 4) {
+          return item.time >= '120' && item.time < '150'
+        }
+        else if (time == '5' || time == 5) {
+          return item.time >= '150' && item.time < '180'
+        }
+        else if (time == '6' || time == 6) {
+          return item.time >= '180'
+        }
+      })
+      .filter(item => {
+        if (minscore === '' && maxscore === '' || minscore === null && maxscore === null) return item;
+        else if (minscore && maxscore == '') {
+          return item.score >= parseInt(minscore)
+        }
+        else if (maxscore && minscore == '') {
+          return item.score <= parseInt(maxscore)
 
-      }
-      else {
-        return item.score >= parseInt(minscore) && item.score <= parseInt(maxscore)
-      }
-    })
-    .filter((item) => {
-      if (director === '' || director == 'null' || director === null) { return item }
-      else {
-        return director.toLowerCase() === '' ? item : item.director.toLowerCase().includes(director.toLowerCase())
-      }
-    })
-    .filter(item => {
-      if (minyear === '' && maxyear === '' || minyear === null && maxyear === null) return item;
-      else if (minyear && maxyear == '') {
-        return item.year.slice(-4) >= parseInt(minyear)
-      }
-      else if (maxyear && minyear == '') {
-        return item.year.slice(-4) <= parseInt(maxyear)
+        }
+        else {
+          return item.score >= parseInt(minscore) && item.score <= parseInt(maxscore)
+        }
+      })
+      .filter((item) => {
+        if (director === '' || director == 'null' || director === null) { return item }
+        else {
+          return director.toLowerCase() === '' ? item : item.director.toLowerCase().includes(director.toLowerCase())
+        }
+      })
+      .filter(item => {
+        if (minyear === '' && maxyear === '' || minyear === null && maxyear === null) return item;
+        else if (minyear && maxyear == '') {
+          return item.year.slice(-4) >= parseInt(minyear)
+        }
+        else if (maxyear && minyear == '') {
+          return item.year.slice(-4) <= parseInt(maxyear)
 
-      }
-      else {
-        return item.year.slice(-4) >= parseInt(minyear) && item.year.slice(-4) <= parseInt(maxyear)
-      }
-    })
-    .filter(item => {
-      if (type === '' || type == 'null' || type === null) return item;
-      else {
-        return item.type == type
-      }
-    })
+        }
+        else {
+          return item.year.slice(-4) >= parseInt(minyear) && item.year.slice(-4) <= parseInt(maxyear)
+        }
+      })
+      .filter(item => {
+        if (type === '' || type == 'null' || type === null) return item;
+        else {
+          return item.type == type
+        }
+      })
   }
 
   const filteredMovies = () => {
@@ -208,49 +208,53 @@ const FilmDiziSearch = () => {
     // Temizleme işlemi
     return () => clearInterval(interval);
   }, [timerCount]); // yalnızca bir kez çağırılacak
+  if (!localStorage.getItem("user")) {
+    return <Navigate to="/login" />;
+  } else {
 
-  return (
-    <div>
-      <div class="float-child">
+    return (
+      <div>
+        <div class="float-child">
 
-        <Filtered catagoryData={catagoryData} setCatagoryData={setCatagoryData} nameData={nameData} setNameData={setNameData}
-          timeData={timeData} setTimeData={setTimeData} countryData={countryData} setCountryData={setCountryData}
-          minscoreData={minscoreData} setMinscoreData={setMinscoreData} maxscoreData={maxscoreData} setMaxscoreData={setMaxscoreData}
-          setTimer={setTimer} directorData={directorData} setDirectorData={setDirectorData} minyearData={minyearData}
-          setMinyearData={setMinyearData} maxyearData={maxyearData} setMaxyearData={setMaxyearData} typeData={typeData} setTypeData={setTypeData} />
+          <Filtered catagoryData={catagoryData} setCatagoryData={setCatagoryData} nameData={nameData} setNameData={setNameData}
+            timeData={timeData} setTimeData={setTimeData} countryData={countryData} setCountryData={setCountryData}
+            minscoreData={minscoreData} setMinscoreData={setMinscoreData} maxscoreData={maxscoreData} setMaxscoreData={setMaxscoreData}
+            setTimer={setTimer} directorData={directorData} setDirectorData={setDirectorData} minyearData={minyearData}
+            setMinyearData={setMinyearData} maxyearData={maxyearData} setMaxyearData={setMaxyearData} typeData={typeData} setTypeData={setTypeData} />
 
+        </div>
+        {timerCount == 0 ?
+          <div>
+            <h2 className='text-white'>Film</h2>
+            {filteredMovies().length === 0 ? (<h3 style={{ color: "rgba(255, 255, 255, 0.5)" }}>Film Bulunamadı</h3>) : (
+              <Carousel
+                responsive={responsive}
+              >
+                {filteredMovies()
+                  .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+                  .map((movie) => (
+                    <MovieCard movie={movie} />
+                  ))}
+              </Carousel>
+            )}
+
+            <h2 className='text-white'>Dizi</h2>
+            {filteredSeries().length === 0 ? (< h3 style={{ color: "rgba(255, 255, 255, 0.5)" }}>Dizi Bulunamadı</h3>) : (
+              <Carousel
+                responsive={responsive}
+              >
+                {filteredSeries()
+                  .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+                  .map((movie) => (
+                    <MovieCard movie={movie} />
+                  ))}
+              </Carousel>
+
+            )}
+          </div> : <span class="loader1"></span>}
       </div>
-      {timerCount == 0 ?
-        <div>
-          <h2 className='text-white'>Film</h2>
-          {filteredMovies().length === 0 ? (<h3 style={{ color: "rgba(255, 255, 255, 0.5)" }}>Film Bulunamadı</h3>) : (
-            <Carousel
-              responsive={responsive}
-            >
-              {filteredMovies()
-                .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
-                .map((movie) => (
-                  <MovieCard movie={movie} />
-                ))}
-            </Carousel>
-          )}
-
-          <h2 className='text-white'>Dizi</h2>
-          {filteredSeries().length === 0 ? (< h3 style={{ color: "rgba(255, 255, 255, 0.5)" }}>Dizi Bulunamadı</h3>) : (
-            <Carousel
-              responsive={responsive}
-            >
-              {filteredSeries()
-                .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
-                .map((movie) => (
-                  <MovieCard movie={movie} />
-                ))}
-            </Carousel>
-
-          )}
-        </div> : <span class="loader1"></span>}
-    </div>
-  )
+    )
+  }
 }
 
 export default FilmDiziSearch
