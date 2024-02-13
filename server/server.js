@@ -10,7 +10,6 @@ import { dirname, join } from 'path';
 import userRouter from "./Routers/userRouter.js";
 import movieRouter from "./Routers/movieRouter.js"
 import seriesRouter from "./Routers/seriesRouter.js"
-import postRouter from "./Routers/postRouter.js";
 import actorsRouter from "./Routers/actorsRouter.js"
 import swaggerJsDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express"
@@ -49,7 +48,6 @@ app.use('/images', express.static(join(_dirname, 'dataset', 'cards'), { maxAge: 
 app.use("/users", userRouter);
 app.use("/movie", movieRouter);
 app.use("/series", seriesRouter);
-app.use("/posts", postRouter);
 app.use("/actors", actorsRouter);
 
 async function sendEmail({ recipient_email, OTP }) {
@@ -109,7 +107,7 @@ async function sendEmail({ recipient_email, OTP }) {
                 console.log(error);
                 return reject({ message: `An error has occured` });
             }
-            return resolve({ message: "Email sent succesfuly" });
+            return resolve({ message: "E-mail Başarıyla Gönderildi" });
         });
     });
 }

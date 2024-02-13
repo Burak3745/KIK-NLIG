@@ -95,3 +95,44 @@
     text-decoration: none;
     color: rgba(245, 197, 24);
 }
+
+.country-click{
+    background-color: #d60000;
+    cursor: pointer;
+}
+
+.country-click:hover{
+    background-color: #820000;
+    transition: background-color 0.5s;
+}
+
+.catagory-click{
+    background-color: #28a100;
+    
+    cursor: pointer;
+}
+
+.catagory-click:hover{
+    background-color: #196300;
+    transition: background-color 0.5s;
+}
+
+.director-click{
+    background-color: #3000ce;
+    cursor: pointer;
+}
+
+.director-click:hover{
+    background-color: #1c0076;
+    transition: background-color 0.5s;
+}
+
+.company-click{
+    background-color: #ff7300;
+    cursor: pointer;
+}
+
+.company-click:hover{
+    background-color: #c75900;
+    transition: background-color 0.5s;
+}

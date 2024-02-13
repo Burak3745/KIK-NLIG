@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from './screens/Login'
 import Signup from './screens/Signup'
 import Browser from './screens/Browser'
-import DetectAuth from './components/DetectAuth';
 import FetchMovie from './components/FetchMovie';
 import FetchSeries from './components/FetchSeries';
 import AddMovie from "./Admin Panel/AddMovie";
@@ -11,11 +10,9 @@ import MovieList from "./Admin Panel/MovieList";
 import SeriesList from "./Admin Panel/SeriesList";
 import UserList from "./Admin Panel/UserList";
 import UpdateMovie from "./Admin Panel/UpdateMovieScreen"
-import Posts from "./screens/Posts"
 import { Toaster } from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
-import PostEntry from "./screens/PostEntry";
 import Profile from "./screens/Profile";
 import Search from "./screens/FilmDiziSearch";
 import ActorsSearch from "./screens/ActorsSearch";
@@ -36,6 +33,7 @@ import ForgotPassword from "./screens/ForgotPassword";
 import OTPInput from "./screens/OTPInput";
 import ResetPassword from "./screens/ResetPassword";
 import Players from "./screens/Players";
+import Categories from "./screens/Categories";
 const App = () => {
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
@@ -72,14 +70,12 @@ const App = () => {
               <Route path="/updateactors/:id" element={<UpdateActors user={user} setUser={setUser} />} />
               <Route path="/updateuser/:id" element={<UpdateUsers user={user} setUser={setUser} />} />
               <Route path="/updateseries/:movieid/:seriesid" element={<UpdateEpisode user={user} setUser={setUser} />} />
-              <Route path="/posts" element={<Posts user={user} setUser={setUser} />} />
-              <Route path="/postEntry" element={<PostEntry user={user} setUser={setUser} />} />
-              <Route path="/postEntry/:_id" element={<PostEntry user={user} setUser={setUser} />} />
               <Route path="/profile" element={<Profile user={user} setUser={setUser} />} />
               <Route path="/forgotPassword" element={<ForgotPassword email={username} setEmail={setUsername} otp={OTP} setOTP={setOTP}/>} />
               <Route path="/code" element={<OTPInput email={username} setEmail={setUsername} otp={OTP} setOTP={setOTP}/>} />
               <Route path="/reset" element={<ResetPassword email={username} setEmail={setUsername} otp={OTP} setOTP={setOTP}/>} />
               <Route path="/oyuncular" element={<Players/>} />
+              <Route path="/kategoriler" element={<Categories />}></Route>
             </Routes>
           </Container>
         </main>

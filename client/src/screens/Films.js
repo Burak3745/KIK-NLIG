@@ -54,15 +54,29 @@ const Films = () => {
 
 
   const sortMovies = (sortBy, sortOrder) => {
-    return movie.sort((a, b) => {
-      let comparison = 0;
-      if (a[sortBy] > b[sortBy]) {
-        comparison = 1;
-      } else if (a[sortBy] < b[sortBy]) {
-        comparison = -1;
-      }
-      return sortOrder === 'desc' ? comparison * -1 : comparison;
-    });
+    if (sortBy == 'year') {
+      return movie.sort((a, b) => {
+        let comparison = 0;
+        if (a[sortBy].slice(-4) > b[sortBy].slice(-4)) {
+          comparison = 1;
+        } else if (a[sortBy].slice(-4) < b[sortBy].slice(-4)) {
+          comparison = -1;
+        }
+        return sortOrder === 'desc' ? comparison * -1 : comparison;
+      })
+    }
+    else {
+      return movie.sort((a, b) => {
+        let comparison = 0;
+        if (a[sortBy] > b[sortBy]) {
+          comparison = 1;
+        } else if (a[sortBy] < b[sortBy]) {
+          comparison = -1;
+        }
+        return sortOrder === 'desc' ? comparison * -1 : comparison;
+      })
+    }
+    ;
   };
 
   const handleSortOderChange = (e, { value }) => {
@@ -158,7 +172,7 @@ const Films = () => {
   else {
     sliceCurrent = currentPage - 3
   }
-
+  
 
   if (!localStorage.getItem("user")) {
     return <Navigate to="/login" />;
@@ -195,6 +209,7 @@ const Films = () => {
               <DropdownItem onClick={handleByChange} value='score'>IMDB Puanına göre</DropdownItem>
               <DropdownItem onClick={handleByChange} value='time'>Süresine göre</DropdownItem>
               <DropdownItem onClick={handleByChange} value='views'>İzlenme sayısına göre</DropdownItem>
+              <DropdownItem onClick={handleByChange} value='year'>Yayınlanma Tarihine göre</DropdownItem>
             </DropdownMenu>
           </Dropdown>
         </div>

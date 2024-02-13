@@ -11,11 +11,20 @@ import { RiDeleteBin5Fill } from 'react-icons/ri'
 import { IoIosAddCircle } from "react-icons/io";
 import { motion } from "framer-motion"
 import { alldeleteposts, deleteAllSeries } from '../axios';
+import {
+    ModalContent,
+    ModalActions,
+    Button,
+    Header,
+    Icon,
+    Modal,
+    ModalHeader
+} from 'semantic-ui-react'
 const SeriesList = () => {
     const movie = useSelector(state => state.movie)
     const dispatch = useDispatch();
     const [search, setSearch] = useState('')
-
+    const [open, setOpen] = React.useState(new Array(5).fill(null));
     useEffect(() => {
         if (!movie[0]) {
             dispatch(getMovieAction());
@@ -91,8 +100,8 @@ const SeriesList = () => {
         // Temizleme işlemi
         return () => clearInterval(interval);
     }, [timerCount]); // yalnızca bir kez çağırılacak
-    
-    if(npage > 0 && currentPage > npage){
+
+    if (npage > 0 && currentPage > npage) {
         setCurrentPage(npage)
     }
 
@@ -121,7 +130,7 @@ const SeriesList = () => {
                     <div class="float-child">
                         <div class="box">
                             <form name="search">
-                                <input type="text" class="input1" name="txt" placeholder='Search'
+                                <input type="text" class="input1" name="txt" placeholder='Dizi Ara...'
                                     onmouseout="this.value = ''; this.blur();" onChange={(e) => setSearch(e.target.value)} />
                             </form>
                             <i class="fas fa-search"></i>
@@ -157,7 +166,35 @@ const SeriesList = () => {
                                                     <td><br /><div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => addEpisode(d._id)}><IoIosAddCircle size={30} /></div></td>
                                                     <td >
                                                         <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => updateSeries(d._id)}><MdBrowserUpdated /> Edit</div>
-                                                        <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => deleteSeries(d._id)}><RiDeleteBin5Fill /> Delete</div>
+                                                        <Modal
+                                                            basic
+                                                            open={open[i]}
+                                                            trigger={
+                                                                <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }}>
+                                                                    <RiDeleteBin5Fill /> Delete
+                                                                </div>
+                                                            }
+                                                            onClose={() => { const newArray = [...open]; newArray[i] = false; setOpen(newArray) }}
+                                                            onOpen={() => { const newArray = [...open]; newArray[i] = true; setOpen(newArray) }}
+                                                            style={{ maxHeight: "250px", position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
+                                                        >
+                                                            <Header icon>
+                                                                <Icon name='trash alternate' />
+                                                            </Header>
+                                                            <ModalContent>
+                                                                <p style={{ textAlign: "center" }}>
+                                                                    Diziyi Silmek İstediğinize Emin Misiniz?
+                                                                </p>
+                                                            </ModalContent>
+                                                            <ModalActions>
+                                                                <Button basic color='red' inverted onClick={() => { const newArray = [...open]; newArray[i] = false; setOpen(newArray) }}>
+                                                                    <Icon name='remove' /> Hayır
+                                                                </Button>
+                                                                <Button color='green' inverted onClick={() => { const newArray = [...open]; newArray[i] = false; setOpen(newArray); deleteSeries(d._id) }}>
+                                                                    <Icon name='checkmark' /> Evet
+                                                                </Button>
+                                                            </ModalActions>
+                                                        </Modal>
 
 
                                                     </td>

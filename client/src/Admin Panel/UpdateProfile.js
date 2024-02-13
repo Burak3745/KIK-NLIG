@@ -95,7 +95,7 @@ const UpdateProfile = ({ user, setUser }) => {
                     <div class="float-child">
                         <div class="box">
                             <form name="search">
-                                <input type="text" class="input1" name="txt" placeholder='Search'
+                                <input type="text" class="input1" name="txt" placeholder='Kullanıcı Ara...'
                                     onmouseout="this.value = ''; this.blur();" onChange={(e) => setSearch(e.target.value)} />
                             </form>
                             <i class="fas fa-search"></i>

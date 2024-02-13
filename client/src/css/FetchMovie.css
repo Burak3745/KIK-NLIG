@@ -298,7 +298,17 @@
     background-image: linear-gradient(to right, #454545, #818181);
 }
 
-.backforward {
+.backforward{
+    color: white;
+    cursor: pointer;
+    position: relative;
+}
+
+.backforward:hover{
+    color:#2dffb9;
+}
+
+.backforward1 {
     position: relative;
     color: white;
     cursor: pointer;
@@ -306,4 +316,24 @@
         color: #2dffb9;
         transition: color 0.3s ease-in-out;
     }
+}
+
+.backforward2 {
+    position: relative;
+    color: white;
+    cursor: pointer;
+    &:hover{
+        color: #2dffb9;
+        transition: color 0.3s ease-in-out;
+    }
+}
+
+.backforward1.active {
+    color: #2dffb9; /* Altyazı seçildiğinde mavi renk */
+    border-bottom: 2px solid white;
+}
+
+.backforward2.active {
+    color: #2dffb9; /* Dublaj seçildiğinde mavi renk */
+    border-bottom: 2px solid white;
 }

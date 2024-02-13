@@ -11,11 +11,20 @@ import { MdBrowserUpdated } from 'react-icons/md'
 import { RiDeleteBin5Fill } from 'react-icons/ri'
 import { motion } from "framer-motion"
 import { MdDashboard } from "react-icons/md";
+import {
+    ModalContent,
+    ModalActions,
+    Button,
+    Header,
+    Icon,
+    Modal,
+    ModalHeader
+} from 'semantic-ui-react'
 const MovieList = () => {
     const movie = useSelector(state => state.movie)
     const dispatch = useDispatch();
     const [search, setSearch] = useState('')
-
+    const [open, setOpen] = React.useState(new Array(5).fill(null));
     useEffect(() => {
         if (!movie[0]) {
             dispatch(getMovieAction());
@@ -81,8 +90,8 @@ const MovieList = () => {
     else {
         sliceCurrent = currentPage - 3
     }
-    
-    if(npage > 0 && currentPage > npage){
+
+    if (npage > 0 && currentPage > npage) {
         setCurrentPage(npage)
     }
     const [timerCount, setTimer] = React.useState(300)
@@ -124,7 +133,7 @@ const MovieList = () => {
                     <div class="float-child">
                         <div class="box">
                             <form name="search">
-                                <input type="text" class="input1" name="txt" placeholder='Search'
+                                <input type="text" class="input1" name="txt" placeholder='Film Ara...'
                                     onmouseout="this.value = ''; this.blur();" onChange={(e) => setSearch(e.target.value)} />
                             </form>
                             <i class="fas fa-search"></i>
@@ -160,7 +169,37 @@ const MovieList = () => {
                                                     <td ><br /><div>{d.catagory}</div></td>
                                                     <td><div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => dashboardMovie(d._id)}><MdDashboard /> Dashboard</div>
                                                         <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => updateMovie(d._id)}><MdBrowserUpdated /> Edit</div>
-                                                        <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => deleteMovie(d._id)}><RiDeleteBin5Fill /> Delete</div>
+
+                                                        <Modal
+                                                            basic
+                                                            open={open[i]}
+                                                            trigger={
+                                                                <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }}>
+                                                                    <RiDeleteBin5Fill /> Delete
+                                                                </div>
+                                                            }
+                                                            onClose={() => { const newArray = [...open]; newArray[i] = false; setOpen(newArray) }}
+                                                            onOpen={() => { const newArray = [...open]; newArray[i] = true; setOpen(newArray) }}
+                                                            style={{ maxHeight: "250px", position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
+                                                        >
+                                                            <Header icon>
+                                                                <Icon name='trash alternate' />
+                                                            </Header>
+                                                            <ModalContent>
+                                                                <p style={{ textAlign: "center" }}>
+                                                                    Filmi Silmek İstediğinize Emin Misiniz?
+                                                                </p>
+                                                            </ModalContent>
+                                                            <ModalActions>
+                                                                <Button basic color='red' inverted onClick={() => { const newArray = [...open]; newArray[i] = false; setOpen(newArray) }}>
+                                                                    <Icon name='remove' /> Hayır
+                                                                </Button>
+                                                                <Button color='green' inverted onClick={() => { const newArray = [...open]; newArray[i] = false; setOpen(newArray); deleteMovie(d._id) }}>
+                                                                    <Icon name='checkmark' /> Evet
+                                                                </Button>
+                                                            </ModalActions>
+                                                        </Modal>
+                                                        
                                                     </td>
                                                 </tr>
                                             ))}

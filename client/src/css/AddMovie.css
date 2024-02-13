@@ -131,7 +131,7 @@
         padding: 16px 44px;
         min-width: 150px;
     }
-    
+
 }
 
 
@@ -201,7 +201,7 @@
 
 .input1 {
     padding: 0px;
-    width: 100px;
+    width: 200px;
     height: 40px;
     background: none;
     border: 4px solid #2dffb9;
@@ -391,157 +391,175 @@
 
 @media (max-width: 768px) {
     .float-child {
-      width: 100%; /* Ekran genişliğinin tamamını kaplasın */
-      float: none; /* Float'ı kaldır */
-      padding: 10px; /* Daha dar bir iç kenar boşluğu */
+        width: 100%;
+        /* Ekran genişliğinin tamamını kaplasın */
+        float: none;
+        /* Float'ı kaldır */
+        padding: 10px;
+        /* Daha dar bir iç kenar boşluğu */
     }
-  
-    .float-child .blue {
-      width: 100%; /* Ekran genişliğinin tamamını kaplasın */
-      min-height: auto; /* Minimum yüksekliği kaldır */
-      border-radius: 0; /* Köşe yuvarlamasını kaldır */
-    }
-  
-    .float-child .blue .flex-container .form__group {
-      width: 100%; /* Genişliği tam ekran genişliği kadar olsun */
-    }
-  
-    .float-child .blue .button-66 {
-      left: 50%; /* Orta pozisyon için */
-      transform: translateX(-50%); /* Orta pozisyon için */
-      width: 80%; /* Genişliği daha düzgün bir şekilde ayarlayın */
-    }
-  
-    /* Diğer mobil uyumluluk ayarları buraya eklenir */
-  }
 
-  @media (min-width: 768px) and (max-width: 1250px) {
+    .float-child .blue {
+        width: 100%;
+        /* Ekran genişliğinin tamamını kaplasın */
+        min-height: auto;
+        /* Minimum yüksekliği kaldır */
+        border-radius: 0;
+        /* Köşe yuvarlamasını kaldır */
+    }
+
+    .float-child .blue .flex-container .form__group {
+        width: 100%;
+        /* Genişliği tam ekran genişliği kadar olsun */
+    }
+
+    .float-child .blue .button-66 {
+        left: 50%;
+        /* Orta pozisyon için */
+        transform: translateX(-50%);
+        /* Orta pozisyon için */
+        width: 80%;
+        /* Genişliği daha düzgün bir şekilde ayarlayın */
+    }
+
+    /* Diğer mobil uyumluluk ayarları buraya eklenir */
+}
+
+@media (min-width: 768px) and (max-width: 1250px) {
     .float-child {
         width: 100%;
         float: none;
         padding: 8px;
     }
-    .float-child .blue {
-      width: 100%; /* Ekran genişliğinin %80'ini kaplasın */
-      margin: 0 auto; /* Ortala */
-    }
-  
-    .float-child .blue .flex-container .form__group {
-      width: 100%; /* Genişliği tam ekran genişliğinin %80'i kadar olsun */
-    }
-  
-    .float-child .blue .button-66 {
-      left: 50%; /* Orta pozisyon için */
-      transform: translateX(-50%); /* Orta pozisyon için */
-      width: 60%; /* Genişliği daha düzgün bir şekilde ayarlayın */
-    }
-  
-    /* Diğer tablet uyumluluk ayarları buraya eklenir */
-  }
 
-  .button-37,
-  .button-37::after {
- padding: 7px 8px;
- font-size: 8px;
- font-weight: bold;
- background: linear-gradient(45deg, transparent 5%, #2dffb9 5%);
- border: 0;
- color: black;
- letter-spacing: 1px;
- line-height: 1;
- box-shadow: 4px 0px 0px white;
- outline: transparent;
- position: relative;
- cursor: pointer;
+    .float-child .blue {
+        width: 100%;
+        /* Ekran genişliğinin %80'ini kaplasın */
+        margin: 0 auto;
+        /* Ortala */
+    }
+
+    .float-child .blue .flex-container .form__group {
+        width: 100%;
+        /* Genişliği tam ekran genişliğinin %80'i kadar olsun */
+    }
+
+    .float-child .blue .button-66 {
+        left: 50%;
+        /* Orta pozisyon için */
+        transform: translateX(-50%);
+        /* Orta pozisyon için */
+        width: 60%;
+        /* Genişliği daha düzgün bir şekilde ayarlayın */
+    }
+
+    /* Diğer tablet uyumluluk ayarları buraya eklenir */
+}
+
+.button-37,
+.button-37::after {
+    padding: 7px 8px;
+    font-size: 8px;
+    font-weight: bold;
+    background: linear-gradient(45deg, transparent 5%, #2dffb9 5%);
+    border: 0;
+    color: black;
+    letter-spacing: 1px;
+    line-height: 1;
+    box-shadow: 4px 0px 0px white;
+    outline: transparent;
+    position: relative;
+    cursor: pointer;
 }
 
 .button-37::after {
- --slice-0: inset(50% 50% 50% 50%);
- --slice-1: inset(80% -6px 0 0);
- --slice-2: inset(50% -6px 30% 0);
- --slice-3: inset(10% -6px 85% 0);
- --slice-4: inset(40% -6px 43% 0);
- --slice-5: inset(80% -6px 5% 0);
- content: "HOVER ME";
- display: block;
- position: absolute;
- top: 0;
- left: 0;
- right: 0;
- bottom: 0;
- background: linear-gradient(45deg, transparent 3%, white 3%, white 5%, #2dffb9 5%);
- text-shadow: -3px -3px 0px #f8f005, 3px 3px 0px white;
- clip-path: var(--slice-0);
+    --slice-0: inset(50% 50% 50% 50%);
+    --slice-1: inset(80% -6px 0 0);
+    --slice-2: inset(50% -6px 30% 0);
+    --slice-3: inset(10% -6px 85% 0);
+    --slice-4: inset(40% -6px 43% 0);
+    --slice-5: inset(80% -6px 5% 0);
+    content: "HOVER ME";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 3%, white 3%, white 5%, #2dffb9 5%);
+    text-shadow: -3px -3px 0px #f8f005, 3px 3px 0px white;
+    clip-path: var(--slice-0);
 }
 
 .button-37:hover::after {
- animation: 1s glitch;
- animation-timing-function: steps(2, end);
+    animation: 1s glitch;
+    animation-timing-function: steps(2, end);
 }
 
 @keyframes glitch {
- 0% {
-  clip-path: var(--slice-1);
-  transform: translate(-20px, -10px);
- }
+    0% {
+        clip-path: var(--slice-1);
+        transform: translate(-20px, -10px);
+    }
 
- 10% {
-  clip-path: var(--slice-3);
-  transform: translate(10px, 10px);
- }
+    10% {
+        clip-path: var(--slice-3);
+        transform: translate(10px, 10px);
+    }
 
- 20% {
-  clip-path: var(--slice-1);
-  transform: translate(-10px, 10px);
- }
+    20% {
+        clip-path: var(--slice-1);
+        transform: translate(-10px, 10px);
+    }
 
- 30% {
-  clip-path: var(--slice-3);
-  transform: translate(0px, 5px);
- }
+    30% {
+        clip-path: var(--slice-3);
+        transform: translate(0px, 5px);
+    }
 
- 40% {
-  clip-path: var(--slice-2);
-  transform: translate(-5px, 0px);
- }
+    40% {
+        clip-path: var(--slice-2);
+        transform: translate(-5px, 0px);
+    }
 
- 50% {
-  clip-path: var(--slice-3);
-  transform: translate(5px, 0px);
- }
+    50% {
+        clip-path: var(--slice-3);
+        transform: translate(5px, 0px);
+    }
 
- 60% {
-  clip-path: var(--slice-4);
-  transform: translate(5px, 10px);
- }
+    60% {
+        clip-path: var(--slice-4);
+        transform: translate(5px, 10px);
+    }
 
- 70% {
-  clip-path: var(--slice-2);
-  transform: translate(-10px, 10px);
- }
+    70% {
+        clip-path: var(--slice-2);
+        transform: translate(-10px, 10px);
+    }
 
- 80% {
-  clip-path: var(--slice-5);
-  transform: translate(20px, -10px);
- }
+    80% {
+        clip-path: var(--slice-5);
+        transform: translate(20px, -10px);
+    }
 
- 90% {
-  clip-path: var(--slice-1);
-  transform: translate(-10px, 0px);
- }
+    90% {
+        clip-path: var(--slice-1);
+        transform: translate(-10px, 0px);
+    }
 
- 100% {
-  clip-path: var(--slice-1);
-  transform: translate(0);
- }
+    100% {
+        clip-path: var(--slice-1);
+        transform: translate(0);
+    }
 }
 
 
 .pagination-container1 {
     position: relative;
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))
-  }
-  .pagination-container1 .pagination2 {
+}
+
+.pagination-container1 .pagination2 {
     position: relative;
     height: 38px;
     background: rgba(255, 255, 255, 0.05);
@@ -551,35 +569,137 @@
     justify-content: center;
     backdrop-filter: blur(3px);
     border-radius: 2px;
-  }
-  .pagination-container1 .pagination2 li {
+}
+
+.pagination-container1 .pagination2 li {
     list-style-type: none;
     display: inline-block;
-  }
-  .pagination-container1 .pagination2 li a {
+}
+
+.pagination-container1 .pagination2 li a {
     position: relative;
     padding: 10px 15px;
     text-decoration: none;
     color: #2dffb9;
     font-weight: 500;
-  }
-  
-  .pagination-container1 .pagination2 li .prev{
+}
+
+.pagination-container1 .pagination2 li .prev {
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
-  }
-  .pagination-container1 .pagination2 li .next{
+}
+
+.pagination-container1 .pagination2 li .next {
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
-  }
-  .pagination-container1 .pagination2 li a:hover,
-  .pagination-container1 .pagination2 li.active a {
+}
+
+.pagination-container1 .pagination2 li a:hover,
+.pagination-container1 .pagination2 li.active a {
     color: #2dffb9;
     background: rgba(255, 255, 255, 0.2);
-  }
+}
 
-  .custom {
-    background-color: purple !important; /* Arka plan rengi */
-    border-color: purple; /* Kenarlık rengi */
-    color: white; /* Metin rengi */
-  }
+.custom {
+    background-color: purple !important;
+    /* Arka plan rengi */
+    border-color: purple;
+    /* Kenarlık rengi */
+    color: white;
+    /* Metin rengi */
+}
+
+.hakkinda:hover {
+    color: #2dffb9;
+    transition: color 0.3s;
+}
+
+.hakkinda.active {
+    color: #2dffb9;
+    border-bottom: 2px solid white;
+}
+
+.bolumler:hover {
+    color: #2dffb9;
+    transition: color 0.3s;
+}
+
+.bolumler.active {
+    color: #2dffb9;
+    border-bottom: 2px solid white;
+}
+
+.oyuncular:hover {
+    color: #2dffb9;
+    transition: color 0.3s;
+}
+
+.oyuncular.active {
+    color: #2dffb9;
+    border-bottom: 2px solid white;
+}
+
+.numaralar {
+    cursor: pointer;
+    color: white;
+    font-size: medium;
+    background: none;
+    border: 0;
+    box-sizing: border-box;
+    padding: 1em 1.3em;
+
+    font-size: inherit;
+    font-weight: 100;
+
+    position: relative;
+    vertical-align: middle;
+    max-width: 50px;
+    max-height: 50px;
+    margin-bottom: 5px;
+    &::before,
+    &::after {
+        box-sizing: inherit;
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 20px;
+    }
+
+    &:hover {
+        color: #2dffb9;
+    }
+
+    &::before,
+    &::after {
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        transform-origin: center;
+    }
+
+    &::before {
+        border-top: 2px solid #2dffb9;
+        border-bottom: 2px solid #2dffb9;
+        transform: scale3d(0, 1, 1);
+    }
+
+    &::after {
+        border-left: 2px solid #2dffb9;
+        border-right: 2px solid #2dffb9;
+        transform: scale3d(1, 0, 1);
+    }
+
+    &:hover::before,
+    &:hover::after {
+        transform: scale3d(1, 1, 1);
+        transition: transform 0.5s;
+    }
+}
+
+.numaralar.active {
+    color: #2dffb9;
+    border: 2px solid white;
+    border-radius: 20px;
+}

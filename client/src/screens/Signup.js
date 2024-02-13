@@ -117,7 +117,7 @@ const Signup = () => {
           >
             <p
               style={{
-                color: "red",
+                color: "#2dffb9",
                 display: formData.password.length >= 6 && "none",
               }}
             >
@@ -125,7 +125,7 @@ const Signup = () => {
             </p>
             <p
               style={{
-                color: "red",
+                color: "#2dffb9",
                 display: formData.password === formData.passwordAgain && "none",
               }}
             >
@@ -133,7 +133,7 @@ const Signup = () => {
             </p>
             <p
               style={{
-                color: "red",
+                color: "#2dffb9",
                 display: formData.email.length >= 3 && "none",
               }}
             >

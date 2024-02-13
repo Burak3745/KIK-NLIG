@@ -38,26 +38,6 @@ const HTTP = axios.create({
 
   export const deleteUser = async (id) =>
   await HTTP.delete(`/users/${id}`);
-
-  /*************************************************** */
-
-  export const getPostsPage = async (userId, pageParam, options = {}) =>
-  await HTTP.get(`/posts/list/${userId}/${pageParam}`, options);
-
-  export const createPost = async (formData) =>
-  await HTTP.post("/posts", formData);
-  
-  export const getPostList = async (userId) =>
-  await HTTP.get(`/posts/list/${userId}`);
-
-  export const getPostById = async (_id) =>  
-  await  HTTP.get(`/posts/single/${_id}`)
-
-  export const deletePost = async (userId,_id) =>
-  await HTTP.delete(`/posts/${userId}/${_id}`);
-
-  export const updatePost = async (_id, updatedPost) =>
-  await HTTP.put(`/posts/${_id}`, updatedPost);
   
   /*************************************************** */
   

@@ -119,7 +119,7 @@ const ActorList = () => {
                     <div class="float-child">
                         <div class="box">
                             <form name="search">
-                                <input type="text" class="input1" name="txt" placeholder='Search'
+                                <input type="text" class="input1" name="txt" placeholder='Oyuncu Ara...'
                                     onmouseout="this.value = ''; this.blur();" onChange={(e) => setSearch(e.target.value)} />
                             </form>
                             <i class="fas fa-search"></i>

@@ -38,11 +38,12 @@ const Header = ({ user, setUser }) => {
     params2.delete("maxscore")
     params2.delete("time")
     params2.delete("siralamatipi")
-    params2.delete("siralamatürü")
+    params2.delete("siralamaturu")
     params2.delete("director")
     params2.delete("minyear")
     params2.delete("maxyear")
     params2.delete("type")
+    params2.delete("company")
     params2.set("name", value);
     navigate(`/search?${params2.toString()}`);
     window.location.reload()
@@ -164,9 +165,6 @@ const Header = ({ user, setUser }) => {
               id="dropdownMenu"
               style={{ marginTop: "8px", marginLeft: "10px" }}
             >
-              <NavDropdown.Item className="dropdownItem" onClick={() => navigate("/posts")}>
-                Bildirimler
-              </NavDropdown.Item>
               <NavDropdown.Item className="dropdownItem" onClick={() => navigate("/profile")}>
                 Profil
               </NavDropdown.Item>
@@ -214,7 +212,7 @@ const Header = ({ user, setUser }) => {
               <Nav.Link href="/filmler" className="dizifilm-text" >
                 <button class="draw">Filmler</button>
               </Nav.Link>
-              <Nav.Link className="dizifilm-text" >
+              <Nav.Link href="/kategoriler" className="dizifilm-text" >
                 <button class="draw">Kategoriler</button>
               </Nav.Link>
               <Nav.Link href="/oyuncular" className="dizifilm-text">

@@ -9,6 +9,7 @@ import ActorsCombo from './ActorsCombo';
 import { getActorsAction } from '../action/actorsAction';
 import { Col, Row } from 'react-bootstrap';
 import { IoClose } from "react-icons/io5";
+import { Dropdown } from 'semantic-ui-react';
 const AddMovie = () => {
     const dispatch = useDispatch();
     const actors = useSelector((state) => state.actors);
@@ -24,6 +25,8 @@ const AddMovie = () => {
         name: '', time: '', link: '', country: '', year: '', score: '',
         description: '', director: '', company: '', season: '', type: 'Film', catagory: '', image: '', player: [], links: []
     })
+    const catagoryArray = movieData.catagory && movieData.catagory.split(',').map(item => item.trim());
+    const countryArray = movieData.country && movieData.country.split(',').map(item => item.trim());
     const [linkData, setLinkData] = useState({
         hostingname: '', adress: '', options: ''
     })
@@ -81,12 +84,6 @@ const AddMovie = () => {
 
     const movieCreate = () => {
         dispatch(createMovieAction(movieData))
-        if (movieData.type === "Film") {
-            navigate("/movielist");
-        }
-        else {
-            navigate("/serieslist");
-        }
 
     }
     const addPlayer = (newPlayer) => {
@@ -178,6 +175,59 @@ const AddMovie = () => {
         }
     }
 
+    const handleDropdownCatagoryChange = (event, data) => {
+        if (movieData.catagory == null) {
+            setMovieData({ ...movieData, catagory: '' })
+        }
+        else if (data.value.length <= 2) {
+            const selectedValues1 = data.value;
+            const string1 = selectedValues1 && selectedValues1.join(', ');
+            setMovieData({ ...movieData, catagory: string1 })
+
+        }
+    };
+
+    const handleDropdownCountryChange = (event, data) => {
+        if (movieData.country == null) {
+            setMovieData({ ...movieData, country: '' })
+        }
+        else if (data.value.length <= 2) {
+            const selectedValues2 = data.value;
+            const string2 = selectedValues2 && selectedValues2.join(', ');
+            setMovieData({ ...movieData, country: string2 })
+        }
+
+    };
+
+
+
+
+
+    const catagoryOptions = [
+        { value: 'Action & Advanture', text: 'Action & Advanture' },
+        { value: 'Animation', text: 'Animation' },
+        { value: 'Comedy', text: 'Comedy' },
+        { value: 'Crime', text: 'Crime' },
+        { value: 'Documentary', text: 'Documentary' },
+        { value: 'Drama', text: 'Drama' },
+        { value: 'Family', text: 'Family' },
+        { value: 'Kids', text: 'Kids' },
+        { value: 'Mystery', text: 'Mystery' },
+        { value: 'News', text: 'News' },
+        { value: 'Reality', text: 'Reality' },
+        { value: 'Sci-Fi & Fantasy', text: 'Sci-Fi & Fantasy' },
+        { value: 'Soap', text: 'Soap' },
+        { value: "Talk", text: "Talk" },
+        { value: "War & Politics", text: "War & Politics" },
+        { value: 'Western', text: 'Western' },
+    ]
+    const countryOptions = [
+        { key: 'gb', value: 'İngiltere', flag: 'gb', text: 'İngiltere' },
+        { key: 'us', value: 'ABD', flag: 'us', text: 'Amerika' },
+        { key: 'tr', value: 'Türkiye', flag: 'tr', text: 'Türkiye' },
+    ]
+
+
     const [user, setUser] = useState()
     const userState = useSelector((state) => state.user)
     useEffect(() => {
@@ -225,22 +275,23 @@ const AddMovie = () => {
                                 <label for="Yönetmeni" class="form__label">Yönetmeni</label>
                             </div>
                             <div class="form__group field py-2 px-2">
-                                <input type="input" class="form__field" placeholder="Ülkesi"
-                                    name="name" id='name' required onChange={(e) => setMovieData({ ...movieData, country: e.target.value })} />
-                                <label for="Ülkesi" class="form__label">Ülkesi</label>
-                            </div>
-                        </div>
-                        <div className='flex-container mx-2'>
-
-                            <div class="form__group field py-2 px-2">
                                 <input type="input" class="form__field" placeholder="Konusu"
                                     name="name" id='name' required onChange={(e) => setMovieData({ ...movieData, description: e.target.value })} />
                                 <label for="Konusu" class="form__label">Konusu</label>
                             </div>
+                        </div>
+                        <div className='flex-container mx-2'>
+
+
                             <div class="form__group field py-2 px-2">
                                 <input type="input" class="form__field" placeholder="IMDB Puanı"
                                     name="name" id='name' required onChange={(e) => setMovieData({ ...movieData, score: e.target.value })} />
                                 <label for="IMDB Puanı" class="form__label">IMDB Puanı</label>
+                            </div>
+                            <div class="form__group field py-2 px-2">
+                                <input type="input" class="form__field" placeholder="IMDB Puanı"
+                                    name="name" id='name' required onChange={(e) => setMovieData({ ...movieData, image: e.target.value })} />
+                                <label for="IMDB Puanı" class="form__label">Resmi</label>
                             </div>
                         </div>
                         <div>
@@ -283,14 +334,6 @@ const AddMovie = () => {
                                             </div>
 
                                         </div>
-                                        <div className='flex-container mx-2'>
-                                            <div class="form__group field py-2 px-2">
-                                                <input type="input" class="form__field" placeholder="IMDB Puanı"
-                                                    name="name" id='name' required onChange={(e) => setMovieData({ ...movieData, image: e.target.value })} />
-                                                <label for="IMDB Puanı" class="form__label">Resmi</label>
-                                            </div>
-
-                                        </div>
                                     </div>
                                 ) : (<div><div className='flex-container mx-2'>
                                     <div class="form__group field py-2 px-2">
@@ -299,40 +342,21 @@ const AddMovie = () => {
                                         <label for="Sezon Sayısı" class="form__label">Sezon Sayısı</label>
                                     </div>
 
-                                    <div class="form__group field py-2 px-2">
-                                        <input type="input" class="form__field" placeholder="IMDB Puanı"
-                                            name="name" id='name' required onChange={(e) => setMovieData({ ...movieData, image: e.target.value })} />
-                                        <label for="IMDB Puanı" class="form__label">Resmi</label>
-                                    </div>
-
                                 </div>
                                 </div>)
                             }
                         </div>
                         <div className='flex-container'>
                             <div class="form__group field">
-                                <div class="select-dropdown mx-3">
-
-                                    <select value={movieData.catagory} onChange={(e) => setMovieData({ ...movieData, catagory: e.target.value })}>
-                                        <option value="">Choose Catagory</option>
-                                        <option value="Action & Advanture">Action & Advanture</option>
-                                        <option value="Animation">Animation</option>
-                                        <option value="Comedy">Comedy</option>
-                                        <option value="Crime">Crime</option>
-                                        <option value="Documentary">Documentary</option>
-                                        <option value="Drama">Drama</option>
-                                        <option value="Family">Family</option>
-                                        <option value="Kids">Kids</option>
-                                        <option value="Mystery">Mystery</option>
-                                        <option value="News">News</option>
-                                        <option value="Reality">Reality</option>
-                                        <option value="Sci-Fi & Fantasy">Sci-Fi & Fantasy</option>
-                                        <option value="Soap">Soap</option>
-                                        <option value="Talk">Talk</option>
-                                        <option value="War & Politics">War & Politics</option>
-                                        <option value="Western">Western</option>
-                                    </select>
-                                </div>
+                                <Dropdown
+                                    className='mx-3 my-2'
+                                    placeholder='Kategori Seç'
+                                    multiple
+                                    selection
+                                    options={catagoryOptions}
+                                    value={catagoryArray}
+                                    onChange={handleDropdownCatagoryChange}
+                                />
                                 <div class="select-dropdown mx-3 my-2">
 
                                     <select value={movieData.type} onChange={(e) => setMovieData({ ...movieData, type: e.target.value })}>
@@ -343,11 +367,21 @@ const AddMovie = () => {
                                 </div>
                             </div>
                             <div class="form__group field py-3 px-2">
+                                <Dropdown
+                                    className='my-2'
+                                    clearable
+                                    multiple
+                                    search
+                                    selection
+                                    options={countryOptions}
+                                    value={countryArray}
+                                    onChange={handleDropdownCountryChange}
+                                    placeholder='Ülke Seç'
+                                />
+
                                 <div className='py-2'>
                                     <ActorsCombo handleMovieSelect={handleAddButtonClick} />
                                 </div>
-
-
                             </div>
 
                         </div>

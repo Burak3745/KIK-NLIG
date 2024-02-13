@@ -93,9 +93,6 @@ const movieSchema = Schema({
     },
     catagory: {
         type: String,
-        enum: ['Action & Advanture', 'Animation', 'Comedy', 'Crime', 'Documentary',
-            'Drama', 'Family', 'Kids', 'Mystery', 'News', 'Reality',
-            'Sci-Fi & Fantasy', 'Soap', 'Talk', 'War & Politics', 'Western'],
     },
     image: {
         type: String,

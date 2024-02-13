@@ -70,7 +70,7 @@ const ActorsCombo = ({ handleMovieSelect }) => {
     return (
         <DropdownButton
             alignRight
-            title="Oyuncular"
+            title="Oyuncu Seç"
             id="dropdown-menu-align-top"
             onSelect={handleMovieSelect}
             variant="success"

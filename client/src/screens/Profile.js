@@ -83,7 +83,7 @@ const Profile = () => {
         img.onload = function () {
             if (img.width === MAX_IMAGE_WIDTH && img.height === MAX_IMAGE_HEIGHT) {
                 setFormData({ ...formData, image: file.base64 })
-                
+
                 // Alternatif olarak, istediğiniz başka bir işlemi de gerçekleştirebilirsiniz.
             } else {
                 toast.error("Resmin Boyutu 50 pixel'e 50 pixel olmalı");
@@ -106,7 +106,6 @@ const Profile = () => {
             <Container>
                 <Row className="vh-50 d-flex justify-content-center align-items-center">
                     <Col md={10} lg={8} xs={12}>
-                        <div className="border border-3 border-primary"></div>
                         <Card className="shadow">
                             <Card.Body>
                                 <div className="mb-1 mt-4">
@@ -119,7 +118,7 @@ const Profile = () => {
                                             <div className="d-grid">
                                                 {
                                                     <Button variant={vana ? "outline-info" : "outline-light"} onClick={toggleVana}>
-                                                        Güncellemeyi {vana ? "kapa" : "aç"}
+                                                        Güncellemeyi {vana ? "Kapat" : "Aç"}
                                                     </Button>
                                                 }
                                             </div>
@@ -138,6 +137,9 @@ const Profile = () => {
                                                         toggleVana();
                                                     });
                                                 }
+                                            })
+                                            .then((res) => {
+                                                toast.success("Bilgileriniz Başarıyla Güncellendi")
                                             })
                                             .catch((err) => {
                                                 toast.error(err.response.data.message);

@@ -14,8 +14,10 @@ import 'semantic-ui-css/semantic.min.css'
 
 const Filtered = ({ catagoryData, setCatagoryData, nameData, setNameData, timeData, setTimeData, countryData, setCountryData, minscoreData,
     setMinscoreData, maxscoreData, setMaxscoreData, setTimer, directorData, setDirectorData, minyearData, setMinyearData,
-    maxyearData, setMaxyearData, typeData, setTypeData }) => {
+    maxyearData, setMaxyearData, typeData, setTypeData, companyData, setCompanyData, sortBy, sortOrder, currentPage }) => {
     const navigate = useNavigate();
+    const [sortByData, setSortByData] = useState(sortBy)
+    const [sortOrderData, setSortOrderData] = useState(sortOrder)
     const handleDropdownCatagoryChange = (event, data) => {
         if (catagoryData == null) {
             setCatagoryData('')
@@ -41,6 +43,15 @@ const Filtered = ({ catagoryData, setCatagoryData, nameData, setNameData, timeDa
         }
         else {
             setDirectorData(e.target.value);
+        }
+    };
+
+    const handleInputCompanyChange = (e) => {
+        if (companyData == null) {
+            setCompanyData('')
+        }
+        else {
+            setCompanyData(e.target.value);
         }
     };
 
@@ -186,7 +197,10 @@ const Filtered = ({ catagoryData, setCatagoryData, nameData, setNameData, timeDa
         }
     };
 
-    const handleChange = (catagory, name, country, time, minscore, maxscore, director, minyear, maxyear, type) => {
+    const location = useLocation();
+
+    const handleChange = (catagory, name, country, time, minscore, maxscore, director, minyear, maxyear, type, 
+        company, sortBy, sortOrder, currentPage) => {
         const params1 = new URLSearchParams(window.location.search);
         if (name == null) {
             params1.set("name", '');
@@ -257,13 +271,46 @@ const Filtered = ({ catagoryData, setCatagoryData, nameData, setNameData, timeDa
         else {
             params1.set("type", type);
         }
+        if (company == null) {
+            params1.set("company", '');
+        }
+        else {
+            params1.set("company", company);
+        }
 
-        setTimer(300)
-        navigate(`/search?${params1.toString()}`);
+        if (location.pathname === '/kategoriler') {
+            if (sortBy == null) {
+                params1.set("siralamatipi", '');
+            }
+            else {
+                params1.set("siralamatipi", sortBy);
+            }
+
+            if (sortOrder == null) {
+                params1.set("siralamaturu", '');
+            }
+            else {
+                params1.set("siralamaturu", sortOrder);
+            }
+            if (currentPage == null) {
+                params1.set("page", 1);
+            }
+            else {
+                params1.set("page", 1);
+            }
+            setTimer(200)
+            navigate(`/kategoriler?${params1.toString()}`);
+            window.scrollTo(0, 0);
+        }
+        else if (location.pathname === '/search') {
+            setTimer(200)
+            navigate(`/search?${params1.toString()}`)
+            window.scrollTo(0, 0);
+        };
     };
 
     const handleDelete = (setCatagoryData, setNameData, setCountryData, setTimeData, setMinscoreData, setMaxscoreData, setDirectorData,
-        setMinyearData, setMaxyearData, setTypeData) => {
+        setMinyearData, setMaxyearData, setTypeData, setCompanyData, setSortByData, setSortOrderData) => {
         setCatagoryData('')
         setNameData('')
         setCountryData('')
@@ -274,6 +321,9 @@ const Filtered = ({ catagoryData, setCatagoryData, nameData, setNameData, timeDa
         setMinyearData('')
         setMaxyearData('')
         setTypeData('')
+        setCompanyData('')
+        setSortByData ('score')
+        setSortOrderData('desc')
     }
 
     const catagoryOptions = [
@@ -343,13 +393,17 @@ const Filtered = ({ catagoryData, setCatagoryData, nameData, setNameData, timeDa
                 <span style={{ color: "white", marginLeft: "10px" }}>Dizi</span>
             </Form>
             <h4>
-                Dizi Adı
+                Adı
             </h4>
             <Input fluid onChange={handleInputNameChange} value={nameData} color="teal" icon='search' placeholder='Ara...' />
             <h4>
                 Yönetmen Adı
             </h4>
             <Input fluid onChange={handleInputDirectorChange} value={directorData} color="teal" icon='search' placeholder='Ara...' />
+            <h4>
+                Şirket Adı
+            </h4>
+            <Input fluid onChange={handleInputCompanyChange} value={companyData} color="teal" icon='search' placeholder='Ara...' />
             <h4>
                 Kategoriler
             </h4>
@@ -384,18 +438,19 @@ const Filtered = ({ catagoryData, setCatagoryData, nameData, setNameData, timeDa
             <h4>
                 Yapım Yılı
             </h4>
-            <Input type='number' placeholder='Min' value={minyearData} style={{ marginRight: "25px" }} onChange={handleInputMinYearChange} />
+            <Input type='number' placeholder='Min' value={minyearData} style={{ marginRight: "25px", marginBottom:"5px" }} onChange={handleInputMinYearChange} />
             <Input type='number' placeholder='Max' value={maxyearData} onChange={handleInputMaxYearChange} />
             <h4>
                 IMDB
             </h4>
-            <Input type='number' placeholder='Min' value={minscoreData} style={{ marginRight: "25px" }} onChange={handleInputMinScoreChange} />
+            <Input type='number' placeholder='Min' value={minscoreData} style={{ marginRight: "25px", marginBottom:"5px" }} onChange={handleInputMinScoreChange} />
             <Input type='number' placeholder='Max' value={maxscoreData} onChange={handleInputMaxScoreChange} />
             <br /><br />
 
             <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <button class="clear-button" onClick={() => handleDelete(setCatagoryData, setNameData, setCountryData,
-                    setTimeData, setMinscoreData, setMaxscoreData, setDirectorData, setMinyearData, setMaxyearData, setTypeData)}>
+                    setTimeData, setMinscoreData, setMaxscoreData, setDirectorData, setMinyearData, setMaxyearData, setTypeData, setCompanyData,
+                    setSortByData, setSortOrderData)}>
                     <span class="clear-text">Temizle</span><span class="clear-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                             <path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 
@@ -403,7 +458,8 @@ const Filtered = ({ catagoryData, setCatagoryData, nameData, setNameData, timeDa
                             </path></svg></span>
                 </button>
                 <button class="clear-button2" onClick={() => handleChange(catagoryData, nameData, countryData,
-                    timeData, minscoreData, maxscoreData, directorData, minyearData, maxyearData, typeData)}>
+                    timeData, minscoreData, maxscoreData, directorData, minyearData, maxyearData, typeData, companyData,
+                    sortByData, sortOrderData, currentPage)}>
                     <span class="clear-text2">Filtrele</span><span class="clear-icon2">
                         <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M5 3a2 2 0 0 0-1.5 3.3l5.4 6v5c0 .4.3.9.6 1.1l3.1 2.3c1 .7 2.5 0 2.5-1.2v-7.1l5.4-6C21.6 5 20.7 3 19 3H5Z" />

@@ -1,49 +1,54 @@
-.Sidebar{
-    height:100%;
+.Sidebar {
+    height: 100%;
     width: 300px;
     color: azure;
     border-radius: 25px;
-    
-}
-.Sidebarlist{
+  }
+  
+  .Sidebarlist {
     height: auto;
     padding: 0;
     width: 100%;
-}
-
-.Sidebarlist .row{
-   width: 100%;
-   height: 70px;
-   border-radius: 15px;
-   background: rgb(6, 0, 29);
-   list-style-type: none;
-   margin: 0;
-   display: flex;
-   flex-direction: row;
-   color: white;
-   justify-content: center;
-   align-items: center;
-   font-family:'Times New Roman', Times, serif;
-
-}
-.Sidebarlist .row:hover{
-    cursor:pointer;
-    background: linear-gradient(to right, #11998e,#38ef7d);
-}
-.row #icon{
-    flex:22%;
+  }
+  
+  .Sidebarlist .row {
+    width: 100%;
+    height: 70px;
+    border-radius: 15px;
+    background: rgb(6, 0, 29);
+    list-style-type: none;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Times New Roman', Times, serif;
+    
+  }
+  
+  .Sidebarlist .row:hover {
+    cursor: pointer;
+    background: linear-gradient(to right, #11998e, #38ef7d);
+  }
+  
+  .row.active { /* Etkin öğe için stil tanımla */
+    background: linear-gradient(to right, #11998e, #38ef7d) !important; /* Örneğin: Etkin olduğunda yeşil yap */
+  }
+  
+  .row #icon {
+    flex: 22%;
     display: grid;
     place-items: center;
-}
-.row #title{
-    flex:78%;
-    
-}
-
-@media (max-width: 1250px) {
-    .Sidebar{
-        height:100%;
-        width: 100%;
-        
+  }
+  
+  .row #title {
+    flex: 78%;
+  }
+  
+  @media (max-width: 1250px) {
+    .Sidebar {
+      height: 100%;
+      width: 100%;
     }
-}
+  }

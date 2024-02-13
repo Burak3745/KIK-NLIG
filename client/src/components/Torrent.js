@@ -10,6 +10,7 @@ const Torrent = () => {
     useEffect(() => {
         const fetchTorrent = async () => {
             try {
+                console.log("çalişiyor")
                 const response = await torrentMovie(encodeURIComponent(torrentId && torrentId));
                 setVideoUrl(URL.createObjectURL(new Blob([response.data])));
                 alert('video indirildi')

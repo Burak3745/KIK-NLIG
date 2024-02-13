@@ -19,7 +19,7 @@ const EpisodeSelect = () => {
         }
     }, [dispatch]);
     const navigate = useNavigate();
-    
+
 
     const [movieData, setMovieData] = useState({
         name: '', time: '', link: '', country: '', year: '', score: '',
@@ -78,6 +78,10 @@ const EpisodeSelect = () => {
     const navigatee = (id) => {
         navigate(`/actors/${id}`);
     }
+
+    const isActiveHakkinda = click == "Hakkında"
+    const isActiveBolumler = click == "Bölümler"
+    const isActiveOyuncular = click == "Oyuncular"
     const [user, setUser] = useState()
     const userState = useSelector((state) => state.user)
     useEffect(() => {
@@ -99,13 +103,19 @@ const EpisodeSelect = () => {
 
                     <div class="green"><SeriesCard movie={movieData} /></div>
                 </div>
-                <div style={{ display: "flex", justifyContent: "space-between", color: "white", background: "#06001d", borderRadius: "25px", padding: "5px" }}>
-                    <h3 className='mx-2 my-2' style={{ cursor: "pointer", position: "relative" }} onClick={() => setClick('Hakkında')} >Hakkında</h3>
-                    <h3 className='mx-2 my-2' style={{ cursor: "pointer", position: "relative" }} onClick={() => setClick('Bölümler')}>Bölümler</h3>
-                    <h3 className='mx-2 my-2' style={{ cursor: "pointer", position: "relative" }} onClick={() => setClick('Oyuncular')} >Oyuncular</h3>
+                <div style={{
+                    display: "flex", justifyContent: "space-between", color: "white", background: "#06001d",
+                    borderRadius: "25px", padding: "5px"
+                }}>
+                    <h3 className={`hakkinda ${isActiveHakkinda == true ? 'active' : ''} mx-4 my-2`}
+                        style={{ cursor: "pointer", position: "relative" }} onClick={() => setClick('Hakkında')} >Hakkında</h3>
+                    <h3 className={`bolumler ${isActiveBolumler == true ? 'active' : ''} mx-2 my-2`}
+                        style={{ cursor: "pointer", position: "relative" }} onClick={() => setClick('Bölümler')}>Bölümler</h3>
+                    <h3 className={`oyuncular ${isActiveOyuncular == true ? 'active' : ''} mx-4 my-2`}
+                        style={{ cursor: "pointer", position: "relative" }} onClick={() => setClick('Oyuncular')} >Oyuncular</h3>
                 </div>
                 {click === 'Bölümler' ? (<div class="float-child">
-                    <div class="blue" style={{ padding: "20px",overflowX: "auto", whiteSpace: "nowrap" }}>
+                    <div class="blue" style={{ padding: "20px", overflowX: "auto", whiteSpace: "nowrap" }}>
                         <Table style={{}}>
                             <thead className='text-light'>
                                 <th>Sezonlar</th>
@@ -115,10 +125,10 @@ const EpisodeSelect = () => {
                                 <tr>
                                     <td>
                                         <br />
-                                        <div className='text-white'>
+                                        <div>
                                             {Array.from(Array(Math.floor(Number(movieData.season)))).map((_, i) => (
-                                                <div>
-                                                    <h4 style={{ position: "relative", cursor: "pointer" }} onClick={() => changeCPage(i + 1)}>{i + 1}</h4> <br />
+                                                <div className={`numaralar ${currentPage == i + 1 ? 'active' : ''}`} onClick={() => changeCPage(i + 1)}>
+                                                    <h4 style={{ position: "relative", cursor: "pointer" }} >{i + 1}</h4> <br />
                                                 </div>
                                             ))}
                                         </div>
@@ -194,7 +204,7 @@ const EpisodeSelect = () => {
                 ) : (<div></div>)
                 }
                 {click === 'Hakkında' ? (
-                    <div class="float-child" style={{ color: "rgba(255, 255, 255, 0.5)" }}>
+                    <div class="float-child" style={{ color: "rgba(255, 255, 255, 0.5)", textAlign:"justify" }}>
                         <div class="blue" style={{ padding: "20px" }}>
                             {movieData.description}
                         </div>

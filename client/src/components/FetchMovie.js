@@ -349,10 +349,13 @@ export default function FetchMovie() {
 
 
   const [linkOptions, setLinkOptions] = useState('')
-
+  const [isActiveAltyazı, setIsActiveAltyazı] = useState(false)
+  const [isActiveDublaj, setIsActiveDublaj] = useState(false)
   const userUpdateOptionsAltyazi = (e) => {
     setLinkOptions('Altyazı')
+    setUserData({ ...userData, options: 'Altyazı' })
     userData.options = 'Altyazı'
+    setIsActiveDublaj(false)
     if (userid != undefined) {
 
       dispatch(updateUserAction(userid, userData))
@@ -376,7 +379,9 @@ export default function FetchMovie() {
 
   const userUpdateOptionsDublaj = (e) => {
     setLinkOptions('Dublaj');
+    setUserData({ ...userData, options: 'Dublaj' })
     userData.options = 'Dublaj'
+    setIsActiveAltyazı(false)
     if (userid != undefined) {
 
       dispatch(updateUserAction(userid, userData))
@@ -397,6 +402,22 @@ export default function FetchMovie() {
 
     }
   }, [linkOptions]);
+
+
+  useEffect(() => {
+    if (userData.options == 'Altyazı') {
+      setIsActiveAltyazı(true)
+    }
+    else if (userData.options == 'Dublaj') {
+      setIsActiveDublaj(true)
+    }
+    else {
+
+    }
+  }, [userData])
+
+  console.log(isActiveDublaj)
+
   if (!localStorage.getItem("user")) {
     return <Navigate to="/login" />;
   }
@@ -408,12 +429,13 @@ export default function FetchMovie() {
       <div>
         <div style={{ display: "flex", justifyContent: "flex-start", overflowX: "auto", whiteSpace: "nowrap", marginBottom: "10px" }}>
           {movieData.links.filter((item) => item.options === 'Altyazı').length > 0 ? (
-            <div className='backforward' style={{ marginRight: "20px", marginLeft:"20px" }} onClick={(e) => userUpdateOptionsAltyazi()}>
+            <div className={`backforward1 ${isActiveAltyazı == true ? 'active' : ''}`} style={{ marginRight: "20px", marginLeft: "20px" }} 
+            onClick={(e) => userUpdateOptionsAltyazi()}>
               <MdSubtitles size={16} style={{ marginRight: "5px" }} /> Altyazı
             </div>
           ) : (<div></div>)}
           {movieData.links.filter((item) => item.options === 'Dublaj').length > 0 ? (
-            <div className='backforward' onClick={(e) => userUpdateOptionsDublaj(e)}>
+            <div className={`backforward2 ${isActiveDublaj == true ? 'active' : ''}`} onClick={(e) => userUpdateOptionsDublaj(e)}>
               <RiAdvertisementFill /> Dublaj
             </div>
           ) : (<div></div>)}
@@ -497,7 +519,7 @@ export default function FetchMovie() {
             <h3>HAKKINDA</h3>
 
           </Card.Footer>
-          <div className='mx-3 my-2' style={{ display: 'flex', justifyContent: "center", color: "rgba(255, 255, 255, 0.5)" }}>
+          <div className='mx-3 my-2' style={{ display: 'flex', justifyContent: "center", color: "rgba(255, 255, 255, 0.5)", textAlign:"justify" }}>
             {movieData.description}
 
           </div>

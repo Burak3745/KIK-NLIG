@@ -33,6 +33,7 @@ const FilmDiziSearch = () => {
   const minyear = searchParams.get('minyear');
   const maxyear = searchParams.get('maxyear');
   const type = searchParams.get('type');
+  const company = searchParams.get('company');
   const catagoryArray = catagory && catagory.split(',').map(item => item.trim());
   const countryArray = country && country.split(',').map(item => item.trim());
 
@@ -46,6 +47,7 @@ const FilmDiziSearch = () => {
   const [minyearData, setMinyearData] = useState(minyear);
   const [maxyearData, setMaxyearData] = useState(maxyear);
   const [typeData, setTypeData] = useState(type);
+  const [companyData, setCompanyData] = useState(company);
   const useWindowWide = () => {
     const [width, setWidth] = useState(0);
 
@@ -170,6 +172,12 @@ const FilmDiziSearch = () => {
           return item.type == type
         }
       })
+      .filter((item) => {
+        if (company === '' || company == 'null' || company === null) { return item }
+        else {
+            return company.toLowerCase() === '' ? item : item.company.toLowerCase().includes(company.toLowerCase())
+        }
+    })
   }
 
   const filteredMovies = () => {
@@ -220,7 +228,8 @@ const FilmDiziSearch = () => {
             timeData={timeData} setTimeData={setTimeData} countryData={countryData} setCountryData={setCountryData}
             minscoreData={minscoreData} setMinscoreData={setMinscoreData} maxscoreData={maxscoreData} setMaxscoreData={setMaxscoreData}
             setTimer={setTimer} directorData={directorData} setDirectorData={setDirectorData} minyearData={minyearData}
-            setMinyearData={setMinyearData} maxyearData={maxyearData} setMaxyearData={setMaxyearData} typeData={typeData} setTypeData={setTypeData} />
+            setMinyearData={setMinyearData} maxyearData={maxyearData} setMaxyearData={setMaxyearData} 
+            typeData={typeData} setTypeData={setTypeData} companyData={companyData} setCompanyData={setCompanyData}/>
 
         </div>
         {timerCount == 0 ?

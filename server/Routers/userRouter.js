@@ -143,13 +143,13 @@ router.post("/signin", async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await Users.findOne({ email });
-    if (!user) return res.status(404).json({ message: "User doesn't exist." });
+    if (!user) return res.status(404).json({ message: "Kullanıcı Bulunamadı" });
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect)
-      return res.status(400).json({ message: "Wrong password." });
+      return res.status(400).json({ message: "Yanlış Şifre" });
 
-    return res.status(200).json({ user, message: "Authentication successful" });
+    return res.status(200).json({ user, message: "Giriş Başarılı" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: error.message });
@@ -338,7 +338,6 @@ router.delete("/:id", async (req, res) => {
 
 router.post("/profile/update", async (req, res) => {
   try {
-    console.log(req.body);
     const { email, fullname, phoneNumber, image, password, newPassword } = req.body;
 
     const user = await Users.findOne({ email });
@@ -362,7 +361,7 @@ router.post("/profile/update", async (req, res) => {
     console.log(error);
     return res
       .status(500)
-      .json({ message: `update user profile failed -> ${error.message}` });
+      .json({ message: `Profil Güncellenirken Hata Oluştu -> ${error.message}` });
   }
 });
 
@@ -391,12 +390,11 @@ router.post("/profile/update", async (req, res) => {
 
 router.get("/profile/get/:email", async (req, res) => {
   try {
-    console.log(req.params);
     const { email } = req.params;
     const user = await Users.findOne({ email });
-    if (!user) return res.status(404).json({ message: "User doesn't exist." });
+    if (!user) return res.status(404).json({ message: "Kullanıcı Bulunamadı." });
     const { fullname, phoneNumber, userType, image } = user;
-    return res.status(200).json({ email, fullname, phoneNumber, userType, image,  message: "Profile get successful" });
+    return res.status(200).json({ email, fullname, phoneNumber, userType, image,  message: "Profil Başarıyla Getirildi." });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: error.message });
