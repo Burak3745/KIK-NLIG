@@ -93,7 +93,7 @@
 
 
 
-.float-child .blue .button-66 {
+.button-66 {
     background-image: linear-gradient(to right, #11998e, #38ef7d);
     border-radius: 15px;
     border: 0;
@@ -107,6 +107,8 @@
     font-weight: 700;
     line-height: 24px;
     margin: 0;
+    margin-top: 5px;
+    margin-bottom: 10px;
     min-height: 56px;
     min-width: 120px;
     padding: 16px 20px;
@@ -121,13 +123,13 @@
 }
 
 
-.float-child .blue .button-66:hover {
+.button-66:hover {
     background-image: linear-gradient(to right, #0d7068, #29ad5c);
     transform: translateY(-2px);
 }
 
 @media (min-width: 768px) {
-    .float-child .blue .button-66 {
+    .button-66 {
         padding: 16px 44px;
         min-width: 150px;
     }
@@ -656,6 +658,7 @@
     max-width: 50px;
     max-height: 50px;
     margin-bottom: 5px;
+
     &::before,
     &::after {
         box-sizing: inherit;
@@ -702,4 +705,157 @@
     color: #2dffb9;
     border: 2px solid white;
     border-radius: 20px;
+}
+
+
+
+.btn-lock {
+    position: relative;
+    display: inline-block;
+    background: #FF5B5B;
+    width: 24px;
+    height: 24px;
+    margin: 5px;
+    box-sizing: border-box;
+    border-radius: 50%;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.btn-lock.checked {
+    background: #20CCA5;
+}
+
+.btn-lock svg {
+    fill: none;
+    transform: translate3d(0, 0, 0);
+}
+
+.btn-lock .bling {
+    stroke: white;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-dasharray: 3;
+    stroke-dashoffset: 15;
+    transition: all .3s ease;
+}
+
+.btn-lock .lock {
+    stroke: white;
+    stroke-width: 4;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    stroke-dasharray: 36;
+    transition: all .4s ease;
+}
+
+.btn-lock .lockb {
+    fill: white;
+    fill-rule: evenodd;
+    clip-rule: evenodd;
+    transform: rotate(8deg);
+    transform-origin: 14px 20px;
+    transition: all .2s ease;
+}
+
+#inpLock {
+    display: none;
+}
+
+#inpLock:checked+.btn-lock .bling {
+    animation: bling .3s linear forwards;
+    animation-delay: .2s;
+}
+
+#inpLock:checked+.btn-lock .lock {
+    stroke-dasharray: 48;
+    animation: locked .3s linear forwards;
+}
+
+#inpLock:checked+.btn-lock .lockb {
+    transform: rotate(0);
+    transform-origin: 14px 22px;
+}
+
+@keyframes bling {
+    50% {
+        stroke-dasharray: 3;
+        stroke-dashoffset: 12;
+    }
+
+    100% {
+        stroke-dasharray: 3;
+        stroke-dashoffset: 9;
+    }
+}
+
+@keyframes locked {
+    50% {
+        transform: translateY(1px);
+    }
+}
+
+
+.checkbox {
+    display: none;
+}
+
+.checkbox+label {
+    display: inline-block;
+    position: relative;
+    width: 90px;
+    /* $switchWidth */
+    height: 38px;
+    /* $switchHeight */
+    background: linear-gradient(to right, #ff0e0e 0, #fc8b34 45%, #3ed078 55%, #20CCA5 100%) 0 0;
+    /* $red, #green */
+    background-size: calc(300px * 2 + 50px) 100%;
+    border-radius: 70px;
+    padding: 7px;
+    /* $padding */
+    cursor: pointer;
+    transition: all 500ms ease;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2) inset;
+}
+
+.checkbox+label:before {
+    content: 'Kapalı';
+    width: 34px;
+    /* $btnWidth */
+    height: 34px;
+    /* $btnWidth */
+    position: absolute;
+    left: 3px;
+    /* $padding */
+    top: 2px;
+    /* $padding */
+    border-radius: 100%;
+    background: #fff;
+    text-align: center;
+    line-height: calc(48px - 14px);
+    /* ($switchHeight - ($padding * 2)) */
+    font-family: 'Cabin', sans-serif;
+    font-size: 6px;
+    font-weight: bold;
+    color: #fd1a15;
+    /* $red */
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: left 500ms ease, color 500ms ease, transform 150ms ease;
+}
+
+.checkbox+label:active:before {
+    transform: scale(0.95);
+}
+
+.checkbox:checked+label {
+    background-position-x: calc(-300px - 50px);
+}
+
+.checkbox:checked+label:before {
+    content: 'Açık';
+    color: #007177;
+    /* $green */
+    left: calc(175px - 116px - 7px);
+    /* ($switchWidth - $btnWidth - $padding) */
 }

@@ -306,6 +306,7 @@
 
 .backforward:hover{
     color:#2dffb9;
+    transition: color 0.3s ease-in-out;
 }
 
 .backforward1 {
@@ -337,3 +338,4 @@
     color: #2dffb9; /* Dublaj seçildiğinde mavi renk */
     border-bottom: 2px solid white;
 }
+

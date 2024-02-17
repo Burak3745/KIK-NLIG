@@ -7,6 +7,12 @@ import '../css/Browser.css'
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import { SliderData } from '../components/SliderData.js';
+import { motion } from "framer-motion";
+const animations = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0 },
+};
 const Browser = ({ user }) => {
   const [genres, setGenres] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -46,7 +52,15 @@ const Browser = ({ user }) => {
   } else {
 
     return (
-      !isLoading && (
+      <motion.div
+        className="py-3"
+        variants={animations}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        transition={{ duration: 0.5 }}
+      >
+        !isLoading && (
 
         <Container fluid>
           <Carousel
@@ -68,7 +82,7 @@ const Browser = ({ user }) => {
                     <span class='Carousel-span2'>{item.country}</span>
                   </h6>
                   <p class='Carousel-p'>{item.title}</p>
-                  
+
                   <Link to={`${item.link}`}>
                     <button className='button-24 mx-3'>İzle</button>
                   </Link>
@@ -82,7 +96,8 @@ const Browser = ({ user }) => {
             ))}
         </Container>
 
-      )
+        )
+      </motion.div>
     );
   }
 }

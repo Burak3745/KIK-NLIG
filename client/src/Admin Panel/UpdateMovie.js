@@ -245,18 +245,33 @@ const UpdateMovie = ({ id }) => {
         { key: 'tr', value: 'Türkiye', flag: 'tr', text: 'Türkiye' },
     ]
 
+    useEffect(() => {
+        const handleKeyPress = (event) => {
+          if (event.key === 'Enter') {
+            document.getElementById('myButton').click();
+          }
+        };
+    
+        document.addEventListener('keydown', handleKeyPress);
+    
+        return () => {
+          document.removeEventListener('keydown', handleKeyPress);
+        };
+      }, []);
+
+
     const [user, setUser] = useState()
     const userState = useSelector((state) => state.user)
     useEffect(() => {
         const userData = JSON.parse(localStorage.getItem('user'))
         setUser(userData)
     }, [userState])
-    const userType = user && user.userType
+    const userType = user && user.user.userType
     if (!localStorage.getItem("user")) {
         return <Navigate to="/login" />;
     }
     else if (userType != "ADMIN") {
-        navigate("/browse");
+        navigate("/");
     } else {
 
         return (
@@ -405,7 +420,7 @@ const UpdateMovie = ({ id }) => {
                             </div>
 
                         </div>
-                        <button disabled={disabled} onClick={movieUpdate} className='button-66 ' role="button-66">Güncelle</button>
+                        <button id="myButton" disabled={disabled} onClick={movieUpdate} className='button-66 ' role="button-66">Güncelle</button>
                         {movieData.type === 'Film' ? (
                             <div>
                                 <h3 style={{ color: "white" }} className='mx-4'>Linkler</h3>

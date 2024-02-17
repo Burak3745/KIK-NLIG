@@ -47,7 +47,7 @@ const App = () => {
           <Container>
             <Routes>
               <Route path="/login" element={<Login setUser={setUser} />}></Route>
-              <Route path="/signup" element={<Signup />}></Route>
+              <Route path="/signup" element={<Signup setUser={setUser} />}></Route>
               <Route path="/" element={<Browser user={user} />}></Route>
               <Route path="/play/:id" element={<FetchMovie user={user} />}> </Route>
               <Route path="/playseries/:id" element={<FetchSeries user={user} />}> </Route>

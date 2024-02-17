@@ -20,7 +20,7 @@ export default function MovieCard({ movie, hidden }) {
         const userData = JSON.parse(localStorage.getItem('user'))
         setUser(userData)
     }, [userState])
-    const userid = user && user._id
+    const userid = user && user.user._id
 
     const [userData] = [{
         userid: `${userid}`

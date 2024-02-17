@@ -99,18 +99,32 @@ const UpdateEpisode = () => {
         }
     }
 
+    useEffect(() => {
+        const handleKeyPress = (event) => {
+          if (event.key === 'Enter') {
+            document.getElementById('myButton').click();
+          }
+        };
+    
+        document.addEventListener('keydown', handleKeyPress);
+    
+        return () => {
+          document.removeEventListener('keydown', handleKeyPress);
+        };
+      }, []);
+
     const [user, setUser] = useState()
     const userState = useSelector((state) => state.user)
     useEffect(() => {
         const userData = JSON.parse(localStorage.getItem('user'))
         setUser(userData)
     }, [userState])
-    const userType = user && user.userType
+    const userType = user && user.user.userType
     if (!localStorage.getItem("user")) {
         return <Navigate to="/login" />;
     }
     else if (userType != "ADMIN") {
-        navigate("/browse");
+        navigate("/");
     }
     else {
 
@@ -181,7 +195,7 @@ const UpdateEpisode = () => {
                                 <label for="Sezon Sayısı" class="form__label">Bölüm Sayısı</label>
                             </div>
                         </div>
-                        <button onClick={seriesUpdate} className='button-66' role="button-66" >Bölüm Güncelle</button>
+                        <button id="myButton" onClick={seriesUpdate} className='button-66' role="button-66" >Bölüm Güncelle</button>
                         <h3 style={{ color: "white" }} className='mx-4'>Linkler</h3>
                         <Row className='mx-2'>
                             {seriesData.links.map((item) => (

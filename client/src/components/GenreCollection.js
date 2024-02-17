@@ -77,10 +77,9 @@ const GenreCollection = ({ genre }) => {
         renderDotsOutside={true}
       >
         {movie.filter((item) => {
-          if (genre.name === item.catagory) {
-            return item
-          }
-          return null;
+          if (!item.catagory) return false; // Kategori yoksa false döndür
+          const categories = item.catagory.split(',').map((cat) => cat.trim());
+          return categories.some((cat) => cat === genre.name);
         })
           .slice(0, 20)
           .map((movie) => (

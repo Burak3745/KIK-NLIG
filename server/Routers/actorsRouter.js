@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 
 import Actors from "../models/actorsModel.js";
+import auth from "../middleware/auth.js";
 const router = express.Router();
 
 /**
@@ -101,6 +102,7 @@ router.get('/:id', async (req, res) => {
 
 router.post("/", async (req, res) => {
     try {
+        if (req.creatorType !== "ADMIN") return res.sendStatus(403)
         const createdActors = await Actors.create(req.body)
         res.status(201).json(createdActors)
     } catch (error) {
@@ -142,7 +144,7 @@ router.put('/:id', async (req, res) => {
     try {
 
         const { id } = req.params
-
+        if (req.creatorType !== "ADMIN") return res.sendStatus(403)
         if (!mongoose.Types.ObjectId.isValid(id))
             res.status(404).json({ message: 'This id does not belong to any actors' })
 
@@ -183,7 +185,7 @@ router.put('/:id', async (req, res) => {
 router.delete("/:id", async (req, res) => {
     try {
         const { id } = req.params
-
+        if (req.creatorType !== "ADMIN") return res.sendStatus(403)
         if (!mongoose.Types.ObjectId.isValid(id))
             res.status(404).json({ message: 'This id does not belong to any actors' })
 

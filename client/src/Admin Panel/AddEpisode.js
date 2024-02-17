@@ -99,12 +99,12 @@ const AddSeries = () => {
         const userData = JSON.parse(localStorage.getItem('user'))
         setUser(userData)
     }, [userState])
-    const userType = user && user.userType
+    const userType = user && user.user.userType
     if (!localStorage.getItem("user")) {
         return <Navigate to="/login" />;
     }
     else if (userType != "ADMIN") {
-        navigate("/browse");
+        navigate("/");
     }
     else {
 

@@ -28,7 +28,7 @@ export default function FetchSeries() {
     const userData = JSON.parse(localStorage.getItem('user'))
     setUser(userData)
   }, [userState])
-  const userid = user && user._id
+  const userid = user && user.user._id
 
   const [seriesData, setSeriesData] = useState({
     name: '', time: '', link: '', year: '', description: '', season: '', episode: '', foreignkey: '', views: '', links: [], watched: [], comment: [],
@@ -468,10 +468,24 @@ export default function FetchSeries() {
 
   useEffect(() => {
     if (userData.options == 'Altyazı') {
-      setIsActiveAltyazı(true)
+      if (seriesData) {
+        if (seriesData && seriesData.links.filter((item) => item.options === 'Altyazı').length > 0) {
+          setIsActiveAltyazı(true)
+        }
+        else {
+          setIsActiveDublaj(true)
+        }
+      }
     }
     else if (userData.options == 'Dublaj') {
-      setIsActiveDublaj(true)
+      if (seriesData) {
+        if (seriesData.links.filter((item) => item.options === 'Dublaj').length > 0) {
+          setIsActiveDublaj(true)
+        }
+        else {
+          setIsActiveAltyazı(true)
+        }
+      }
     }
     else {
 
@@ -485,8 +499,8 @@ export default function FetchSeries() {
       <div>
         <div style={{ display: "flex", justifyContent: "space-between", overflowX: "auto", whiteSpace: "nowrap", marginBottom: "10px" }}>
           {seriesData.links.filter((item) => item.options === 'Altyazı').length > 0 ? (
-            <div className={`backforward1 ${isActiveAltyazı == true ? 'active' : ''}`} style={{ marginRight: "20px", marginLeft: "20px" }} 
-            onClick={(e) => userUpdateOptionsAltyazi()}>
+            <div className={`backforward1 ${isActiveAltyazı == true ? 'active' : ''}`} style={{ marginRight: "20px", marginLeft: "20px" }}
+              onClick={(e) => userUpdateOptionsAltyazi()}>
               <MdSubtitles size={16} style={{ marginRight: "5px" }} /> Altyazı
             </div>
           ) : (<div></div>)}
@@ -606,7 +620,7 @@ export default function FetchSeries() {
             <h3>BÖLÜM HAKKINDA</h3>
 
           </Card.Footer>
-          <div className='mx-3 my-2' style={{ display: 'flex', justifyContent: "center", color: "rgba(255, 255, 255, 0.5)", textAlign:"justify" }}>
+          <div className='mx-3 my-2' style={{ display: 'flex', justifyContent: "center", color: "rgba(255, 255, 255, 0.5)", textAlign: "justify" }}>
             {seriesData.season}.sezon {' '} {seriesData.episode}.bölüm{': '}
             {seriesData.description}
 
@@ -620,7 +634,7 @@ export default function FetchSeries() {
             <img hidden={!user}
               height="50"
               width="50"
-              src={user && user.image}
+              src={user && user.user.image}
               alt=""
               className="rounded-circle me-1 my-3 mx-4"
               fluid />

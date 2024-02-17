@@ -1,16 +1,18 @@
 import React from "react";
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-import { Container } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import { Login as myLogin } from "../axios/index.js";
 import toast from "react-hot-toast";
 import "../css/Signin.css";
-
+import { signinActions } from "../action/userAction.js";
+import { useDispatch } from "react-redux";
+import { FcGoogle } from "react-icons/fc";
 const Login = ({ setUser }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
+  const dispatch = useDispatch()
   function setUsernameHandler(evt) {
     setUsername(evt.target.value);
   }
@@ -21,15 +23,8 @@ const Login = ({ setUser }) => {
 
   const doLogin = (e) => {
     e.preventDefault();
-    myLogin({ email: username, password })
-      .then((res) => {
-        localStorage.setItem("user", JSON.stringify(res.data.user));
-        setUser(res.data.user);
-        navigate("/");
-      })
-      .catch((err) => {
-        toast.error(err.response.data.message);
-      });
+    dispatch(signinActions({ email: username, password }, navigate, setUser))
+
   };
   const signUpHandler = (e) => {
     e.preventDefault();
@@ -39,10 +34,12 @@ const Login = ({ setUser }) => {
     e.preventDefault();
     navigate("/forgotPassword");
   }
+
   if (localStorage.getItem("user")) {
-    return <Navigate to="/browse" />
+    return <Navigate to="/" />
   }
   else {
+
     return (
       <div className="signin-body">
         <Container className="signIn">
@@ -64,11 +61,13 @@ const Login = ({ setUser }) => {
               required
             />
             <button type="submit">Giriş Yap</button>
+
+
             <div className="form-help">
               <div className="remember-me">
                 <input type="checkbox" id="remember-me" />
                 <label htmlFor="remember-me">Beni Hatırla</label>
-                <div onClick={forgotPassword} className="şifremi-unuttum" style={{marginLeft:"50px", cursor:"pointer"}}>Şifremi Unuttum</div>
+                <div onClick={forgotPassword} className="şifremi-unuttum" style={{ marginLeft: "50px", cursor: "pointer" }}>Şifremi Unuttum</div>
               </div>
             </div>
             <h4>

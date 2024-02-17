@@ -29,7 +29,7 @@ export default function FetchMovie() {
     const userData = JSON.parse(localStorage.getItem('user'))
     setUser(userData)
   }, [userState])
-  const userid = user && user._id
+  const userid = user && user.user._id
 
   const [movieData, setMovieData] = useState({
     user: '', name: '', time: '', link: '', country: '', year: '', score: '',
@@ -564,7 +564,7 @@ export default function FetchMovie() {
             <img hidden={!user}
               height="50"
               width="50"
-              src={user && user.image}
+              src={user && user.user.image}
               alt=""
               className="rounded-circle me-1 my-3 mx-4"
               fluid />

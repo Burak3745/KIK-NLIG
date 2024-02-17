@@ -4,7 +4,7 @@ import '../css/AddMovie.css'
 import { Navigate, useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { Card, Table } from 'react-bootstrap';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { deleteMovieAction, getMovieAction } from '../action/movieAction';
 import { BsFillCollectionPlayFill } from 'react-icons/bs'
 import { MdBrowserUpdated } from 'react-icons/md'
@@ -13,11 +13,21 @@ import { motion } from "framer-motion"
 import { MdDashboard } from "react-icons/md";
 import { deleteActorsAction, getActorsAction } from '../action/actorsAction';
 import { deleteActorMovie } from '../axios';
+import {
+    ModalContent,
+    ModalActions,
+    Button,
+    Header,
+    Icon,
+    Modal,
+    ModalHeader
+} from 'semantic-ui-react'
+
 const ActorList = () => {
     const actors = useSelector(state => state.actors)
     const dispatch = useDispatch();
     const [search, setSearch] = useState('')
-
+    const [open, setOpen] = React.useState(new Array(5).fill(null));
     useEffect(() => {
         if (!actors[0]) {
             dispatch(getActorsAction());
@@ -99,12 +109,12 @@ const ActorList = () => {
         const userData = JSON.parse(localStorage.getItem('user'))
         setUser(userData)
     }, [userState])
-    const userType = user && user.userType
+    const userType = user && user.user.userType
     if (!localStorage.getItem("user")) {
         return <Navigate to="/login" />;
     }
     else if (userType != "ADMIN") {
-        navigate("/browse");
+        navigate("/");
     } else {
 
         return (
@@ -147,7 +157,35 @@ const ActorList = () => {
                                                     <td ><br /><div style={{ position: "relative", cursor: "pointer" }} onClick={() => actorSeriesMovie(d._id)}>{d.name}</div></td>
                                                     <td>
                                                         <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => updateActor(d._id)}><MdBrowserUpdated /> Edit</div>
-                                                        <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }} onClick={() => deleteActor(d._id)}><RiDeleteBin5Fill /> Delete</div>
+                                                        <Modal
+                                                            basic
+                                                            open={open[i]}
+                                                            trigger={
+                                                                <div style={{ position: "relative", color: "#2dffb9", cursor: "pointer" }}>
+                                                                    <RiDeleteBin5Fill /> Delete
+                                                                </div>
+                                                            }
+                                                            onClose={() => { const newArray = [...open]; newArray[i] = false; setOpen(newArray) }}
+                                                            onOpen={() => { const newArray = [...open]; newArray[i] = true; setOpen(newArray) }}
+                                                            style={{ maxHeight: "250px", position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
+                                                        >
+                                                            <Header icon>
+                                                                <Icon name='trash alternate' />
+                                                            </Header>
+                                                            <ModalContent>
+                                                                <p style={{ textAlign: "center" }}>
+                                                                    Oyuncuyu Silmek İstediğinize Emin Misiniz?
+                                                                </p>
+                                                            </ModalContent>
+                                                            <ModalActions>
+                                                                <Button basic color='red' inverted onClick={() => { const newArray = [...open]; newArray[i] = false; setOpen(newArray) }}>
+                                                                    <Icon name='remove' /> Hayır
+                                                                </Button>
+                                                                <Button color='green' inverted onClick={() => { const newArray = [...open]; newArray[i] = false; setOpen(newArray); deleteActor(d._id) }}>
+                                                                    <Icon name='checkmark' /> Evet
+                                                                </Button>
+                                                            </ModalActions>
+                                                        </Modal>
                                                     </td>
                                                 </tr>
                                             ))}

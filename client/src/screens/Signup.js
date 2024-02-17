@@ -5,8 +5,11 @@ import "react-phone-number-input/style.css";
 import toast from "react-hot-toast";
 import "../css/Signup.css";
 import { Container } from "react-bootstrap";
+import { signupAction } from "../action/userAction.js";
+import { useDispatch } from "react-redux";
 
-const Signup = () => {
+const Signup = ({ setUser }) => {
+  const dispatch = useDispatch()
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullname: "",
@@ -34,22 +37,16 @@ const Signup = () => {
     navigate("/login");
   };
   if (localStorage.getItem("user")) {
-    return <Navigate to="/browse" />
+    return <Navigate to="/" />
   }
   else {
     return (
       <div className="signup-body">
         <Container className="signUp">
           <form className="signUp-form"
-            onSubmit={(e) => {
+            onSubmit={ async (e) => {
               e.preventDefault();
-              mySignup(formData)
-                .then((res) => {
-                  navigate("/login");
-                })
-                .catch((err) => {
-                  toast.error(err.response.data.message);
-                });
+              dispatch(signupAction(formData, navigate, setUser))
             }}
           >
             <h2 className="signIn-header">Kayıt Ol</h2>
@@ -102,7 +99,7 @@ const Signup = () => {
             >
               Kaydol
             </button>
-            <h4 style={{color:"gray"}}>
+            <h4 style={{ color: "gray" }}>
               Zaten Hesabın Var mı? {" "}
               <a href="" className="kayıtol" onClick={signInHandler}>Giriş Yap</a>
             </h4>

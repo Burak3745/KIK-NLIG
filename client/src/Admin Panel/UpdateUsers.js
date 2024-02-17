@@ -30,15 +30,31 @@ const UpdateUsers = () => {
     const userUpdate = (e) => {
         e.preventDefault()
         dispatch(updateUserAction(id, userData))
-        navigate('/updateprofile')
+        navigate(`/updateprofile`)
     }
+
+    useEffect(() => {
+        const handleKeyPress = (event) => {
+            if (event.key === 'Enter') {
+                document.getElementById('myButton').click();
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyPress);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyPress);
+        };
+    }, []);
+
+
     const [user, setUser] = useState()
     const userState = useSelector((state) => state.user)
     useEffect(() => {
         const userData = JSON.parse(localStorage.getItem('user'))
         setUser(userData)
     }, [userState])
-    const userType = user && user.userType
+    const userType = user && user.user.userType
     if (!localStorage.getItem("user")) {
         return <Navigate to="/login" />;
     }
@@ -80,7 +96,7 @@ const UpdateUsers = () => {
                             </div>
                         </div>
 
-                        <button onClick={userUpdate} className='button-66' role="button-66">Güncelle</button>
+                        <button id="myButton" onClick={userUpdate} className='button-66' role="button-66">Güncelle</button>
                     </div>
                 </div>
             </div>

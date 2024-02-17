@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 
 import Series from "../models/seriesModel.js";
+import auth from "../middleware/auth.js";
 const router = express.Router();
 
 
@@ -19,7 +20,7 @@ const router = express.Router();
  *        
  */
 
-router.get("/", async (req, res) => {
+router.get("/", auth, async (req, res) => {
     try {
         const getSeries = await Series.find()
 
@@ -48,7 +49,7 @@ router.get("/", async (req, res) => {
  *        description: A successful response
  *        
  */
-router.get('/:id', async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
     try {
         const { id } = req.params
 
@@ -114,8 +115,9 @@ router.get('/:id', async (req, res) => {
 
 
 
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
     try {
+        if (req.creatorType !== "ADMIN") return res.sendStatus(403)
         const createdSeries = await Series.create(req.body)
         res.status(201).json(createdSeries)
     } catch (error) {
@@ -153,11 +155,10 @@ router.post("/", async (req, res) => {
  *          
  */
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
     try {
 
         const { id } = req.params
-
         if (!mongoose.Types.ObjectId.isValid(id))
             res.status(404).json({ message: 'This id does not belong to any movie' })
 
@@ -193,10 +194,10 @@ router.put('/:id', async (req, res) => {
  *          
  */
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
     try {
         const { id } = req.params
-        
+        if (req.creatorType !== "ADMIN") return res.sendStatus(403)
         if (!mongoose.Types.ObjectId.isValid(id))
             res.status(404).json({ message: 'This id does not belong to any series' })
 
@@ -232,9 +233,10 @@ router.delete("/:id", async (req, res) => {
  */
 
 
-router.delete("/alldeleteseries/:id", async (req, res) => {
+router.delete("/alldeleteseries/:id", auth, async (req, res) => {
     try {
         const { id } = req.params
+        if (req.creatorType !== "ADMIN") return res.sendStatus(403)
         const getSeries = await Series.find()
         
         if (getSeries.filter((item) => item.foreignkey === id).length == 0){

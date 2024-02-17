@@ -14,6 +14,7 @@ import actorsRouter from "./Routers/actorsRouter.js"
 import swaggerJsDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express"
 import Users from "../server/models/userModel.js";
+import cookieParser from "cookie-parser";
 dotenv.config();
 
 const app = express();
@@ -40,10 +41,11 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 
 
-app.use(cors());
+app.use(cors({ credentials: true, origin: 'https://reelquorum.netlify.app' }))
 app.use(express.json({ limit: '100mb' }));
 app.use(express.json());
 app.use(compression());
+app.use(cookieParser())
 app.use('/images', express.static(join(_dirname, 'dataset', 'cards'), { maxAge: 31557600 }));
 app.use("/users", userRouter);
 app.use("/movie", movieRouter);

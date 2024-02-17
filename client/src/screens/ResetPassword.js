@@ -31,7 +31,7 @@ const ResetPassword = ({ email, setEmail, otp, setOTP }) => {
         });
     }
     if (localStorage.getItem("user")) {
-        return <Navigate to="/browse" />
+        return <Navigate to="/" />
     }
     else if (email === '') {
         return <Navigate to="/forgotPassword" />

@@ -1,8 +1,9 @@
 import express from "express";
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
+import jwt from 'jsonwebtoken'
 import Users from "../models/userModel.js";
-
+import Tokens from "../models/tokenModel.js"
 const router = express.Router();
 
 /**
@@ -77,28 +78,72 @@ router.post("/signup", async (req, res) => {
 
     const userExists = await Users.findOne({ email });
     if (userExists)
-      return res.status(400).json({ message: "User already exists." });
+      return res.status(400).json({ message: "Bu E-Mail'e Sahip Kullanıcı Bulunmakta." });
 
     if (password !== passwordAgain)
-      return res.status(400).json({ message: "Passwords do not match." });
+      return res.status(400).json({ message: "Şifre ile Tekrar Girilen Şifre Farklı." });
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const createdUser = await Users.create({
+    const user = await Users.create({
       fullname,
       email,
       password: hashedPassword,
       phoneNumber,
     });
-    return res.status(201).json(createdUser);
+
+    const accessToken = jwt.sign(
+      { email: user.email, id: user._id, userType: user.userType },
+      process.env.ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: '3m',
+      }
+    )
+
+    const refreshToken = jwt.sign(
+      { email: user.email, id: user._id, userType: user.userType },
+      process.env.REFRESH_TOKEN_SECRET
+    )
+
+    await Tokens.create({
+      userId: user._id,
+      refreshToken: refreshToken,
+    })
+
+    res.cookie('token', refreshToken, {
+      httpOnly: true,
+      sameSite: 'none',
+      secure: true
+    })
+
+    res.status(201).json({ user, accessToken });
   } catch (error) {
     console.log(error);
     return res
       .status(400)
-      .json({ message: `create user failed -> ${error.message}` });
+      .json({ message: `Kullanıcı Oluşturulamadı -> ${error.message}` });
   }
 });
 
+router.get('/logout/:id', async (req, res) => {
+  try {
+    const { id } = req.params
+  
+    res.clearCookie('token')
+
+    await Tokens.findOneAndUpdate(
+      {
+        userId: id,
+      },
+      { refreshToken: null },
+      { new: true }
+    )
+
+    res.status(200).json({ message: 'Başarıyla çıkış yapıldı' })
+  } catch (error) {
+    res.status(500).json(error)
+  }
+})
 
 /**
  * @swagger
@@ -143,18 +188,71 @@ router.post("/signin", async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await Users.findOne({ email });
-    if (!user) return res.status(404).json({ message: "Kullanıcı Bulunamadı" });
+    if (!user) return res.status(404).json({ message: "Bu E-Mail'e Sahip Kullanıcı Bulunamadı." });
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect)
       return res.status(400).json({ message: "Yanlış Şifre" });
 
-    return res.status(200).json({ user, message: "Giriş Başarılı" });
+    const accessToken = jwt.sign(
+      { email: user.email, id: user._id, userType: user.userType },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: '3m' }
+    )
+
+    const refreshToken = jwt.sign(
+      { email: user.email, id: user._id, userType: user.userType },
+      process.env.REFRESH_TOKEN_SECRET
+    )
+
+    await Tokens.findOneAndUpdate(
+      { userId: user._id },
+      {
+        refreshToken: refreshToken,
+      },
+      { new: true }
+    )
+
+    res.cookie('token', refreshToken, {
+      httpOnly: true,
+      sameSite: 'none',
+      secure: true
+    })
+    res.status(200).json({ user, accessToken })
+
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: error.message });
   }
 });
+
+
+router.get('/refresh/:id', async (req, res) => {
+  try {
+    const { id } = req.params
+    const { refreshToken } = await Tokens.findOne({ userId: id })
+    if (!refreshToken) return res.sendStatus(401)
+
+    const cookie = req.cookies.token
+    if (!cookie) res.sendStatus(403)
+
+    if (cookie !== refreshToken) res.sendStatus(401)
+
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, x) => {
+      if (err) return res.status(403).json(err)
+
+      const accessToken = jwt.sign(
+        { email: x.email, id: x.id, userType: x.userType },
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: '3m' }
+      )
+
+      res.status(200).json(accessToken)
+    })
+  } catch (error) {
+    console.log(error.message)
+  }
+})
 
 /**
  * @swagger
@@ -205,7 +303,7 @@ router.put('/:id', async (req, res) => {
 
     if (!mongoose.Types.ObjectId.isValid(id))
       res.status(404).json({ message: 'User is not valid' })
-    const { fullname, email, password, userType, phoneNumber, hostingname, options} = req.body
+    const { fullname, email, password, userType, phoneNumber, hostingname, options } = req.body
 
     const updatedUser = await Users.findByIdAndUpdate(id,
       { fullname, email, password, userType, phoneNumber, hostingname, options, _id: id },
@@ -388,13 +486,13 @@ router.post("/profile/update", async (req, res) => {
  *        
  */
 
-router.get("/profile/get/:email", async (req, res) => {
+router.get("/profile/get/:email/:accessToken", async (req, res) => {
   try {
-    const { email } = req.params;
+    const { email, accessToken } = req.params;
     const user = await Users.findOne({ email });
     if (!user) return res.status(404).json({ message: "Kullanıcı Bulunamadı." });
     const { fullname, phoneNumber, userType, image } = user;
-    return res.status(200).json({ email, fullname, phoneNumber, userType, image,  message: "Profil Başarıyla Getirildi." });
+    res.status(200).json({ user, accessToken })
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: error.message });

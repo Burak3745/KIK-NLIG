@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 import Movie from "../models/movieModel.js";
 
-
+import auth from "../middleware/auth.js";
 const router = express.Router();
 
 
@@ -19,7 +19,7 @@ const router = express.Router();
  *        
  */
 
-router.get("/", async (req, res) => {
+router.get("/", auth, async (req, res) => {
     try {
         const getMovie = await Movie.find()
 
@@ -48,7 +48,7 @@ router.get("/", async (req, res) => {
  *        description: A successful response
  *        
  */
-router.get('/:id', async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
     try {
         const { id } = req.params
 
@@ -125,8 +125,9 @@ router.get('/:id', async (req, res) => {
 
 
 
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
     try {
+        if (req.creatorType !== "ADMIN") return res.sendStatus(403)
         const createdMovie = await Movie.create(req.body)
         res.status(201).json(createdMovie)
     } catch (error) {
@@ -164,10 +165,11 @@ router.post("/", async (req, res) => {
  *          
  */
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
     try {
 
         const { id } = req.params
+
 
         if (!mongoose.Types.ObjectId.isValid(id))
             res.status(404).json({ message: 'This id does not belong to any movie' })
@@ -206,9 +208,11 @@ router.put('/:id', async (req, res) => {
  *          
  */
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
     try {
         const { id } = req.params
+
+        if (req.creatorType !== "ADMIN") return res.sendStatus(403)
 
         if (!mongoose.Types.ObjectId.isValid(id))
             res.status(404).json({ message: 'This id does not belong to any movie' })
@@ -438,9 +442,11 @@ router.put('/undislike/:id', async (req, res) => {
 
 
 
-router.put("/updateallactor/:id", async (req, res) => {
+router.put("/updateallactor/:id", auth, async (req, res) => {
     try {
         const { id } = req.params
+
+        if (req.creatorType !== "ADMIN") return res.sendStatus(403)
 
         const players = await Movie.find({ 'player.actorsid': id });
 
@@ -467,9 +473,11 @@ router.put("/updateallactor/:id", async (req, res) => {
 
 
 
-router.delete("/deleteallactor/:id", async (req, res) => {
+router.delete("/deleteallactor/:id", auth, async (req, res) => {
     try {
         const { id } = req.params
+
+        if (req.creatorType !== "ADMIN") return res.sendStatus(403)
 
         const players = await Movie.find({ 'player.actorsid': id });
 

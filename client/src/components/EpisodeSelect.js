@@ -88,8 +88,8 @@ const EpisodeSelect = () => {
         const userData = JSON.parse(localStorage.getItem('user'))
         setUser(userData)
     }, [userState])
-    const userType = user && user.userType
-    const userid = user && user._id
+    const userType = user && user.user.userType
+    const userid = user && user.user._id
     if (!localStorage.getItem("user")) {
         return <Navigate to="/login" />;
     }

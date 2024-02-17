@@ -52,7 +52,7 @@ const OTPInput = ({ email, setEmail, otp, setOTP }) => {
 
 
     if (localStorage.getItem("user")) {
-        return <Navigate to="/browse" />
+        return <Navigate to="/" />
     }
     else if (otp === '') {
         return <Navigate to="/forgotPassword" />

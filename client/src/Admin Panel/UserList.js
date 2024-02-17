@@ -33,12 +33,13 @@ const MovieList = ({ user, setUser }) => {
     const lastIndex = currentPage * recordsPerPage;
     const firstIndex = lastIndex - recordsPerPage;
     const records = user1.filter((item) => {
-        if (item.email !== user.email) { return item }
+        if (item.email !== user.user.email) { return item }
     }).filter((item) => {
         return search.toLowerCase() === '' ? item : item.fullname.toLowerCase().includes(search.toLowerCase())
     }).slice(firstIndex, lastIndex);
+
     const npage = Math.ceil(user1.filter((item) => {
-        if (item.email !== user.email) { return item }
+        if (item.email !== user.user.email) { return item }
     }).filter((item) => {
         return search.toLowerCase() === '' ? item : item.fullname.toLowerCase().includes(search.toLowerCase())
     }).length / recordsPerPage)
@@ -53,7 +54,7 @@ const MovieList = ({ user, setUser }) => {
     else {
         sliceCurrent = currentPage - 3
     }
-    if(npage > 0 && currentPage > npage){
+    if (npage > 0 && currentPage > npage) {
         setCurrentPage(npage)
     }
     const [timerCount, setTimer] = useState(300)
@@ -75,12 +76,12 @@ const MovieList = ({ user, setUser }) => {
         const userData = JSON.parse(localStorage.getItem('user'))
         setUser2(userData)
     }, [userState])
-    const userType = user2 && user2.userType
+    const userType = user2 && user2.user.userType
     if (!localStorage.getItem("user")) {
         return <Navigate to="/login" />;
     }
     else if (userType != "ADMIN") {
-        navigate("/browse");
+        navigate("/");
     } else {
 
         return (

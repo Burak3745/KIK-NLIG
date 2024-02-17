@@ -24,7 +24,7 @@ const SeriesList = () => {
     const movie = useSelector(state => state.movie)
     const dispatch = useDispatch();
     const [search, setSearch] = useState('')
-    const [open, setOpen] = React.useState(new Array(5).fill(null));
+    const [open, setOpen] = React.useState(new Array(4).fill(null));
     useEffect(() => {
         if (!movie[0]) {
             dispatch(getMovieAction());
@@ -111,12 +111,12 @@ const SeriesList = () => {
         const userData = JSON.parse(localStorage.getItem('user'))
         setUser(userData)
     }, [userState])
-    const userType = user && user.userType
+    const userType = user && user.user.userType
     if (!localStorage.getItem("user")) {
         return <Navigate to="/login" />;
     }
     else if (userType != "ADMIN") {
-        navigate("/browse");
+        navigate("/");
     } else {
 
         return (

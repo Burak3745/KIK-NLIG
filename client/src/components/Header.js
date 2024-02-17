@@ -8,15 +8,46 @@ import { useDispatch, useSelector } from "react-redux";
 import { getMovieAction } from "../action/movieAction";
 import { useHistory } from 'react-router-dom';
 import '../css/Header.css'
+import { getAccessTokenActions, logoutActions } from "../action/userAction";
+import { jwtDecode } from "jwt-decode";
 const Header = ({ user, setUser }) => {
   const navigate = useNavigate();
   const [search1, setSearch1] = useState('')
-
+  const [refreshToken, setRefreshToken] = useState('')
   const dispatch = useDispatch();
+  const logout = async (id) => {
+    dispatch(logoutActions(id))
+    localStorage.removeItem("user");
+    setUser(null);
+    navigate("/");
+  }
+
+  const renewAccessToken = async (id, user) => {
+    await dispatch(getAccessTokenActions(id, user))
+    setUser(JSON.parse(localStorage.getItem('user')))
+  }
+
   useEffect(() => {
     if (localStorage.getItem("user") && !user) {
       setUser(JSON.parse(localStorage.getItem("user")));
     }
+    const interval = setInterval(() => {
+      const accessToken = user?.accessToken
+
+      if (accessToken) {
+        const decodedAccessToken = jwtDecode(accessToken)
+
+        if (decodedAccessToken.exp * 1000 < new Date().getTime()) {
+          console.log(decodedAccessToken.exp)
+          renewAccessToken(user.user._id, user.user)
+        }
+      }
+    }, 100)
+
+    return () => {
+      clearInterval(interval)
+    }
+
   }, [user, setUser]);
 
   const movie = useSelector(state => state.movie)
@@ -49,7 +80,7 @@ const Header = ({ user, setUser }) => {
     window.location.reload()
   };
 
-  const AdminControl = user && user.userType
+  const AdminControl = user && user.user.userType
 
   const [searchActive, setSearchActive] = useState(false);
   const [searchInput, setSearchInput] = useState('');
@@ -152,7 +183,7 @@ const Header = ({ user, setUser }) => {
               hidden={!user}
               height="50"
               width="50"
-              src={user && user.image}
+              src={user && user.user.image}
               alt=""
               className="rounded-circle me-1"
               fluid
@@ -161,7 +192,7 @@ const Header = ({ user, setUser }) => {
 
             <NavDropdown
               hidden={!user}
-              title={user && user.email}
+              title={user && user.user.email}
               id="dropdownMenu"
               style={{ marginTop: "8px", marginLeft: "10px" }}
             >
@@ -187,9 +218,8 @@ const Header = ({ user, setUser }) => {
                   color: "#2dffb9",
                 }}
                 onClick={(e) => {
-                  localStorage.removeItem("user");
-                  setUser(null);
-                  navigate("/");
+                  logout(user.user._id)
+
                 }}
               >
                 {" "}
@@ -201,27 +231,27 @@ const Header = ({ user, setUser }) => {
         </Navbar.Collapse>
       </Container>
       <Container>
-      {user ? (
-        <NavbarCollapse className="justify-content-center" style={{ border: "2px solid white", borderRadius: "10px", marginTop: "10px", marginBottom:"10px" }} >
-          <div>
-            <Nav hidden={!user} >
-              <Nav.Link href="/diziler" className="dizifilm-text" >
-                <button class="draw">Diziler</button>
+        {user ? (
+          <NavbarCollapse className="justify-content-center" style={{ border: "2px solid white", borderRadius: "10px", marginTop: "10px", marginBottom: "10px" }} >
+            <div>
+              <Nav hidden={!user} >
+                <Nav.Link href="/diziler" className="dizifilm-text" >
+                  <button class="draw">Diziler</button>
 
-              </Nav.Link>
-              <Nav.Link href="/filmler" className="dizifilm-text" >
-                <button class="draw">Filmler</button>
-              </Nav.Link>
-              <Nav.Link href="/kategoriler" className="dizifilm-text" >
-                <button class="draw">Kategoriler</button>
-              </Nav.Link>
-              <Nav.Link href="/oyuncular" className="dizifilm-text">
-                <button class="draw">Oyuncular</button>
-              </Nav.Link>
-            </Nav>
-          </div>
-        </NavbarCollapse>
-      ): null}
+                </Nav.Link>
+                <Nav.Link href="/filmler" className="dizifilm-text" >
+                  <button class="draw">Filmler</button>
+                </Nav.Link>
+                <Nav.Link href="/kategoriler" className="dizifilm-text" >
+                  <button class="draw">Kategoriler</button>
+                </Nav.Link>
+                <Nav.Link href="/oyuncular" className="dizifilm-text">
+                  <button class="draw">Oyuncular</button>
+                </Nav.Link>
+              </Nav>
+            </div>
+          </NavbarCollapse>
+        ) : null}
       </Container>
     </Navbar>
   );
