@@ -128,16 +128,9 @@ router.post("/signup", async (req, res) => {
 router.get('/logout/:id', async (req, res) => {
   try {
     const { id } = req.params
-  
+
     res.clearCookie('token')
 
-    await Tokens.findOneAndUpdate(
-      {
-        userId: id,
-      },
-      { refreshToken: null },
-      { new: true }
-    )
 
     res.status(200).json({ message: 'Başarıyla çıkış yapıldı' })
   } catch (error) {
@@ -188,19 +181,21 @@ router.post("/signin", async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await Users.findOne({ email });
+    const { refreshToken } = await Tokens.findOne({ userId: user._id })
     if (!user) return res.status(404).json({ message: "Bu E-Mail'e Sahip Kullanıcı Bulunamadı." });
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect)
       return res.status(400).json({ message: "Yanlış Şifre" });
 
+
     const accessToken = jwt.sign(
       { email: user.email, id: user._id, userType: user.userType },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: '3m' }
+      { expiresIn: '15s' }
     )
 
-    const refreshToken = jwt.sign(
+    const refreshToken1 = jwt.sign(
       { email: user.email, id: user._id, userType: user.userType },
       process.env.REFRESH_TOKEN_SECRET
     )
@@ -208,16 +203,18 @@ router.post("/signin", async (req, res) => {
     await Tokens.findOneAndUpdate(
       { userId: user._id },
       {
-        refreshToken: refreshToken,
+        refreshToken: refreshToken1,
       },
       { new: true }
     )
 
-    res.cookie('token', refreshToken, {
+    res.cookie('token', refreshToken1, {
       httpOnly: true,
       sameSite: 'none',
       secure: true
     })
+
+
     res.status(200).json({ user, accessToken })
 
   } catch (error) {
@@ -232,24 +229,30 @@ router.get('/refresh/:id', async (req, res) => {
     const { id } = req.params
     const { refreshToken } = await Tokens.findOne({ userId: id })
     if (!refreshToken) return res.sendStatus(401)
-
+    
     const cookie = req.cookies.token
-    if (!cookie) res.sendStatus(403)
+    if (!cookie) {
+      res.sendStatus(403)
+    }
 
-    if (cookie !== refreshToken) res.sendStatus(401)
+    else if (cookie !== refreshToken) {
+      console.log('hata2')
+      res.status(401).json({ message: "Başka bir yerden hesaba giriş yapıldı." })
+    }
 
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, x) => {
+
       if (err) return res.status(403).json(err)
 
       const accessToken = jwt.sign(
         { email: x.email, id: x.id, userType: x.userType },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: '3m' }
+        { expiresIn: '15s' }
       )
-
       res.status(200).json(accessToken)
     })
   } catch (error) {
+
     console.log(error.message)
   }
 })

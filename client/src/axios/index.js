@@ -1,15 +1,18 @@
 import axios from "axios";
-
+import { jwtDecode } from "jwt-decode";
 const HTTP = axios.create({
   baseURL: "https://kiknlig.onrender.com", withCredentials: true
 });
 
 HTTP.interceptors.request.use((req) => {
+
   if (localStorage.getItem('user')) {
-    req.headers.authorization = `Bearer ${JSON.parse(localStorage.getItem('user')).accessToken
-      }`
+      req.headers.authorization = `Bearer ${JSON.parse(localStorage.getItem('user')).accessToken
+        }`
+    return req
+
   }
-  return req
+
 })
 
 export const GenresGet = async () =>

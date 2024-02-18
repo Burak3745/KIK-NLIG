@@ -14,6 +14,7 @@ const Header = ({ user, setUser }) => {
   const navigate = useNavigate();
   const [search1, setSearch1] = useState('')
   const [refreshToken, setRefreshToken] = useState('')
+  const [current, setCurrent] = useState(0)
   const dispatch = useDispatch();
   const logout = async (id) => {
     dispatch(logoutActions(id))
@@ -23,7 +24,7 @@ const Header = ({ user, setUser }) => {
   }
 
   const renewAccessToken = async (id, user) => {
-    await dispatch(getAccessTokenActions(id, user))
+    await dispatch(getAccessTokenActions(id, user, setUser, navigate))
     setUser(JSON.parse(localStorage.getItem('user')))
   }
 

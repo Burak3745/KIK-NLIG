@@ -72,14 +72,20 @@ export const logoutActions = (id) => async (dispatch) => {
   }
 }
 
-export const getAccessTokenActions = (id, user) => async (dispatch) => {
+export const getAccessTokenActions = (id, user, setUser, navigate) => async (dispatch) => {
   try {
     const { data } = await axios.refreshAccessToken(id)
     const data1 = { user: user, accessToken: data }
-    
+
     localStorage.setItem('user', JSON.stringify(data1))
     dispatch({ type: "REFRESH_ACCESS_TOKEN_SUCCESS", payload: data1 })
   } catch (error) {
-    toast1.error(error.response.data.message);
+    toast1.error(error.response.data.message)
+    if (error.response.data.message == 'Başka bir yerden hesaba giriş yapıldı.') {
+      dispatch(logoutActions(id))
+      localStorage.removeItem("user");
+      setUser(null);
+      navigate("/");
+    }
   }
 }
