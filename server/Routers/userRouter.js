@@ -236,7 +236,6 @@ router.get('/refresh/:id', async (req, res) => {
     }
 
     else if (cookie !== refreshToken) {
-      console.log('hata2')
       res.status(401).json({ message: "Başka bir yerden hesaba giriş yapıldı." })
     }
 
