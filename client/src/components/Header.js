@@ -43,7 +43,7 @@ const Header = ({ user, setUser }) => {
           renewAccessToken(user.user._id, user.user)
         }
       }
-    }, 100)
+    }, 300)
 
     return () => {
       clearInterval(interval)

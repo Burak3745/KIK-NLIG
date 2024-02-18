@@ -81,7 +81,7 @@ export const getAccessTokenActions = (id, user, setUser, navigate) => async (dis
     dispatch({ type: "REFRESH_ACCESS_TOKEN_SUCCESS", payload: data1 })
   } catch (error) {
     toast1.error(error.response.data.message)
-    if (error.response.data.message == 'Başka bir yerden hesaba giriş yapıldı.') {
+    if (error.response.data.message == 'Başka bir yerden hesaba giriş yapıldı.' || 'Lütfen Tekrar Giriş Yapınız.') {
       dispatch(logoutActions(id))
       localStorage.removeItem("user");
       setUser(null);

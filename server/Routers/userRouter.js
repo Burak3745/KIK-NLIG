@@ -181,7 +181,6 @@ router.post("/signin", async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await Users.findOne({ email });
-    const { refreshToken } = await Tokens.findOne({ userId: user._id })
     if (!user) return res.status(404).json({ message: "Bu E-Mail'e Sahip Kullanıcı Bulunamadı." });
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
@@ -192,7 +191,7 @@ router.post("/signin", async (req, res) => {
     const accessToken = jwt.sign(
       { email: user.email, id: user._id, userType: user.userType },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: '15s' }
+      { expiresIn: '3m' }
     )
 
     const refreshToken1 = jwt.sign(
@@ -232,11 +231,11 @@ router.get('/refresh/:id', async (req, res) => {
     
     const cookie = req.cookies.token
     if (!cookie) {
-      res.sendStatus(403)
+      res.status(403).json({message: "Lütfen Tekrar Giriş Yapınız."})
     }
 
     else if (cookie !== refreshToken) {
-      res.status(401).json({ message: "Başka bir yerden hesaba giriş yapıldı." })
+      res.status(401).json({ message: "Başka Bir Yerden Hesaba Giriş Yapıldı." })
     }
 
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, x) => {
@@ -246,7 +245,7 @@ router.get('/refresh/:id', async (req, res) => {
       const accessToken = jwt.sign(
         { email: x.email, id: x.id, userType: x.userType },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: '15s' }
+        { expiresIn: '3m' }
       )
       res.status(200).json(accessToken)
     })
